@@ -1,0 +1,55 @@
+.contenedor-mis-datos{
+  background: rgb(240, 240, 240);
+  height: 100vh;
+  color: rgb(34, 34, 34);
+}
+
+.titulo-configuracion{
+  font-size: 3em;
+  margin-left: 1em;
+  font-weight: 700;
+}
+
+
+.mis-datos {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 2em;
+  flex-wrap: wrap;
+}
+
+.avatar img {
+  border-radius: 100vh;
+  height: 20em;
+  width: 20em;
+  object-fit: cover;
+}
+.datos-cuenta{
+  display: flex;
+  justify-content: space-between;
+  gap: 5em;
+}
+
+.item-info-cuenta .info-titulo {
+  font-size: 2em;
+  opacity: 0.8;
+  font-weight: 700;
+}
+
+.item-info-cuenta .info {
+  font-size: 1.5em;
+}
+
+@media (max-width:1050px) { 
+  .datos-cuenta{
+    flex-direction: column;
+    gap: 1em;
+    text-align: center;
+  }
+
+  .datos-cuenta .info-titulo{
+    margin-bottom: 0;
+  }
+}

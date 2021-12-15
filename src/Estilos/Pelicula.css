@@ -1,0 +1,54 @@
+.row {
+  margin-right: 0;
+  margin-left: 0;
+}
+.contenedor-titulo-pelicula {
+  padding:  1em 0 0 1em;
+}
+.contenedor-titulo-pelicula h2 {
+  font-weight: 700;
+}
+
+.contenedor-editar-pelicula {
+  background: #fff;
+  color: #000;
+}
+
+form {
+  display: flex;
+  padding-right: 0;
+  padding-left: 0;
+}
+.editar-izquierda {
+  padding-right: 2em;
+}
+
+.item-input {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1em;
+}
+
+.item-input input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #000;
+}
+
+figure img {
+  margin: 0 auto;
+}
+
+.opcion-tipo label {
+  margin-left: 0.5em;
+}
+button.enviar-edicion {
+  margin-top: 0.5em;
+  border: none;
+  border-radius: 5px;
+  color: var(--clr-gris);
+  background-color: var(--clr-morado1);
+  position: relative;
+  bottom: 0;
+  padding-right: 1em 2em;
+}

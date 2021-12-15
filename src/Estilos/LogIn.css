@@ -1,0 +1,33 @@
+:root {
+    --clr-morado3: #030109;
+    --clr-morado2: #1b0148;
+    --clr-morado1: #4400a3;
+    --clr-gris: #cecccc;
+  }
+
+.divLogIn
+{
+    margin: 20px;
+    position:fixed;
+    background-color: grey;
+    top: 50%;
+    bottom: 50%;
+    
+}
+.divLogIn .btn
+{
+    background-color: var(--clr-morado1);
+    border-color: var(--clr-morado2);
+    justify-self: end;
+}
+.divLogIn .form-control
+{
+    margin-bottom: 6px;
+    max-width: 500px;
+}
+.divLogIn .logIn-label
+{
+    background-color: grey;
+    padding: 2px;
+}
+

@@ -1,0 +1,56 @@
+.user {
+  flex: 4;
+  padding: 20px 20px;
+  background: #fff;
+}
+
+.user {
+  color: #000;
+}
+
+.datos-usuarios img {
+  height: 5em;
+  width: 5em;
+  border-radius: 100vh;
+  object-fit: cover;
+  margin: 0 auto;
+}
+
+.datos-usuarios .titulo-dato {
+  margin-bottom: 0;
+  font-weight: 700;
+  opacity: 0.7;
+}
+
+.formulario-editar .item-input {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1em;
+}
+
+.formulario-editar input {
+  border: none;
+  border-bottom: 1px solid #000;
+}
+
+.editar-derecha img {
+  height: 8em;
+  width: 8em;
+  border-radius: 100vh;
+  object-fit: cover;
+}
+
+.opcion-rol input {
+  margin-right: 0.5em;
+}
+
+button.enviar-edicion {
+  margin-top: 0.5em;
+  border: none;
+  border-radius: 5px;
+  color: var(--clr-gris);
+  background-color: var(--clr-morado1);
+  position: relative;
+  bottom: 0;
+  padding-right: 1em 2em;
+}

@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./Home";
+import Configuracion from "./Componentes/Configuracion";
+import MisDatos from "./Componentes/PaginasPanelAdmin/MisDatos";
+import Peliculas from "./Componentes/PaginasPanelAdmin/Peliculas";
+import UsuariosLista from "./Componentes/PaginasPanelAdmin/UsuariosLista";
+import User from "./Componentes/PaginasPanelAdmin/User";
+import Pelicula from "./Componentes/PaginasPanelAdmin/Pelicula";
+import LogIn from "./Componentes/LogIn";
+import Register from "./Componentes/Register";
 
-function App() {
+
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Router>
+        <Routes>
+          <Route path="/" element={<LogIn />} />
+          <Route path="/configuracion" element={<Configuracion />}>
+            <Route index element={<MisDatos />} />
+            <Route path="misdatos" element={<MisDatos />} />
+            <Route path="usuarioslista" element={<UsuariosLista />}>
+              <Route path="user/:userId" element={<User />} />
+            </Route>
+            <Route path="peliculas" element={<Peliculas />}>
+              <Route path="pelicula/:peliId" element={<Pelicula />} />
+            </Route>
+          </Route>
+          <Route path="Register" element={<Register />}/>
+        </Routes>
+      </Router>
     </div>
   );
 }
-
-export default App;

@@ -1,0 +1,45 @@
+.usuario-nuevo {
+  flex: 4;
+  margin-left: 1em;
+  height: 100vh;
+}
+
+.formulario-nuevo-usuario {
+  display: flex;
+  gap: 2em;
+}
+
+.datos-derecha,
+.datos-izquierda {
+  flex: 1;
+  padding: 0 0.5em;
+}
+
+.item-nuevo-usuairo {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-nuevo-usuairo {
+  margin-bottom: 1em;
+}
+
+.item-nuevo-usuairo input {
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid grey;
+  padding-left: 1em;
+}
+
+.item-nuevo-usuairo input[type="radio"] {
+  margin-right: 0.5em;
+}
+
+.datos-derecha button {
+  margin-top: 1em;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--clr-gris);
+  color: var(--clr-morado1);
+  font-weight: 700;
+}

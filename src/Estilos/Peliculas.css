@@ -1,0 +1,40 @@
+.outlet{
+  background: white;
+
+}
+
+.peliculas {
+  flex: 4;
+  background-color: grey;
+}
+
+.pelicula-nombre {
+  margin-bottom: 0;
+}
+
+.pelicula-nombre img {
+  height: 40px;
+  width: 40px;
+  object-fit: cover;
+  border-radius: 100vh;
+  margin-right: 0.5em;
+}
+
+.lista-peliculas {
+  height: 42vh;
+}
+
+.agregar-pelicula {
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  background: var(--clr-morado1);
+  padding: 0.5em 1em;
+  margin-left: 1em;
+  color: #fff;
+}
+
+/* MODAL */
+.modal{
+  color: #000;
+}
