@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import "../Estilos/LogIn.css"
 import {Link, Route, Router, Path} from "react-router-dom"
 import axios from 'axios';
@@ -6,10 +6,10 @@ import axios from 'axios';
 
 function LogIn(){
 
-    const [user , setUser] = useState(
+    const [user, setUser] = useState(
         {
-            nombre = "",
-            contrasenia = "",
+            nombre : "",
+            contrasenia : ""
         })
     
     const handleChange = e =>
@@ -34,10 +34,10 @@ function LogIn(){
                 <label className="logIn-label">Iniciar sesión</label>
                 </div>
                 <div className="col-12">
-                    <input type="text" className="form-control userName" id="userName" placeholder="userName" value={newUser.name}/>
+                    <input type="text" className="form-control userName" id="userName" placeholder="Apodo" />
                 </div>
                 <div className="col-12">
-                    <input type="password" className="form-control userPass" id="userPass" placeholder="Password" value={newUser.contrasenia}/>
+                    <input type="password" className="form-control userPass" id="userPass" placeholder="Contraseña" />
                 </div>
                 <div className="col-12">
                  <Link to={"peliculas"} className="btn btn-primary" onClick={LogIn}>Log In</Link>
