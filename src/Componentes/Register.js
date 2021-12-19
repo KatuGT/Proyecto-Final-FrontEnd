@@ -1,60 +1,53 @@
 import React, { useState } from 'react';
 import "../Estilos/Register.css";
-import {Link, Route, Router, Path} from "react-router-dom";
+import {Link} from "react-router-dom";
 import axios from 'axios';
 
 function Register(){
-
-    const [newUser , setNewUser] = useState(
+   
+    const [user, setUser] = useState(
         {
-            nombre : "",
-            email : "",
-            contrasenia : "",
-            reContrasenia : ""
+            nombre: "",
+            email: "",
+            contrasenia:"",
+            reContrasenia:""
+        });
+    const onChangeUser = e => {
+        const {name, value} = e.target
+        setUser
+        ({
+         ...user, [name]: value
         })
-    
-    const handleChange = e =>
-    {
-        const {name, value} = e.target;
-        setNewUser(
-            {
-                ...newUser,
-                [name] : value
-            })
     }    
     const register = () => 
     {
-        const {nombre, email, contrasenia, reContrasenia} = newUser
-        if(nombre && email && contrasenia && (contrasenia === reContrasenia))
-        {
-            axios.post("http://localhost:4001/register", newUser).then(res => console.log(res));
-        }
-        else
-        {
-            alert("entrada incorrecta");
-        }
+        let data = user;
+        console.log(data);
+        axios.post("http://localhost:4001/register", data).then(res => console.log(res));
     }
 
      return(
+        
         <div className="divRegister">
+            {console.log(user)}
             <form className="row">
                 <div className="col-12">
                 <label className="Register-label">Registarse</label>
                 </div>
                 <div className="col-12">
-                    <input type="text" className="form-control userName" name='userName' id="userName" placeholder="Apodo" onChange={handleChange}/>
+                    <input type="text" className="form-control nombre" name='nombre' value={user.nombre} id="userName"  placeholder="Apodo" onChange={onChangeUser}/>
                 </div>
                 <div className="col-12">
-                   <input type="email" class="form-control userMail" id="userMail" name='userMail'  placeholder="name@example.com" onChange={handleChange}/>
+                   <input type="email" class="form-control userMail" id="userMail" name='email' value={user.email}  placeholder="name@example.com" onChange={onChangeUser}/>
                 </div>
                 <div className="col-12">
-                    <input type="password" className="form-control userPass" name='userPass'  id="userPass" placeholder="Password" onChange={handleChange}/>
+                    <input type="password" className="form-control userPass" id="userPass" name='contrasenia' value={user.contrasenia} placeholder="Password" onChange={onChangeUser}/>
                 </div>
                 <div className="col-12">
-                    <input type="password" className="form-control confirmPass" name='confirmPass'   id="confirmPass" placeholder="Confirm Password" onChange={handleChange}/>
+                    <input type="password" className="form-control confirmPass" id="confirmPass" name='reContrasenia' value={user.reContrasenia} placeholder="Confirm Password" onChange={onChangeUser}/>
                 </div>
                 <div className="col-12">
-                    <Link to={"/"} className="btn btn-primary" onClick={register}>Enviar</Link>
+                    <Link to={"/"} className="btn btn-primary" onClick={register} >Enviar</Link>
                 </div>
             </form>
         </div>

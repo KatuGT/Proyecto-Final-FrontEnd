@@ -8,22 +8,20 @@ function LogIn(){
 
     const [user, setUser] = useState(
         {
-            nombre : "",
-            contrasenia : ""
+            nombre: "",
+            contrasenia:"",
+        });
+    const onChangeUser = e => {
+        const {name, value} = e.target
+        setUser
+        ({
+         ...user, [name]: value
         })
-    
-    const handleChange = e =>
-    {
-        const {name, value} = e.target;
-        setUser(
-            {
-                ...user,
-                [name] : value
-            })
     }    
     const LogIn = () => 
     {
-        axios.post("http://localhost:4001/logIn", user);
+        let data = user;
+        axios.post("http://localhost:4001/login", JSON.parse(data)).then(res => console.log(res));
     }
 
 
@@ -34,13 +32,13 @@ function LogIn(){
                 <label className="logIn-label">Iniciar sesión</label>
                 </div>
                 <div className="col-12">
-                    <input type="text" className="form-control userName" id="userName" placeholder="Apodo" />
+                    <input type="text" className="form-control userName" name='nombre' value={user.nombre} id="userName" placeholder="Apodo" onChange={onChangeUser} />
                 </div>
                 <div className="col-12">
-                    <input type="password" className="form-control userPass" id="userPass" placeholder="Contraseña" />
+                    <input type="password" className="form-control userPass" name='contrasenia' value={user.contrasenia} id="userPass"  placeholder="Contraseña" onChange={onChangeUser}/>
                 </div>
                 <div className="col-12">
-                 <Link to={"peliculas"} className="btn btn-primary" onClick={LogIn}>Log In</Link>
+                 <Link to={"/"} className="btn btn-primary" onClick={LogIn}>Log In</Link>
                  <Link to={"Register"} className="btn btn-primary">Register</Link>
                 </div>
             </form>
