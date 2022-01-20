@@ -72,7 +72,7 @@ export default function ListasSeries(Lista) {
       contenido: item.contenido,
     };
     axios.post("/listapeliculas", nuevoItem);
-    setListas();
+    //setListas();
     setItem({
       nombre: "",
       tipo: "",
@@ -102,8 +102,8 @@ export default function ListasSeries(Lista) {
     getListas();
   }, [Lista]);
 
-
-  const listasPeliculas =  listas.filter((film) => film.tipo === "pelicula");
+  console.log(listas);
+  const listasPeliculas = listas.filter((film) => film.tipo === "pelicula");
 
   const filas = listasPeliculas.map((lista) => {
     const listaActual = {
@@ -116,6 +116,7 @@ export default function ListasSeries(Lista) {
     return listaActual;
   });
 
+  
   // BORRAR PELICULA
   const borrarItem = async (id) => {
     if (window.confirm("¿Estas seguro de borrar este item?")) {
