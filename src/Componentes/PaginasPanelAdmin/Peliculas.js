@@ -137,7 +137,7 @@ export default function Peliculas(pelis) {
       destacada: item.destacada,
     };
     axios.post("/peliculas", nuevoItem);
-    getPeliculas();
+    getPeliculas(nuevoItem);
     setItem({
       nombre: "",
       director: "",

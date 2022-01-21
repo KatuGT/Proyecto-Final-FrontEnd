@@ -46,7 +46,7 @@
 .contenedor-pelicula .titulo h1::after {
   content: "";
   height: 300%;
-  width: 120%;
+  width: calc( 100% + 15px);
   background-color: var(--clr-morado1);
   position: absolute;
   top: -2em;

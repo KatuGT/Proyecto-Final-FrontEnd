@@ -137,7 +137,7 @@ export default function Series(pelis) {
       destacada: item.destacada,
     };
     axios.post("/peliculas", nuevoItem);
-    getSeries();
+    getSeries(nuevoItem);
     setItem({
       nombre: "",
       director: "",
@@ -152,8 +152,8 @@ export default function Series(pelis) {
       esPelicula: false,
       destacada: false,
     });
-    toast.success("Item agregado");
     getSeries();
+    toast.success("Item agregado");
   }
 
   //MOSTRAR PELICULAS EN LISTA
@@ -204,8 +204,8 @@ export default function Series(pelis) {
       );
       if (res.status === 200) {
         console.log("item borrado");
-        toast.success("Item borrado");
         getSeries();
+        toast.success("Item borrado");
       }
     }
   };
