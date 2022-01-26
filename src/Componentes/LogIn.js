@@ -21,7 +21,7 @@ function LogIn(){
     const LogIn = () => 
     {
         let data = user;
-        axios.post("http://localhost:4001/login", JSON.parse(data)).then(res => console.log(res));
+        axios.get("http://localhost:4001/login", JSON.parse(data)).then(res => localStorage.setItem('userLogged', JSON.stringify(res)));
     }
 
 
@@ -32,7 +32,7 @@ function LogIn(){
                 <label className="logIn-label">Iniciar sesión</label>
                 </div>
                 <div className="col-12">
-                    <input type="text" className="form-control userName" name='nombre' value={user.nombre} id="userName" placeholder="Apodo" onChange={onChangeUser} />
+                    <input type="mail" className="form-control userName" name='email' value={user.nombre} id="userMail" placeholder="Correo Electronico" onChange={onChangeUser} />
                 </div>
                 <div className="col-12">
                     <input type="password" className="form-control userPass" name='contrasenia' value={user.contrasenia} id="userPass"  placeholder="Contraseña" onChange={onChangeUser}/>
