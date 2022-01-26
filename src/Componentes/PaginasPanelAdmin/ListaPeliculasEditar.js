@@ -8,24 +8,8 @@ export default function Pelicula() {
   let { listaId } = useParams();
 
   const [lista, setLista] = useState([]);
-  // useEffect(() => {
-  //   const getListas = async () => {
-  //     try {
-  //       await axios
-  //         .get(`http://localhost:4001/api/listapeliculas/${listaId}`)
-  //         .then((response) => {
-  //           setLista(response.data);
-  //         });
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
-  //   getListas();
-  // }, [listaId]);
-
-
   useEffect(() => {
-    async function getListas() {
+    async function getLista() {
       try {
         const lista = await axios.get(
           `http://localhost:4001/api/listapeliculas/${listaId}`
@@ -35,10 +19,9 @@ export default function Pelicula() {
         console.log("messaje", err);
       }
     }
-    getListas();
+    getLista();
   }, [listaId]);
 
-console.log(lista);
 
   //ACTUALIZAR INFORMACION
 
@@ -46,16 +29,17 @@ console.log(lista);
     nombre: "",
     tipo: "",
     genero: "",
+    contenido: "",
   });
 
   function handleUpdate(event) {
-        const { name, value } = event.target;
-      setUpdatedItem(() => {
-        return {
-          [name]: value,
-        };
-      });
-    
+    const { name, value } = event.target;
+    setUpdatedItem(() => {
+      return {
+        [name]: value,
+      };
+    });
+
     console.log(setUpdatedItem);
   }
 
@@ -120,7 +104,7 @@ console.log(lista);
                   name="tipo"
                   type="radio"
                   value="serie"
-                  id="serie"
+                  id="serie"                  
                 />
                 <label htmlFor="serie">Serie</label>
               </div>
@@ -136,12 +120,9 @@ console.log(lista);
               />
             </div>
           </div>
-          <button
-            type="submit"
-              className="enviar-edicion"
-            >
-              Enviar
-            </button>
+          <button type="submit" className="enviar-edicion">
+            Enviar
+          </button>
         </form>
       </div>
     </div>

@@ -1,0 +1,29 @@
+.contenedor-comentarios{    
+    display: flex;
+    margin-top: 2em;
+}
+
+.lista-comentarios{
+    margin-right: 1em;
+    flex: 2;
+}
+
+.formulario-comentario{
+flex: 3;
+}
+
+.formulario-comentario button{
+    width: 100%;
+    border: none;
+    padding-left: 0.5em;
+    border-radius: 5px;
+    margin-top: 0.5em;
+    background-color: var(--clr-morado1);
+    color: var(--clr-gris);
+    cursor: pointer;
+}
+
+.formulario-comentario button:disabled{
+    background-color: var(--clr-morado2);
+    cursor: initial;
+}

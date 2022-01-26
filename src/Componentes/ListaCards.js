@@ -30,7 +30,6 @@ function ListaCards({ lista }) {
       setScrollX(x);
     }
   };
-
   return (
     <section className="contenedor-principal">
       <h3 className="categoria-lista">{lista.nombre}</h3>

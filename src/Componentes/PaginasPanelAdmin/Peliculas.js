@@ -145,7 +145,7 @@ export default function Peliculas(pelis) {
       duracion: "",
       trailer: "",
       imagenVertical: "",
-      imagenHorizontal:"",
+      imagenHorizontal: "",
       fecha_de_Estreno: "",
       sinopsis: "",
       genero: "",
@@ -345,7 +345,9 @@ export default function Peliculas(pelis) {
                 </div>
                 <div className="editar-derecha col-6">
                   <div className="item-input">
-                    <label htmlFor="imagenVertical">Imagen vertical <i class="fas fa-arrows-alt-v"></i></label>
+                    <label htmlFor="imagenVertical">
+                      Imagen vertical <i class="fas fa-arrows-alt-v"></i>
+                    </label>
                     <input
                       onChange={handleChange}
                       name="imagenVertical"
@@ -357,7 +359,9 @@ export default function Peliculas(pelis) {
                     ></input>
                   </div>
                   <div className="item-input">
-                    <label htmlFor="imagenHorizontal">Imagen horizontal <i class="fas fa-arrows-alt-h"></i></label>
+                    <label htmlFor="imagenHorizontal">
+                      Imagen horizontal <i class="fas fa-arrows-alt-h"></i>
+                    </label>
                     <input
                       onChange={handleChange}
                       name="imagenHorizontal"

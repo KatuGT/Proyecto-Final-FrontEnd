@@ -4,6 +4,7 @@ import axios from "axios";
 import Footer from "./Componentes/Footer/Footer";
 import Navbar from "./Componentes/Navbar/Navbar";
 import Cargando from "./Imagenes/Cargando-icon.svg";
+import Comentarios from "./Componentes/Comentarios/Comentarios";
 
 export default function Home({ tipo }) {
   const [listas, setListas] = useState([]);

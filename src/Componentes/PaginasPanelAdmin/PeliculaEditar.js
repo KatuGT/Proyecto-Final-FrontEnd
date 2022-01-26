@@ -8,21 +8,6 @@ export default function Pelicula() {
   let { peliId } = useParams();
 
   const [pelicula, setPelicula] = useState([]);
-  useEffect(() => {
-    async function getPelicula() {
-      try {
-        const pelicula = await axios.get(
-          `http://localhost:4001/api/peliculas/${peliId}`
-        )
-        setPelicula(pelicula.data);
-      } catch (err) {
-        console.log("messaje", err);
-      }
-    }
-    getPelicula();
-  }, [peliId]);
-
-  //ACTUALIZAR INFORMACION
 
   const [updatedItem, setUpdatedItem] = useState({
     nombre: "",
@@ -38,9 +23,33 @@ export default function Pelicula() {
     destacada: false,
     esPelicula: false,
   });
+  console.log(updatedItem);
+
+  useEffect(() => {
+    async function getPelicula() {
+      try {
+        const pelicula = await axios.get(
+          `http://localhost:4001/api/peliculas/${peliId}`
+        )
+        setPelicula(pelicula.data);
+        setUpdatedItem(pelicula.data)
+      } catch (err) {
+        console.log("messaje", err);
+      }
+    }
+    getPelicula();
+  }, [peliId]);
+
+  //ACTUALIZAR INFORMACION
+
+
+  const [esPelicula, setEsPelicula] = useState(true);
+   
 
   function handleUpdate(event) {
+ 
     if (event.target.name === "esPelicula") {
+      setEsPelicula(event.target.checked)
       setUpdatedItem(() => {
         return {
           [event.target.name]: event.target.checked,
@@ -60,9 +69,10 @@ export default function Pelicula() {
         };
       });
     }
-    console.log(setUpdatedItem);
-
   }
+
+  
+
 
   function actualizarItem(event) {
     event.preventDefault();
@@ -80,7 +90,9 @@ export default function Pelicula() {
       esPelicula: updatedItem.esPelicula,
       destacada: updatedItem.destacada,
     };
+    console.log(informacionActualizada);
     axios.put(`/peliculas/${peliId}`, informacionActualizada);
+    
     window.location.reload()
   }
 
@@ -194,7 +206,8 @@ export default function Pelicula() {
                   onChange={handleUpdate}
                   type="checkbox"
                   name="esPelicula"
-                  id="pelicula"
+                  id="pelicula"   
+                  checked={esPelicula}
                 />
               </div>
             </div>

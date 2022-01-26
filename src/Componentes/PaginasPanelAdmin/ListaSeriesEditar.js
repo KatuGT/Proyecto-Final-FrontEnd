@@ -29,17 +29,17 @@ export default function Pelicula() {
     nombre: "",
     tipo: "",
     genero: "",
-    contenido:""
+    contenido: "",
   });
 
   function handleUpdate(event) {
-        const { name, value } = event.target;
-      setUpdatedItem(() => {
-        return {
-          [name]: value,
-        };
-      });
-    
+    const { name, value } = event.target;
+    setUpdatedItem(() => {
+      return {
+        [name]: value,
+      };
+    });
+
     console.log(setUpdatedItem);
   }
 
@@ -105,7 +105,6 @@ export default function Pelicula() {
                   type="radio"
                   value="serie"
                   id="serie"
-                  checked
                 />
                 <label htmlFor="serie">Serie</label>
               </div>
@@ -121,12 +120,9 @@ export default function Pelicula() {
               />
             </div>
           </div>
-          <button
-            type="submit"
-              className="enviar-edicion"
-            >
-              Enviar
-            </button>
+          <button type="submit" className="enviar-edicion">
+            Enviar
+          </button>
         </form>
       </div>
     </div>

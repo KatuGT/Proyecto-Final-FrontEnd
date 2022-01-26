@@ -18,13 +18,14 @@ function CardItems({ index, item }) {
     getPeliculas();
   }, [item]);
 
+
   return (
     <Link to={{ pathname: `/ver/${pelicula?._id}` }} className="link-card">
       <div className="card-contenedor">
         <img src={pelicula?.imagenVertical || Cargando} alt="imagen pelicula" />
         <div className="card-info">
           <p className="card-titulo">{pelicula?.nombre}</p>
-          <hr/>
+          <hr />
           <p className="card-subinfo">{pelicula?.sinopsis}</p>
         </div>
       </div>

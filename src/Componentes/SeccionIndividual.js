@@ -4,6 +4,7 @@ import "../Estilos/SeccionIndividual.css";
 import Navbar from "./Navbar/Navbar";
 import Footer from "./Footer/Footer";
 import axios from "axios";
+import Comentarios from "./Comentarios/Comentarios";
 
 export default function SeccionIndividual() {
   let { id } = useParams();
@@ -75,6 +76,7 @@ export default function SeccionIndividual() {
             allowfullscreen
           ></iframe>
         </div>
+      <Comentarios/>
       </section>
       <Footer />
     </div>

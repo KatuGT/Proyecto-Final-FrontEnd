@@ -4,8 +4,23 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function Pelicula() {
-  //MUESTRA EN INPUTS INFORMACION DE LA PELICULA SLECCIONADA PARA EDITAR
+  //MUESTRA EN INPUTS INFORMACION DE LA SERIE SLECCIONADA PARA EDITAR
   let { serieId } = useParams();
+
+  const [updatedItem, setUpdatedItem] = useState({
+    nombre: "",
+    director: "",
+    protagonistas: "",
+    duracion: "",
+    trailer: "",
+    imagenVertical: "",
+    imagenHorizontal: "",
+    fecha_de_Estreno: "",
+    sinopsis: "",
+    genero: "",
+    destacada: false,
+    esPelicula: false,
+  });
 
   const [serie, setSerie] = useState([]);
   useEffect(() => {
@@ -24,20 +39,7 @@ export default function Pelicula() {
 
   //ACTUALIZAR INFORMACION
 
-  const [updatedItem, setUpdatedItem] = useState({
-    nombre: "",
-    director: "",
-    protagonistas: "",
-    duracion: "",
-    trailer: "",
-    imagenVertical: "",
-    imagenHorizontal: "",
-    fecha_de_Estreno: "",
-    sinopsis: "",
-    genero: "",
-    destacada: false,
-    esPelicula: false,
-  });
+ 
 
   function handleUpdate(event) {
     if (event.target.name === "esPelicula") {

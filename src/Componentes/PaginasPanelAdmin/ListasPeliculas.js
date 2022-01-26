@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Toaster, toast } from "react-hot-toast";
 
-export default function ListasSeries(Lista) {
+export default function ListasSeries(pelis) {
   // COLUMNAS
   const columns = [
     { field: "id", headerName: "ID", width: 200 },
@@ -72,7 +72,7 @@ export default function ListasSeries(Lista) {
       contenido: item.contenido,
     };
     axios.post("/listapeliculas", nuevoItem);
-    //setListas();
+    setListas(nuevoItem);
     setItem({
       nombre: "",
       tipo: "",
@@ -100,9 +100,8 @@ export default function ListasSeries(Lista) {
 
   useEffect(() => {
     getListas();
-  }, [Lista]);
+  }, [pelis]);
 
-  console.log(listas);
   const listasPeliculas = listas.filter((film) => film.tipo === "pelicula");
 
   const filas = listasPeliculas.map((lista) => {
@@ -116,7 +115,6 @@ export default function ListasSeries(Lista) {
     return listaActual;
   });
 
-  
   // BORRAR PELICULA
   const borrarItem = async (id) => {
     if (window.confirm("¿Estas seguro de borrar este item?")) {
