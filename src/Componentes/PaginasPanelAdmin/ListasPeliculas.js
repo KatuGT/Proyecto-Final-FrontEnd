@@ -70,6 +70,7 @@ export default function ListasSeries({ Lista }) {
       contenido: item.contenido,
     };
     const resultado = await axios.post("/listapeliculas", nuevoItem);
+    document.getElementById("cerrarModalAgregarLista").click();
     setListas([resultado.data, ...listas]);
     setItem({
       nombre: "",
@@ -127,7 +128,7 @@ export default function ListasSeries({ Lista }) {
       if (res.status === 200) {
         console.log("item borrado");
         setListas(res.data.listaBorrar);
-        history("/configuracion/listaseries/");
+        history("/configuracion/listapeliculas/");
       }
     }
   };
@@ -242,6 +243,7 @@ export default function ListasSeries({ Lista }) {
                 type="button"
                 className="btn btn-secondary"
                 data-bs-dismiss="modal"
+                id="cerrarModalAgregarLista"
               >
                 Cerrar
               </button>

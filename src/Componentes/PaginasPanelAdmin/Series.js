@@ -134,9 +134,9 @@ export default function Series({pelis}) {
       esPelicula: item.esPelicula,
       destacada: item.destacada,
     };
-    axios.post("/peliculas", nuevoItem);
+    const resultado =  axios.post("/peliculas", nuevoItem);
     document.getElementById("cerrarModalAgregarItem").click();
-    getSeries();
+    getSeries([resultado.data, ...series]);
     setItem({
       nombre: "",
       director: "",

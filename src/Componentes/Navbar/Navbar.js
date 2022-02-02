@@ -141,12 +141,7 @@ function Navbar() {
                     alt="icono home"
                   />
                 </Link>
-                <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li>
-                    <Link className="dropdown-item" to="/">
-                      Ayuda
-                    </Link>
-                  </li>
+                <ul className="dropdown-menu" aria-labelledby="navbarDropdown">                  
                   <li>
                     <Link className="dropdown-item" to="/configuracion">
                       Configuracion

@@ -40,7 +40,7 @@ export default function Home({ tipo }) {
     getListas();
   }, [getListas]);
 
-  const listasMostrar = listas.filter((lista) => lista.contenido.length > 1);
+  const listasMostrar = listas.filter((lista) => lista.contenido.length > 0);
 
   return (
     <div className="contenedor-navbar-configuacion">

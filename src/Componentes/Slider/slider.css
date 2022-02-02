@@ -8,9 +8,7 @@
 }
 
 .carousel-item {
-  width: 100%;
   height: 800px;
-  position: relative;
 }
 
 .carousel-item img {
@@ -70,6 +68,9 @@
 }
 
 @media(max-width: 1090px){
+  .contenedor-slider{
+    margin-bottom: 15em;
+  }
     .contenedor-info-header{
         flex-direction: column;
         bottom: -6em;

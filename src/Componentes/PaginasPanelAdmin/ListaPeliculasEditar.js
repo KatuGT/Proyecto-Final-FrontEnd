@@ -73,7 +73,6 @@ export default function Pelicula() {
 
   for (let index = 0; index < contenido.length; index++) {
     const element = contenido[index];
-    console.log(element);
     const resultFilm = films.filter((i) => i._id === element);
     arrayPeliculaID.push(...resultFilm);
   }
@@ -190,7 +189,7 @@ export default function Pelicula() {
             </div>
             <div className="item-input " style={{ height: 450, width: "100%" }}>
               <div className="agregar-contenido">
-                <label htmlFor="contenido">Contenido</label>{" "}
+                <label htmlFor="contenido">Contenido</label>
                 <button
                   type="button"
                   className="agregar-item-lista"

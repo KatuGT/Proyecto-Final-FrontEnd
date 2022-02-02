@@ -60,10 +60,12 @@ figure.pelicula-nombre {
   margin-bottom: 1em;
 }
 
-.datalist{
-  border: 1px red solid;
-  height:50px;
+.mensaje-error{
+  font-size: 12px;
+  color: rgb(165, 11, 11) ;
+  display: none;
 }
+
 
 /* MODAL */
 .modal {

@@ -68,6 +68,7 @@ export default function ListasPeliculas({ Lista }) {
       genero: item.genero,
     };
     const resultado = await axios.post("/listapeliculas", nuevoItem);
+    document.getElementById("cerrarModalAgregarLista").click();
     setListas([resultado.data, ...listas]);
     setItem({
       nombre: "",
@@ -239,6 +240,7 @@ export default function ListasPeliculas({ Lista }) {
                 type="button"
                 className="btn btn-secondary"
                 data-bs-dismiss="modal"
+                id="cerrarModalAgregarLista"
               >
                 Cerrar
               </button>

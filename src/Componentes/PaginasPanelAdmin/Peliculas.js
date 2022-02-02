@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 //import { Toaster, toast } from "react-hot-toast";
 
-export default function Peliculas({pelis}) {
+export default function Peliculas({ pelis }) {
   // COLUMNAS
   const columns = [
     { field: "id", headerName: "ID", width: 200 },
@@ -135,8 +135,8 @@ export default function Peliculas({pelis}) {
       esPelicula: item.esPelicula,
       destacada: item.destacada,
     };
-    axios.post("/peliculas", nuevoItem);
-    getPeliculas();
+    const resultado = axios.post("/peliculas", nuevoItem);
+    getPeliculas([resultado.data, ...peliculas]);
     document.getElementById("cerrarModalAgregarItem").click();
     setItem({
       nombre: "",
@@ -149,11 +149,19 @@ export default function Peliculas({pelis}) {
       fecha_de_Estreno: "",
       sinopsis: "",
       genero: "",
-      esPelicula: "",
-      destacada: "",
+      esPelicula: false,
+      destacada: false,
     });
     getPeliculas();
   }
+
+  //validaciones
+
+  const [focused, setFocused] = useState(false);
+
+  const handleOnblur = (e) => {
+    setFocused(true);
+  };
 
   //MOSTRAR PELICULAS EN LISTA
   const [peliculas, setPeliculas] = useState([]);
@@ -174,7 +182,9 @@ export default function Peliculas({pelis}) {
     getPeliculas();
   }, [pelis]);
 
-  const sonPeliculas = peliculas.filter((pelicula) => pelicula.esPelicula === true);
+  const sonPeliculas = peliculas.filter(
+    (pelicula) => pelicula.esPelicula === true
+  );
 
   const filas = sonPeliculas.map((pelicula) => {
     const peliculaActual = {
@@ -210,16 +220,15 @@ export default function Peliculas({pelis}) {
   return (
     <div className="lista-peliculas">
       <div className="contenedor-tabla">
-
-      <DataGrid
-        className="dataGrid"
-        disableSelectionOnClick
-        rows={filas}
-        columns={columns}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
+        <DataGrid
+          className="dataGrid"
+          disableSelectionOnClick
+          rows={filas}
+          columns={columns}
+          pageSize={5}
+          rowsPerPageOptions={[5]}
         />
-        </div>
+      </div>
       {/* BOTON AGREGAR PELICULA */}
       <button
         type="button"
@@ -265,6 +274,7 @@ export default function Peliculas({pelis}) {
                       type="text"
                       placeholder=" Titanic"
                       id="nombre"
+                  
                     />
                   </div>
                   <div className="item-input">
@@ -276,19 +286,20 @@ export default function Peliculas({pelis}) {
                       type="text"
                       placeholder=" quien sabe"
                       id="director"
-                      required
+                   
                     />
                   </div>
                   <div className="item-input">
                     <label htmlFor="estreno">Estreno</label>
                     <input
                       onChange={handleChange}
+                      onBlur={handleOnblur}
                       name="fecha_de_Estreno"
                       value={item.fecha_de_Estreno}
                       type="number"
                       placeholder="2021"
                       id="estreno"
-                      required
+                    
                     />
                   </div>
                   <div className="item-input">
@@ -299,9 +310,9 @@ export default function Peliculas({pelis}) {
                       value={item.duracion}
                       type="text"
                       placeholder="90 minutos"
-                      id="duracion"
-                      required
+                      id="duracion"                 
                     />
+                    <span className="mensaje-error">Complete este campo.</span>
                   </div>
                   <div className="item-input">
                     <label htmlFor="protagonistas">Protagonistas</label>
@@ -312,7 +323,7 @@ export default function Peliculas({pelis}) {
                       type="text"
                       placeholder="Leonardo Di Caprio"
                       id="protagonistas"
-                      required
+                   
                     />
                   </div>
                   <div className="item-input">
@@ -324,7 +335,7 @@ export default function Peliculas({pelis}) {
                       type="text"
                       placeholder="bla bla"
                       id="sinopsis"
-                      required
+                   
                     />
                   </div>
                   <div className="item-input">
@@ -336,7 +347,7 @@ export default function Peliculas({pelis}) {
                       type="url"
                       placeholder="https://www.youtube.com/embed/..."
                       id="trailer"
-                      required
+                    
                     />
                   </div>
                 </div>
@@ -351,9 +362,8 @@ export default function Peliculas({pelis}) {
                       value={item.imagenVertical}
                       type="url"
                       placeholder="https://picsum.photos/id/237/200/300"
-                      id="imagenVertical"
-                      required
-                    ></input>
+                      id="imagenVertical"                   
+                    />
                   </div>
                   <div className="item-input">
                     <label htmlFor="imagenHorizontal">
@@ -365,9 +375,8 @@ export default function Peliculas({pelis}) {
                       value={item.imagenHorizontal}
                       type="url"
                       placeholder="https://picsum.photos/id/237/200/300"
-                      id="imagenHorizontal"
-                      required
-                    ></input>
+                      id="imagenHorizontal"                     
+                    />
                   </div>
                   <div className="item-input">
                     <label htmlFor="genero">Género</label>
@@ -377,9 +386,8 @@ export default function Peliculas({pelis}) {
                       value={item.genero}
                       type="text"
                       placeholder="Romance"
-                      id="genero"
-                      required
-                    ></input>
+                      id="genero"                    
+                    />
                   </div>
                   <div className="item-input">
                     <div className="opcion-tipo">
@@ -389,7 +397,7 @@ export default function Peliculas({pelis}) {
                         type="checkbox"
                         name="esPelicula"
                         id="pelicula"
-                      ></input>
+                      />
                     </div>
                   </div>
                   <div className="item-input">
@@ -400,7 +408,7 @@ export default function Peliculas({pelis}) {
                         type="checkbox"
                         name="destacada"
                         id="destacada"
-                      ></input>
+                      />
                     </div>
                   </div>
                 </div>

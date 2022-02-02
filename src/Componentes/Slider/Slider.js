@@ -64,7 +64,7 @@ const [lista, setLista] = useState("");
             class="form-select"
             onChange={(e) => setGenero(e.target.value)}
           >
-            <option>Genero</option>
+            <option disabled>Genero</option>
             {listaCategorias.map((categoria) => <option value={categoria}>{categoria}</option>)}
           </select>
         </div>
