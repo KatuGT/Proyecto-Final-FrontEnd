@@ -118,7 +118,7 @@ export default function Series({pelis}) {
     }
   }
 
-  function agregarItem(event) {
+ async function agregarItem(event) {
     event.preventDefault();
     const nuevoItem = {
       nombre: item.nombre,
@@ -134,9 +134,8 @@ export default function Series({pelis}) {
       esPelicula: item.esPelicula,
       destacada: item.destacada,
     };
-    const resultado =  axios.post("/peliculas", nuevoItem);
+    await axios.post("/peliculas", nuevoItem);
     document.getElementById("cerrarModalAgregarItem").click();
-    getSeries([resultado.data, ...series]);
     setItem({
       nombre: "",
       director: "",

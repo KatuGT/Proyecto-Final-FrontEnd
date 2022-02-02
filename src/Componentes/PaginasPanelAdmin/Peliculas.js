@@ -119,7 +119,7 @@ export default function Peliculas({ pelis }) {
     }
   }
 
-  function agregarItem(event) {
+ async function agregarItem(event) {
     event.preventDefault();
     const nuevoItem = {
       nombre: item.nombre,
@@ -135,8 +135,7 @@ export default function Peliculas({ pelis }) {
       esPelicula: item.esPelicula,
       destacada: item.destacada,
     };
-    const resultado = axios.post("/peliculas", nuevoItem);
-    getPeliculas([resultado.data, ...peliculas]);
+    await axios.post("/peliculas", nuevoItem);
     document.getElementById("cerrarModalAgregarItem").click();
     setItem({
       nombre: "",
@@ -152,16 +151,8 @@ export default function Peliculas({ pelis }) {
       esPelicula: false,
       destacada: false,
     });
-    getPeliculas();
+    getPeliculas()
   }
-
-  //validaciones
-
-  const [focused, setFocused] = useState(false);
-
-  const handleOnblur = (e) => {
-    setFocused(true);
-  };
 
   //MOSTRAR PELICULAS EN LISTA
   const [peliculas, setPeliculas] = useState([]);
@@ -274,7 +265,6 @@ export default function Peliculas({ pelis }) {
                       type="text"
                       placeholder=" Titanic"
                       id="nombre"
-                  
                     />
                   </div>
                   <div className="item-input">
@@ -286,20 +276,17 @@ export default function Peliculas({ pelis }) {
                       type="text"
                       placeholder=" quien sabe"
                       id="director"
-                   
                     />
                   </div>
                   <div className="item-input">
                     <label htmlFor="estreno">Estreno</label>
                     <input
                       onChange={handleChange}
-                      onBlur={handleOnblur}
                       name="fecha_de_Estreno"
                       value={item.fecha_de_Estreno}
                       type="number"
                       placeholder="2021"
                       id="estreno"
-                    
                     />
                   </div>
                   <div className="item-input">
@@ -310,7 +297,7 @@ export default function Peliculas({ pelis }) {
                       value={item.duracion}
                       type="text"
                       placeholder="90 minutos"
-                      id="duracion"                 
+                      id="duracion"
                     />
                     <span className="mensaje-error">Complete este campo.</span>
                   </div>
@@ -323,7 +310,6 @@ export default function Peliculas({ pelis }) {
                       type="text"
                       placeholder="Leonardo Di Caprio"
                       id="protagonistas"
-                   
                     />
                   </div>
                   <div className="item-input">
@@ -335,7 +321,6 @@ export default function Peliculas({ pelis }) {
                       type="text"
                       placeholder="bla bla"
                       id="sinopsis"
-                   
                     />
                   </div>
                   <div className="item-input">
@@ -347,7 +332,6 @@ export default function Peliculas({ pelis }) {
                       type="url"
                       placeholder="https://www.youtube.com/embed/..."
                       id="trailer"
-                    
                     />
                   </div>
                 </div>
@@ -362,7 +346,7 @@ export default function Peliculas({ pelis }) {
                       value={item.imagenVertical}
                       type="url"
                       placeholder="https://picsum.photos/id/237/200/300"
-                      id="imagenVertical"                   
+                      id="imagenVertical"
                     />
                   </div>
                   <div className="item-input">
@@ -375,7 +359,7 @@ export default function Peliculas({ pelis }) {
                       value={item.imagenHorizontal}
                       type="url"
                       placeholder="https://picsum.photos/id/237/200/300"
-                      id="imagenHorizontal"                     
+                      id="imagenHorizontal"
                     />
                   </div>
                   <div className="item-input">
@@ -386,7 +370,7 @@ export default function Peliculas({ pelis }) {
                       value={item.genero}
                       type="text"
                       placeholder="Romance"
-                      id="genero"                    
+                      id="genero"
                     />
                   </div>
                   <div className="item-input">

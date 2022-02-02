@@ -77,10 +77,6 @@ export default function Pelicula() {
     arrayPeliculaID.push(...resultFilm);
   }
 
-  console.log(contenido);
-
-  console.log(arrayPeliculaID);
-
   const filas = arrayPeliculaID.map((pelicula) => {
     return {
       id: pelicula._id,
