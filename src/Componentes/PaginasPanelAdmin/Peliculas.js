@@ -202,7 +202,6 @@ export default function Peliculas({ pelis }) {
         `http://localhost:4001/api/peliculas/` + id
       );
       if (res.status === 200) {
-        console.log("item borrado");
         getPeliculas();
       }
     }
