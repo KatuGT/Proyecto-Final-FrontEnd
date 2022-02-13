@@ -1,8 +1,8 @@
-import "../../Estilos/Pelicula.css";
+import "./Editar.css";
 import { useParams } from "react-router-dom";
 import { useEffect, useState, useCallback } from "react";
-import axios from "axios";
 import { DataGrid } from "@mui/x-data-grid";
+import axios from "axios";
 
 export default function Pelicula() {
   //MUESTRA EN INPUTS INFORMACION DE LA LISTA PARA EDITAR
@@ -15,13 +15,13 @@ export default function Pelicula() {
   const getListas = useCallback(async () => {
     try {
       await axios
-        .get(`http://localhost:4001/api/listapeliculas/find/${listaId}`)
+        .get(`http://localhost:8800/api/listafilms/find/${listaId}`)
         .then((response) => {
           setLista(response.data);
           setContenido(response.data.contenido);
         });
       await axios
-        .get(`http://localhost:4001/api/peliculas/`)
+        .get(`http://localhost:8800/api/films/`)
         .then((response) => {
           setFilms(response.data);
         });
@@ -104,7 +104,7 @@ export default function Pelicula() {
       tipo: updatedItem.tipo,
       genero: updatedItem.genero,
     };
-    axios.put(`/listapeliculas/find/${listaId}`, informacionActualizada);
+    axios.put(`/listafilms/find/${listaId}`, informacionActualizada);
     window.location.reload();
   }
 
@@ -115,8 +115,9 @@ export default function Pelicula() {
     event.preventDefault();
     if (select) {
       const respuesta = await axios.post(
-        `/listapeliculas/${listaId}/agregarfilm/${select}`
+        `/listafilms/${listaId}/agregarfilm/${select}`
       );
+      setSelect("");
       document.getElementById("cerrarAgregarItemLista").click();
       setContenido(respuesta.data.contenido);
     } else {
@@ -127,7 +128,7 @@ export default function Pelicula() {
   //Borrar ID de Contenido
   async function borrarIDArray(id) {
     const borrado = await axios.delete(
-      `/listapeliculas/${listaId}/borrarfilm/${id}`
+      `/listafilms/${listaId}/borrarfilm/${id}`
     );
     setContenido(borrado.data.contenido);
   }
@@ -145,6 +146,7 @@ export default function Pelicula() {
           <div className="editar-izquierda col-12 row ">
             <div className="item-input col-xl-5">
               <label htmlFor="nombre">Nombre</label>
+
               <input
                 onChange={handleUpdate}
                 name="nombre"
@@ -157,7 +159,7 @@ export default function Pelicula() {
               <label htmlFor="genero">Género</label>
               <input
                 onChange={handleUpdate}
-                name="estreno"
+                name="genero"
                 type="text"
                 defaultValue={lista.genero}
                 id="genero"
@@ -172,7 +174,6 @@ export default function Pelicula() {
                   type="radio"
                   value="pelicula"
                   id="pelicula"
-                  defaultChecked
                 />
                 <label htmlFor="pelicula">Pelicula</label>
               </div>
@@ -183,13 +184,14 @@ export default function Pelicula() {
                   type="radio"
                   value="serie"
                   id="serie"
+                  checked
                 />
                 <label htmlFor="serie">Serie</label>
               </div>
             </div>
-            <div className="item-input " style={{ height: 450, width: "100%" }}>
+            <div className="item-input" style={{ height: 450, width: "100%" }}>
               <div className="agregar-contenido">
-                <label htmlFor="contenido">Contenido</label>
+                <label htmlFor="contenido">Contenido</label>{" "}
                 <button
                   type="button"
                   className="agregar-item-lista"
@@ -213,6 +215,7 @@ export default function Pelicula() {
             Enviar
           </button>
         </form>
+        {/* MODAL PARA MODIFICAR CONTENIDO DE LISTA */}
         <div
           className="modal fade"
           id="agregarItemALista"
@@ -224,7 +227,7 @@ export default function Pelicula() {
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel">
-                  Ingrese los datos
+                  Seleccione la serie
                 </h5>
 
                 <button
@@ -235,14 +238,14 @@ export default function Pelicula() {
                   aria-label="Close"
                 ></button>
               </div>
+
               <div className="modal-body">
-                {/* FORMULARIO AGREGAR SERIE */}
+                {/* FORMULARIO AGREGAR SERIE A LA LISTAS*/}
                 <form className="row">
                   <div className="editar-izquierda col-6">
                     <div className="item-input">
                       <label htmlFor="nombre">Nombre</label>
                       <select
-                        name="select"
                         onChange={(e) => setSelect(e.target.value)}
                         required
                       >
@@ -250,7 +253,7 @@ export default function Pelicula() {
                           Seleccione...
                         </option>
                         {films.map((film) =>
-                          film.esPelicula === true ? (
+                          film.esPelicula !== true ? (
                             <option value={film._id}>{film.nombre}</option>
                           ) : (
                             ""

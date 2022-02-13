@@ -2,19 +2,21 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./Home";
 import Configuracion from "./Componentes/Configuracion";
-import MisDatos from "./Componentes/PaginasPanelAdmin/MisDatos";
-import Peliculas from "./Componentes/PaginasPanelAdmin/Peliculas";
-import PeliculaEditar from "./Componentes/PaginasPanelAdmin/PeliculaEditar";
-import ListasPeliculas from "./Componentes/PaginasPanelAdmin/ListasPeliculas";
-import ListaPeliculasEditar from "./Componentes/PaginasPanelAdmin/ListaPeliculasEditar";
-import UsuariosLista from "./Componentes/PaginasPanelAdmin/UsuariosLista";
-import Series from "./Componentes/PaginasPanelAdmin/Series";
-import SerieEditar from "./Componentes/PaginasPanelAdmin/SerieEditar";
-import ListasSeries from "./Componentes/PaginasPanelAdmin/ListasSeries";
-import ListaSeriesEditar from "./Componentes/PaginasPanelAdmin/ListaSeriesEditar";
+import MisDatos from "./Componentes/PaginasPanelAdmin/MisDatos/MisDatos";
 
-import User from "./Componentes/PaginasPanelAdmin/User";
-import SeccionIndividual from "./Componentes/SeccionIndividual";
+import UsuariosLista from "./Componentes/PaginasPanelAdmin/Tablas/ListaUsuarios";
+import ListasPeliculas from "./Componentes/PaginasPanelAdmin/Tablas/ListasPeliculas";
+import Peliculas from "./Componentes/PaginasPanelAdmin/Tablas/Peliculas";
+import ListasSeries from "./Componentes/PaginasPanelAdmin/Tablas/ListasSeries";
+import Series from "./Componentes/PaginasPanelAdmin/Tablas/Series";
+
+import PeliculaEditar from "./Componentes/PaginasPanelAdmin/Editar/PeliculaEditar";
+import SerieEditar from "./Componentes/PaginasPanelAdmin/Editar/SerieEditar";
+import ListaPeliculasEditar from "./Componentes/PaginasPanelAdmin/Editar/ListaPeliculasEditar";
+import ListaSeriesEditar from "./Componentes/PaginasPanelAdmin/Editar/ListaSeriesEditar";
+
+import UsuarioEditar from "./Componentes/PaginasPanelAdmin/Editar/UserEditar";
+import SeccionIndividual from "./Componentes/SeccionIndividual/SeccionIndividual";
 import NotFound from "./Componentes/404/NotFound";
 
 export default function App() {
@@ -29,7 +31,7 @@ export default function App() {
             <Route index element={<MisDatos />} />
             <Route path="misdatos" element={<MisDatos />} />
             <Route path="usuarioslista" element={<UsuariosLista />}>
-              <Route path="user/:userId" element={<User />} />
+              <Route path="user/:userId" element={<UsuarioEditar />} />
             </Route>
             <Route path="peliculas" element={<Peliculas />}>
               <Route path="pelicula/:peliId" element={<PeliculaEditar />} />

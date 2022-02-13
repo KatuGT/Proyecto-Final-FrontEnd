@@ -3,15 +3,14 @@
 }
 
 .peliculas {
-  flex: 4;
   background-color: grey;
 }
 
-figure.pelicula-nombre {
+figure.nombre-item-row {
   margin-bottom: 0;
 }
 
-.pelicula-nombre img {
+.nombre-item-row img {
   height: 40px;
   width: 40px;
   object-fit: cover;
@@ -19,7 +18,7 @@ figure.pelicula-nombre {
   margin-right: 0.5em;
 }
 
-.lista-peliculas {
+.tabla-contenido {
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -34,7 +33,7 @@ figure.pelicula-nombre {
 .contenedor-tabla .dataGrid {
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
-.agregar-pelicula {
+.agregar-item {
   border: none;
   cursor: pointer;
   border-radius: 5px;
@@ -64,6 +63,28 @@ figure.pelicula-nombre {
   font-size: 12px;
   color: rgb(165, 11, 11) ;
   display: none;
+}
+
+
+.acciones .fa-user-edit,
+.acciones .fa-trash-alt
+ {
+  font-size: 1.5em;
+  margin: 0 0.5em;
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+.acciones .fa-user-edit{
+  color: var(--clr-morado1);
+}
+
+.acciones .fa-trash-alt{
+  color:  #ff0000;
+}
+
+.acciones .fas:hover {
+  opacity: 1;
 }
 
 

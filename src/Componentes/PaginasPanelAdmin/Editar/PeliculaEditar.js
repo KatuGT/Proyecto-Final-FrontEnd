@@ -1,4 +1,4 @@
-import "../../Estilos/Pelicula.css";
+import "./Editar.css";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -12,7 +12,7 @@ export default function Pelicula() {
     async function getPelicula() {
       try {
         const pelicula = await axios.get(
-          `http://localhost:4001/api/peliculas/${peliId}`
+          `http://localhost:8800/api/films/${peliId}`
         );
         setPelicula(pelicula.data);
       } catch (err) {
@@ -67,12 +67,12 @@ export default function Pelicula() {
       esPelicula: updatedItem.esPelicula,
       destacada: updatedItem.destacada,
     };
-    axios.put(`/peliculas/${peliId}`, informacionActualizada);
+    axios.put(`/films/${peliId}`, informacionActualizada);
     window.location.reload();
   }
 
   return (
-    <div className="contenedor-editar-pelicula">
+    <div className="contenedor-principal-editar">
       <div className="pelicula">
         <div className="contenedor-titulo-pelicula">
           <h2>Editar Pelicula</h2>

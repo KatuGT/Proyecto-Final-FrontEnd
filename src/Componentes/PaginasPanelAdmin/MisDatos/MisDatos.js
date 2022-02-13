@@ -1,4 +1,4 @@
-import "../../Estilos/MisDatos.css";
+import "./MisDatos.css";
 
 export default function MisDatos() {
   return (

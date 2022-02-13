@@ -11,14 +11,14 @@ const [lista, setLista] = useState("");
   useEffect(() => {
     async function getFilms() {
       await axios
-        .get(`http://localhost:4001/api/listapeliculas/filterList${
+        .get(`http://localhost:8800/api/listafilms/filterList${
           tipo ? "?tipo="+tipo : ""
         }`)
         .then((response) => {
           setLista(response.data);         
         });
       try {
-        const film = await axios.get(`http://localhost:4001/api/peliculas/`);
+        const film = await axios.get(`http://localhost:8800/api/films/`);
         setFilms(film.data);
       } catch (err) {
         console.log("messaje", err);

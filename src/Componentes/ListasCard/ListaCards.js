@@ -1,6 +1,6 @@
 import { useState } from "react";
 import CardItems from "./CardItems";
-import "../Estilos/EstilosCard.css";
+import "./EstilosCard.css";
 
 function ListaCards({ lista, genero }) {
   const [scrollX, setScrollX] = useState(-500);

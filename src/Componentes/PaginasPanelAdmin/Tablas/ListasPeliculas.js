@@ -1,10 +1,10 @@
-import "../../Estilos/Peliculas.css";
+import "./Tabla.css";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-export default function ListasPeliculas({ Lista }) {
+export default function ListasSeries({ Lista }) {
   // COLUMNAS
   const columns = [
     { field: "id", headerName: "ID", width: 200 },
@@ -28,7 +28,7 @@ export default function ListasPeliculas({ Lista }) {
         return (
           // BOTON EDITAR
           <div className="acciones">
-            <Link to={"listaseries/" + params.row.id}>
+            <Link to={"listapelicula/" + params.row.id}>
               <i className="fas fa-user-edit"></i>
             </Link>
 
@@ -43,11 +43,12 @@ export default function ListasPeliculas({ Lista }) {
     },
   ];
 
-  // AGREGAR NUEVA PELICULA
+  // AGREGAR NUEVA LISTA
   const [item, setItem] = useState({
     nombre: "",
     tipo: "",
     genero: "",
+    contenido: "",
   });
 
   function handleChange(event) {
@@ -66,14 +67,16 @@ export default function ListasPeliculas({ Lista }) {
       nombre: item.nombre,
       tipo: item.tipo,
       genero: item.genero,
+      contenido: item.contenido,
     };
-    const resultado = await axios.post("/listapeliculas", nuevoItem);
+    const resultado = await axios.post("/listafilms", nuevoItem);
     document.getElementById("cerrarModalAgregarLista").click();
     setListas([resultado.data, ...listas]);
     setItem({
       nombre: "",
       tipo: "",
       genero: "",
+      contenido: "",
     });
   }
 
@@ -84,7 +87,7 @@ export default function ListasPeliculas({ Lista }) {
   const getListas = async () => {
     try {
       axios
-        .get(`http://localhost:4001/api/listapeliculas/`)
+        .get(`http://localhost:8800/api/listafilms/`)
         .then((response) => {
           setListas(response.data);
         });
@@ -99,7 +102,7 @@ export default function ListasPeliculas({ Lista }) {
 
   useEffect(() => {
     if (listas) {
-      setListasSeries(listas.filter((serie) => serie.tipo === "serie"));
+      setListasSeries(listas.filter((serie) => serie.tipo === "pelicula"));
     }
   }, [listas]);
 
@@ -114,24 +117,24 @@ export default function ListasPeliculas({ Lista }) {
     return listaActual;
   });
 
-  // BORRAR LISTA
+  // BORRAR PELICULA
   const history = useNavigate();
 
   const borrarItem = async (id) => {
     if (window.confirm("¿Estas seguro de borrar este item?")) {
       const res = await axios.delete(
-        `http://localhost:4001/api/listapeliculas/` + id
+        `http://localhost:8800/api/listafilms/` + id
       );
       if (res.status === 200) {
         console.log("item borrado");
         setListas(res.data.listaBorrar);
-        history("/configuracion/listaseries/");
+        history("/configuracion/listafilms/");
       }
     }
   };
 
   return (
-    <div className="lista-peliculas">
+    <div className="tabla-contenido">
       <div className="contenedor-tabla">
         <DataGrid
           className="dataGrid"
@@ -142,14 +145,14 @@ export default function ListasPeliculas({ Lista }) {
           rowsPerPageOptions={[5]}
         />
       </div>
-      {/* BOTON AGREGAR LISTA */}
+      {/* BOTON ITEM */}
       <button
         type="button"
-        className="agregar-pelicula"
+        className="agregar-item"
         data-bs-toggle="modal"
         data-bs-target="#exampleModal"
       >
-        Agregar Lista
+        Agregar Categoria
       </button>
 
       {/* MODAL PARA AGREGAR LISTAS */}
@@ -185,7 +188,7 @@ export default function ListasPeliculas({ Lista }) {
                       name="nombre"
                       value={item.nombre}
                       type="text"
-                      placeholder="Series de Drama"
+                      placeholder="Peliculas de Drama"
                       id="nombre"
                     />
                   </div>
@@ -204,7 +207,7 @@ export default function ListasPeliculas({ Lista }) {
                 </div>
                 <div className="editar-derecha col-6">
                   <div className="item-input">
-                    <label>Contenido</label>
+                    <label htmlFor="contenido">Contenido</label>
                     <p className="aviso-contenido">
                       Lo agregaras luedo de creada la lista
                     </p>

@@ -1,10 +1,11 @@
-import "../../Estilos/Peliculas.css";
+import "./Tabla.css";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link, Outlet } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
+//import { Toaster, toast } from "react-hot-toast";
 
-export default function Series({pelis}) {
+export default function Peliculas({ pelis }) {
   // COLUMNAS
   const columns = [
     { field: "id", headerName: "ID", width: 200 },
@@ -14,7 +15,7 @@ export default function Series({pelis}) {
       width: 200,
       renderCell: (params) => {
         return (
-          <figure className="pelicula-nombre">
+          <figure className="nombre-item-row">
             <img src={params.row.imagenHorizontal} alt="imagen" />
             {params.row.nombre}
           </figure>
@@ -61,7 +62,7 @@ export default function Series({pelis}) {
         return (
           // BOTON EDITAR
           <div className="acciones">
-            <Link to={"serie/" + params.row.id}>
+            <Link to={"pelicula/" + params.row.id}>
               <i className="fas fa-user-edit"></i>
             </Link>
 
@@ -76,7 +77,7 @@ export default function Series({pelis}) {
     },
   ];
 
-  // AGREGAR NUEVA SERIE
+  // AGREGAR NUEVA PELICULA
   const [item, setItem] = useState({
     nombre: "",
     director: "",
@@ -134,7 +135,7 @@ export default function Series({pelis}) {
       esPelicula: item.esPelicula,
       destacada: item.destacada,
     };
-    await axios.post("/peliculas", nuevoItem);
+    await axios.post("/films", nuevoItem);
     document.getElementById("cerrarModalAgregarItem").click();
     setItem({
       nombre: "",
@@ -150,18 +151,18 @@ export default function Series({pelis}) {
       esPelicula: false,
       destacada: false,
     });
-    getSeries();
+    getPeliculas()
   }
 
   //MOSTRAR PELICULAS EN LISTA
-  const [series, setSeries] = useState([]);
+  const [peliculas, setPeliculas] = useState([]);
 
-  const getSeries = async () => {
+  const getPeliculas = async () => {
     try {
       await axios
-        .get(`http://localhost:4001/api/peliculas/`)
+        .get(`http://localhost:8800/api/films/`)
         .then((response) => {
-          setSeries(response.data);
+          setPeliculas(response.data);
         });
     } catch (err) {
       console.log(err);
@@ -169,44 +170,45 @@ export default function Series({pelis}) {
   };
 
   useEffect(() => {
-    getSeries();
+    getPeliculas();
   }, [pelis]);
 
-  const sonSeries = series.filter((serie) => serie.esPelicula === false);
+  const sonPeliculas = peliculas.filter(
+    (pelicula) => pelicula.esPelicula === true
+  );
 
-  const filas = sonSeries.map((serie) => {
-    const serieActual = {
-      id: serie._id,
-      nombre: serie.nombre,
-      director: serie.director,
-      protagonistas: serie.protagonistas,
-      duracion: serie.duracion,
-      trailer: serie.trailer,
-      imagenVertical: serie.imagenVertical,
-      imagenHorizontal: serie.imagenHorizontal,
-      estreno: serie.fecha_de_Estreno,
-      sinopsis: serie.sinopsis,
-      genero: serie.genero,
-      destacada: serie.destacada,
+  const filas = sonPeliculas.map((pelicula) => {
+    const peliculaActual = {
+      id: pelicula._id,
+      nombre: pelicula.nombre,
+      director: pelicula.director,
+      protagonistas: pelicula.protagonistas,
+      duracion: pelicula.duracion,
+      trailer: pelicula.trailer,
+      imagenVertical: pelicula.imagenVertical,
+      imagenHorizontal: pelicula.imagenHorizontal,
+      estreno: pelicula.fecha_de_Estreno,
+      sinopsis: pelicula.sinopsis,
+      genero: pelicula.genero,
+      destacada: pelicula.destacada,
     };
-    return serieActual;
+    return peliculaActual;
   });
 
-  // BORRAR SERIE
+  // BORRAR PELICULA
   const borrarItem = async (id) => {
     if (window.confirm("¿Estas seguro de borrar este item?")) {
       const res = await axios.delete(
-        `http://localhost:4001/api/peliculas/` + id
+        `http://localhost:8800/api/films/` + id
       );
       if (res.status === 200) {
-        console.log("item borrado");
-        getSeries();
+        getPeliculas();
       }
     }
   };
 
   return (
-    <div className="lista-peliculas">
+    <div className="tabla-contenido">
       <div className="contenedor-tabla">
         <DataGrid
           className="dataGrid"
@@ -217,18 +219,17 @@ export default function Series({pelis}) {
           rowsPerPageOptions={[5]}
         />
       </div>
-
-      {/* BOTON AGREGAR SERIE */}
+      {/* BOTON AGREGAR PELICULA */}
       <button
         type="button"
-        className="agregar-pelicula"
+        className="agregar-item"
         data-bs-toggle="modal"
         data-bs-target="#exampleModal"
       >
-        Agregar Serie
+        Agregar Película
       </button>
 
-      {/* MODAL PARA AGREGAR SERIE */}
+      {/* MODAL PARA AGREGAR PELICULA */}
       <div
         className="modal fade"
         id="exampleModal"
@@ -251,7 +252,7 @@ export default function Series({pelis}) {
               ></button>
             </div>
             <div className="modal-body">
-              {/* FORMULARIO AGREGAR SERIE */}
+              {/* FORMULARIO AGREGAR PELICULA */}
               <form className="row">
                 <div className="editar-izquierda col-6">
                   <div className="item-input">
@@ -274,7 +275,6 @@ export default function Series({pelis}) {
                       type="text"
                       placeholder=" quien sabe"
                       id="director"
-                      required
                     />
                   </div>
                   <div className="item-input">
@@ -286,7 +286,6 @@ export default function Series({pelis}) {
                       type="number"
                       placeholder="2021"
                       id="estreno"
-                      required
                     />
                   </div>
                   <div className="item-input">
@@ -298,8 +297,8 @@ export default function Series({pelis}) {
                       type="text"
                       placeholder="90 minutos"
                       id="duracion"
-                      required
                     />
+                    <span className="mensaje-error">Complete este campo.</span>
                   </div>
                   <div className="item-input">
                     <label htmlFor="protagonistas">Protagonistas</label>
@@ -310,7 +309,6 @@ export default function Series({pelis}) {
                       type="text"
                       placeholder="Leonardo Di Caprio"
                       id="protagonistas"
-                      required
                     />
                   </div>
                   <div className="item-input">
@@ -322,7 +320,6 @@ export default function Series({pelis}) {
                       type="text"
                       placeholder="bla bla"
                       id="sinopsis"
-                      required
                     />
                   </div>
                   <div className="item-input">
@@ -332,9 +329,8 @@ export default function Series({pelis}) {
                       name="trailer"
                       value={item.trailer}
                       type="url"
-                      placeholder="https://www.youtube.com/embed/...."
+                      placeholder="https://www.youtube.com/embed/..."
                       id="trailer"
-                      required
                     />
                   </div>
                 </div>
@@ -350,8 +346,7 @@ export default function Series({pelis}) {
                       type="url"
                       placeholder="https://picsum.photos/id/237/200/300"
                       id="imagenVertical"
-                      required
-                    ></input>
+                    />
                   </div>
                   <div className="item-input">
                     <label htmlFor="imagenHorizontal">
@@ -364,8 +359,7 @@ export default function Series({pelis}) {
                       type="url"
                       placeholder="https://picsum.photos/id/237/200/300"
                       id="imagenHorizontal"
-                      required
-                    ></input>
+                    />
                   </div>
                   <div className="item-input">
                     <label htmlFor="genero">Género</label>
@@ -376,8 +370,7 @@ export default function Series({pelis}) {
                       type="text"
                       placeholder="Romance"
                       id="genero"
-                      required
-                    ></input>
+                    />
                   </div>
                   <div className="item-input">
                     <div className="opcion-tipo">
@@ -387,7 +380,7 @@ export default function Series({pelis}) {
                         type="checkbox"
                         name="esPelicula"
                         id="pelicula"
-                      ></input>
+                      />
                     </div>
                   </div>
                   <div className="item-input">
@@ -398,7 +391,7 @@ export default function Series({pelis}) {
                         type="checkbox"
                         name="destacada"
                         id="destacada"
-                      ></input>
+                      />
                     </div>
                   </div>
                 </div>

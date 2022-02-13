@@ -1,14 +1,14 @@
 import axios from "axios";
 import React, { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
-import Cargando from "../Imagenes/Cargando-icon.svg";
+import Cargando from "../../Imagenes/Cargando-icon.svg";
 
 function CardItems({ item }) {
   const [pelicula, setPelicula] = useState({});
 
   const getFilms = useCallback(async () => {
     try {
-      await axios.get("peliculas/" + item).then((response) => {
+      await axios.get("films/" + item).then((response) => {
         setPelicula(response.data);
       });
     } catch (err) {

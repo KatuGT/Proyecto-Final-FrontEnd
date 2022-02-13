@@ -1,8 +1,9 @@
-import "../../Estilos/User.css";
+import "./Editar.css";
+
 
 export default function User() {
   return (
-    <div className="user">
+    <div className="contenedor-principal-editar">
       <div className="contenedor-titulo-user">
         <h2>Editar Usuario</h2>
       </div>

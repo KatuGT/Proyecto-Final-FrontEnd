@@ -1,4 +1,4 @@
-import "../../Estilos/Sidebar.css";
+import "./Sidebar.css";
 
 import { NavLink } from "react-router-dom";
 

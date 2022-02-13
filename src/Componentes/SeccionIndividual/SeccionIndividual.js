@@ -1,8 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import "../Estilos/SeccionIndividual.css";
-import Navbar from "./Navbar/Navbar";
-import Footer from "./Footer/Footer";
+import "./SeccionIndividual.css";
+import Navbar from "../Navbar/Navbar";
 import axios from "axios";
 
 export default function SeccionIndividual() {
@@ -13,7 +12,7 @@ export default function SeccionIndividual() {
     async function getPelicula() {
       try {
         const pelicula = await axios.get(
-          `http://localhost:4001/api/peliculas/${id}`
+          `http://localhost:8800/api/films/${id}`
         );
         setPelicula(pelicula.data);
       } catch (err) {
@@ -76,7 +75,6 @@ export default function SeccionIndividual() {
           ></iframe>
         </div>
       </section>
-      <Footer />
     </div>
   );
 }

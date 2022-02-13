@@ -18,7 +18,7 @@ function Navbar() {
   const getPeliculas = async () => {
     try {
       await axios
-        .get(`http://localhost:4001/api/peliculas/`)
+        .get(`http://localhost:8800/api/films/`)
         .then((response) => {
           setPeliculas(response.data);
         });
