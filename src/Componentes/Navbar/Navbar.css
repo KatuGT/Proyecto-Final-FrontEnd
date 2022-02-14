@@ -1,127 +1,163 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
-
-*{
-    --main-color-black: #030109;
-    --main-color-purple: #1b0148;
-    --main-color-indigo: #4400a3;
-    --main-color-white: #CECCCC;
-    font-family: "Roboto","sans-serif";
+* {
+  text-decoration: none;
 }
 
-.navbar{
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+a:focus,
+a:hover{
+ color: var(--clr-morado1);
 }
 
-.container-fluid{
-    justify-content: space-between;
-}
-.filter-white{
-filter: invert(89%) sepia(5%) saturate(62%) hue-rotate(314deg) brightness(94%) contrast(88%);
-}
-.filter-indigo{
-    filter: invert(11%) sepia(97%) saturate(6602%) hue-rotate(269deg) brightness(62%) contrast(115%);
-}
-.filter-purple{
-    filter: invert(5%) sepia(87%) saturate(6707%) hue-rotate(56deg) brightness(84%) contrast(125%);
-}
-nav{
-    background-color: var(--main-color-white);
-    color: var(--main-color-indigo);
+.barra {
+  color: aliceblue;
+  z-index: 10000;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  background: rgba(20, 20, 20);
 }
 
-
-.navbar-collapse{
-    flex-grow:0;
+.contenedor-barra {
+  padding: 5px 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 70px;
 }
 
-.dropdown-menu[data-bs-popper],
-.dropdown-menu,
-.dropdown-menu.show{
-    right: 0;
-    left: initial;
+.barra-izquierda,
+.barra-derecha {
+  display: flex;
+  align-items: center;
 }
 
-.redes-item i{
-        background-color: var(--main-color-white);
-        color: var(--main-color-indigo);
+.barra-izquierda .link {
+  margin: 0 20px;
 }
-li a {
-    background-color: var(--main-color-white);
-    color: var(--main-color-indigo);
-}
-.icon{
-    width: 1.5rem;
-    height: 1.5rem;
-}
-.botonera{
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-}
-.contenedor{
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
-}
-.boton{
-    background-color: var(--main-color-indigo);
-    color: var(--main-color-white);
-}
-.boton:hover{
-    background-color: var(--main-color-purple);
-    color: var(--main-color-white);
-
-}
-#search{
-    min-width: 100px;
+.barra-izquierda .link.desktop{
+  display: none;
 }
 
-.dropdown-menu{
-    background-color: var(--main-color-indigo);
+.contenedor-barra img {
+  height: 30px;
+  margin-right: 20px;
 }
-.dropdown-item{
-    background-color: var(--main-color-indigo);
-    color: var(--main-color-white);
+
+.barra-derecha {
+  position: relative;
 }
-.dropdown-item:hover{
-    background-color: var(--main-color-purple);
-    color: var(--main-color-white);
+
+.barra-derecha  .fas {
+  margin: 0 20px;
+  cursor: pointer;
+}
+
+.barra-derecha .perfil .opciones {
+  display: none;
+  background: rgba(20, 20, 20);
+  position: relative;
+  position: absolute;
+  right: 0;
+  top: 80%;
+}
+
+.barra-derecha .perfil:hover .opciones {
+  display: flex;
+  flex-direction: column;
+}
+
+.barra-derecha .perfil .opciones .link {
+  padding: 10px 15px;
+  cursor: pointer;
+}
+
+.menu-icon{
+  display: none;
+}
+
+.contenedor-barra .active{
+  font-weight: bolder;
+  color: var(--clr-morado1);
+
+}
+
+.search-bar form{
+  position: relative;
+}
+
+.search-bar form input[type="search"]{
+  padding-left: 50px;
+}
+
+.fa-search{
+  position: absolute;
+  top: calc(50% - 25%);
+  margin: 0 0px;
+  z-index: 100;
+  color: #000;
+  cursor:inherit;
 }
 
 .searchBar{
-    position: relative;
+  position: relative;
 }
 
 .dataResultado{
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    background-color: #fff;
-    box-shadow:  rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    border-radius: 0.2em;  
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  background-color: #fff;
+  box-shadow:  rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border-radius: 0.2em;  
 }
 
 
 .dataResultado .busqueda{
-    background-color: #fff;
-    cursor: pointer;
-    transition: all ease;
-    padding: 0.5em;
-    display: block;
-    text-decoration: none;
-    width: 208px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: all ease;
+  padding: 0.5em;
+  display: block;
+  text-decoration: none;
+  width: 208px;
+}
+.dataResultado a{
+  color: #000;
 }
 
 .dataResultado a:hover{
-    background-color: rgb(228, 228, 228);
+  background-color: rgb(228, 228, 228);
 }
 
 .categorias{
-    position: absolute;
-    top: 20%;
+  position: absolute;
+  top: 20%;
 }
 
-@media only screen and (min-width:529){
+@media screen and (max-width: 860px) {
+  .menu-icon{
+    display: block;
+    cursor: pointer;
+  }
+
+  .barra-izquierda,
+  .barra-derecha{
+    display: none;
+  } 
+
+  .barra-izquierda-mobile{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    transition: all 0.5s ease;
+    top: 60px;
+    left: 0;
+    background-color:rgba(20, 20, 20) ;
+    padding: 10px 20px;
+  }
+  
+  .barra-izquierda-mobile .link{
+    margin-left: 20px;
+    padding: 10px;
+  }
 }

@@ -1,0 +1,54 @@
+footer {
+  padding: 60px;
+  background: rgba(20, 20, 20);
+}
+
+footer section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+footer section li {
+  text-align: center;
+  color: #fff;
+  margin-top: 10px;
+}
+
+footer section.redes {
+  border-right: 0.2px rgb(88, 88, 88) solid;
+  border-left: 0.2px rgb(88, 88, 88) solid;
+}
+
+footer section.redes ul li {
+  font-size: 2em;
+  transition: all 0.5s ease;
+}
+
+footer section.redes ul li:hover {
+  transform: scale(1.3);
+}
+
+footer section.redes ul li a:visited {
+  color: #fff;
+}
+
+
+footer section.redes ul li .fa-facebook:hover{
+        color: rgb(16, 146, 243);
+}
+
+footer section.redes ul li .fa-instagram-square:hover{
+    color: #d6249f;
+}
+
+footer section.redes ul li .fa-twitter:hover{
+    color: #1d9bf0;
+}
+
+footer section.legales li:hover,
+footer section.otros li:hover{
+text-decoration: underline;
+cursor: pointer;
+}

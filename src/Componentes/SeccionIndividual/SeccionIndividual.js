@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "./SeccionIndividual.css";
 import Navbar from "../Navbar/Navbar";
+import Footer from "../Footer/Footer"
 import axios from "axios";
 
 export default function SeccionIndividual() {
@@ -75,6 +76,7 @@ export default function SeccionIndividual() {
           ></iframe>
         </div>
       </section>
+     <Footer/>
     </div>
   );
 }

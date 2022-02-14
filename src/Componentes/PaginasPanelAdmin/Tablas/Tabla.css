@@ -28,6 +28,7 @@ figure.nombre-item-row {
 .contenedor-tabla {
   height: 450px;
   width: 100%;
+  margin-top: 20px;
 }
 
 .contenedor-tabla .dataGrid {

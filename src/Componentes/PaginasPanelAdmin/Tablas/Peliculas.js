@@ -3,7 +3,6 @@ import { DataGrid } from "@mui/x-data-grid";
 import { Link, Outlet } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
-//import { Toaster, toast } from "react-hot-toast";
 
 export default function Peliculas({ pelis }) {
   // COLUMNAS

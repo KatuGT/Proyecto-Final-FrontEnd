@@ -11,9 +11,15 @@ body {
   overflow-x: hidden;
 }
 
+.main-container {
+  position: relative;
+  top: 70px;
+}
+
 .container-adminpanel {
   display: flex;
-  color: white;
+  position: relative;
+  top: 57px;
 }
 
 .link {
@@ -33,4 +39,3 @@ body {
   display: grid;
   place-items: center;
 }
-

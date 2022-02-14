@@ -1,39 +1,50 @@
-import home from "./home-solid.svg";
-import search from "./search-solid.svg";
-import user from "./user-circle-solid.svg";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import "./Navbar.css";
-import { useState, useEffect } from "react";
+import { NavLink, Link } from "react-router-dom";
 import axios from "axios";
 
-const cerrarSesion = () => {
-  // TODO cerrar sesion
-};
+import Logo from "../../Imagenes/ROLLFLIX-LOGO.jpg";
 
-function Navbar() {
-  //MOSTRAR PELICULAS EN LISTA
+export default function Navbar() {
+  const [isMobile, setIsMobile] = useState(false);
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
-  const [peliculas, setPeliculas] = useState([]);
+  const toggleNav = () => {
+    setIsMobile(!isMobile);
+  };
 
-  const getPeliculas = async () => {
+  useEffect(() => {
+    const changeWidth = () => {
+      setScreenWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", changeWidth);
+
+    return () => {
+      window.removeEventListener("resize", changeWidth);
+    };
+  }, []);
+
+  //   DATA PARA SEARCHBAR
+  const [films, setFilms] = useState([]);
+
+  const getFilms = async () => {
     try {
-      await axios
-        .get(`http://localhost:8800/api/films/`)
-        .then((response) => {
-          setPeliculas(response.data);
-        });
+      await axios.get(`http://localhost:8800/api/films/`).then((response) => {
+        setFilms(response.data);
+      });
     } catch (err) {
       console.log(err);
     }
   };
   useEffect(() => {
-    getPeliculas();
+    getFilms();
   }, []);
 
   const [dataFiltrada, setDataFiltrada] = useState([]);
   const handleFilter = (e) => {
     const busqueda = e.target.value;
-    const nuevoFiltro = peliculas.filter((value) => {
+    const nuevoFiltro = films.filter((value) => {
       return value.nombre.toLowerCase().includes(busqueda.toLowerCase());
     });
     if (busqueda === "") {
@@ -44,125 +55,103 @@ function Navbar() {
   };
 
   return (
-    <>
-      <nav className="navbar navbar-expand-sm navbar-light">
-        <div className="container-fluid">
-          <a className="navbar-brand" href="/">
-            Rollflix
-          </a>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
+    <nav className="barra">
+      <div className="contenedor-barra">
+        <img src={Logo} alt="logo Rollflix"></img>
+        <div className="menu-icon" onClick={() => toggleNav(!isMobile)}>
+          <i className={isMobile ? "fas fa-times" : "fas fa-bars"} />
+        </div>
+        <div
+          className={
+            isMobile && screenWidth < 860
+              ? "barra-izquierda-mobile"
+              : "barra-izquierda"
+          }
+        >
+          <NavLink
+            to="/"
+            className="link"
+            activeclassname="active-link"
+            onClick={() => setIsMobile(!isMobile)}
           >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
-                <Link
-                  className="nav-link active"
-                  aria-current="page"
-                  to="/series"
-                >
-                  Series
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link
-                  className="nav-link active"
-                  aria-current="page"
-                  to="/peliculas"
-                >
-                  Peliculas
-                </Link>
-              </li>
-            </ul>
-          </div>
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
-                <Link className="nav-link active" aria-current="page" to="/">
-                  <img
-                    className={"icon filter-purple"}
-                    src={home}
-                    alt="icono home"
-                  />
-                </Link>
-              </li>
-              <li className="nav-item searchBar">
-                <form className="d-flex">
-                  <input
-                    className="form-control me-2"
-                    type="search"
-                    placeholder="Search"
-                    aria-label="Search"
-                    onChange={handleFilter}
-                  />
-                  <button className="btn boton" type="submit">
-                    <img
-                      className={"icon filter-white"}
-                      src={search}
-                      alt="icono home"
-                    />
-                  </button>
-                </form>
-                {dataFiltrada.length !== 0 && (
-                  <div className="dataResultado">
-                    {dataFiltrada.slice(0, 14).map((value, key) => {
-                      return (
-                        <Link
-                          to={{ pathname: `/ver/${value._id}` }}
-                          className="busqueda"
-                        >
-                          {value.nombre}
-                        </Link>
-                      );
-                    })}
-                  </div>
-                )}
-              </li>
-              <li className="nav-item dropdown">
-                <Link
-                  className="nav-link dropdown-toggle"
-                  to="/"
-                  id="navbarDropdown"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  <img
-                    className={"icon filter-purple"}
-                    src={user}
-                    alt="icono home"
-                  />
-                </Link>
-                <ul className="dropdown-menu" aria-labelledby="navbarDropdown">                  
-                  <li>
-                    <Link className="dropdown-item" to="/configuracion">
-                      Configuracion
+            Inicio
+          </NavLink>
+          <NavLink
+            to="/series"
+            className="link"
+            activeclassname="active-link"
+            onClick={() => setIsMobile(!isMobile)}
+          >
+            Series
+          </NavLink>
+          <NavLink
+            to="/peliculas"
+            className="link"
+            activeclassname="active-link"
+            onClick={() => setIsMobile(!isMobile)}
+          >
+            Peliculas
+          </NavLink>
+          <NavLink
+            to="/configuracion"
+            className="link desktop"
+            activeclassname="active-link"
+            onClick={() => setIsMobile(!isMobile)}
+          >
+            Configuracion
+          </NavLink>
+          <NavLink
+            to="/"
+            className="link desktop"
+            onClick={() => setIsMobile(!isMobile)}
+          >
+            Cerrar Sesion
+          </NavLink>
+        </div>
+        <div className="barra-derecha">
+          <div className="search-bar">
+            <form className="d-flex">
+              <input
+                className="form-control me-2"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+                onChange={handleFilter}
+              />
+            </form>
+            {dataFiltrada.length !== 0 && (
+              <div className="dataResultado">
+                {dataFiltrada.slice(0, 14).map((value, key) => {
+                  return (
+                    <Link
+                      to={{ pathname: `/ver/${value._id}` }}
+                      className="busqueda"
+                    >
+                      {value.nombre}
                     </Link>
-                  </li>
-                  <li>
-                    <div className="dropdown-divider"> </div>
-                  </li>
-                  <li>
-                    <button className="dropdown-item" onClick={cerrarSesion()}>
-                      Cerrar sesion
-                    </button>
-                  </li>
-                </ul>
-              </li>
-            </ul>
+                  );
+                })}
+              </div>
+            )}
+            <i className="fas fa-search"></i>
+          </div>
+          <div className="profile-user">
+            <i className="fas fa-user-circle"></i>
+            <span>Katu</span>
+          </div>
+          <div className="perfil">
+            <i className="fas fa-caret-down"></i>
+            <div className="opciones">
+              <NavLink to="/configuracion" className="link">
+                Configuracion
+              </NavLink>
+              <NavLink to="/hhh" className="link">
+                Cerrar Sesion
+              </NavLink>
+            </div>
           </div>
         </div>
-      </nav>
-    </>
+      </div>
+    </nav>
   );
 }
-
-export default Navbar;

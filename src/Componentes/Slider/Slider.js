@@ -61,10 +61,10 @@ const [lista, setLista] = useState("");
             name="genero"
             id="genero"
             aria-label="Default select example"
-            class="form-select"
+            className="form-select"
             onChange={(e) => setGenero(e.target.value)}
           >
-            <option disabled>Genero</option>
+            <option disabled selected>Genero</option>
             {listaCategorias.map((categoria) => <option value={categoria}>{categoria}</option>)}
           </select>
         </div>

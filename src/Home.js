@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback } from "react";
 import ListaCards from "./Componentes/ListasCard/ListaCards";
 import axios from "axios";
 import Navbar from "./Componentes/Navbar/Navbar";
+import Footer from "./Componentes/Footer/Footer";
+
 import Cargando from "./Imagenes/Cargando-icon.svg";
 import Slider from "./Componentes/Slider/Slider";
 
@@ -40,7 +42,7 @@ export default function Home({ tipo }) {
   const listasMostrar = listas.filter((lista) => lista.contenido.length > 0);
 
   return (
-    <div className="contenedor-navbar-configuacion">
+    <div className="main-container">
       <Navbar />
       <Slider tipo={tipo} setGenero={setGenero} />
       {listasMostrar.map((lista) => (
@@ -51,6 +53,7 @@ export default function Home({ tipo }) {
           <img src={Cargando} alt="cargando-icono" />
         </div>
       )}
+      <Footer/>
     </div>
   );
 }

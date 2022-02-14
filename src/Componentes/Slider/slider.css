@@ -62,7 +62,7 @@
 
 .categorias{
   position: absolute;
-  bottom: -250px;
+  bottom: 650px;
   padding-left: 5em;
   z-index: 10;
 }

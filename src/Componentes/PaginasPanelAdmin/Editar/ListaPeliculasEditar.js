@@ -43,7 +43,7 @@ export default function Pelicula() {
       width: 400,
       renderCell: (params) => {
         return (
-          <figure className="pelicula-nombre">
+          <figure className="nombre-item-row">
             <img src={params.row.imagenHorizontal} alt="imagen" />
             {params.row.nombre}
           </figure>
