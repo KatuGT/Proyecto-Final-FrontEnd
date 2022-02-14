@@ -34,21 +34,29 @@ footer section.redes ul li a:visited {
   color: #fff;
 }
 
-
-footer section.redes ul li .fa-facebook:hover{
-        color: rgb(16, 146, 243);
+footer section.redes ul li .fa-facebook:hover {
+  color: rgb(16, 146, 243);
 }
 
-footer section.redes ul li .fa-instagram-square:hover{
-    color: #d6249f;
+footer section.redes ul li .fa-instagram-square:hover {
+  color: #d6249f;
 }
 
-footer section.redes ul li .fa-twitter:hover{
-    color: #1d9bf0;
+footer section.redes ul li .fa-twitter:hover {
+  color: #1d9bf0;
 }
 
 footer section.legales li:hover,
-footer section.otros li:hover{
-text-decoration: underline;
-cursor: pointer;
+footer section.otros li:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 992px) {
+  footer section.redes {
+    border-top: 0.2px rgb(88, 88, 88) solid;
+    border-bottom: 0.2px rgb(88, 88, 88) solid;
+    border-right:none;
+    border-left: none;
+  }
 }
