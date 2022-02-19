@@ -60,13 +60,6 @@ figure.nombre-item-row {
   margin-bottom: 1em;
 }
 
-.mensaje-error{
-  font-size: 12px;
-  color: rgb(165, 11, 11) ;
-  display: none;
-}
-
-
 .acciones .fa-user-edit,
 .acciones .fa-trash-alt
  {
@@ -92,4 +85,11 @@ figure.nombre-item-row {
 /* MODAL */
 .modal {
   color: #000;
+  z-index: 99999999;
 }
+
+.mensaje-error{
+  color: red;
+  font-size: 10px;
+}
+

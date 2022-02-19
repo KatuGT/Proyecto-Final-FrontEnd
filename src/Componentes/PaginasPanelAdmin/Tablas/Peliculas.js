@@ -2,6 +2,7 @@ import "./Tabla.css";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link, Outlet } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
 import axios from "axios";
 
 export default function Peliculas({ pelis }) {
@@ -118,7 +119,21 @@ export default function Peliculas({ pelis }) {
     }
   }
 
- async function agregarItem(event) {
+  const validacion = (event) => {
+    let validado = true;
+    Object.keys(item).forEach((key) => {
+      if (key === "destacada" || key === "esPelicula") return;
+      if (item[key].length < 2 || item[key].length > 100) {
+        alert(`Complete el campo ${key} correctamente.`);
+        validado = false;        
+      }
+    });
+    if(validado){
+      agregarItem(event)
+    }
+  };
+
+  async function agregarItem(event) {
     event.preventDefault();
     const nuevoItem = {
       nombre: item.nombre,
@@ -135,7 +150,7 @@ export default function Peliculas({ pelis }) {
       destacada: item.destacada,
     };
     await axios.post("/films", nuevoItem);
-    document.getElementById("cerrarModalAgregarItem").click();
+    //document.getElementById("cerrarModalAgregarItem").click();
     setItem({
       nombre: "",
       director: "",
@@ -150,31 +165,27 @@ export default function Peliculas({ pelis }) {
       esPelicula: false,
       destacada: false,
     });
-    getPeliculas()
+    getFilms();
   }
 
   //MOSTRAR PELICULAS EN LISTA
-  const [peliculas, setPeliculas] = useState([]);
+  const [films, setFilms] = useState([]);
 
-  const getPeliculas = async () => {
+  const getFilms = async () => {
     try {
-      await axios
-        .get(`http://localhost:8800/api/films/`)
-        .then((response) => {
-          setPeliculas(response.data);
-        });
+      await axios.get(`http://localhost:8800/api/films/`).then((response) => {
+        setFilms(response.data);
+      });
     } catch (err) {
       console.log(err);
     }
   };
 
   useEffect(() => {
-    getPeliculas();
+    getFilms();
   }, [pelis]);
 
-  const sonPeliculas = peliculas.filter(
-    (pelicula) => pelicula.esPelicula === true
-  );
+  const sonPeliculas = films.filter((pelicula) => pelicula.esPelicula === true);
 
   const filas = sonPeliculas.map((pelicula) => {
     const peliculaActual = {
@@ -197,14 +208,23 @@ export default function Peliculas({ pelis }) {
   // BORRAR PELICULA
   const borrarItem = async (id) => {
     if (window.confirm("¿Estas seguro de borrar este item?")) {
-      const res = await axios.delete(
-        `http://localhost:8800/api/films/` + id
-      );
+      const res = await axios.delete(`http://localhost:8800/api/films/` + id);
       if (res.status === 200) {
-        getPeliculas();
+        getFilms();
       }
     }
   };
+
+  // VALIDACIONES
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   formState: { errors },
+  // } = useForm({});
+
+  // const onSubmit = (data) => {
+  //   console.log(data);
+  // };
 
   return (
     <div className="tabla-contenido">
@@ -252,7 +272,7 @@ export default function Peliculas({ pelis }) {
             </div>
             <div className="modal-body">
               {/* FORMULARIO AGREGAR PELICULA */}
-              <form className="row">
+              <form className="row" >
                 <div className="editar-izquierda col-6">
                   <div className="item-input">
                     <label htmlFor="nombre">Nombre</label>
@@ -263,10 +283,14 @@ export default function Peliculas({ pelis }) {
                       type="text"
                       placeholder=" Titanic"
                       id="nombre"
+                      // {...register("nombre", {
+                      //   required: true,
+                      // })}
                     />
+                    
                   </div>
                   <div className="item-input">
-                    <label htmlFor="nombre">Direccion</label>
+                    <label htmlFor="director">Direccion</label>
                     <input
                       onChange={handleChange}
                       name="director"
@@ -274,7 +298,11 @@ export default function Peliculas({ pelis }) {
                       type="text"
                       placeholder=" quien sabe"
                       id="director"
+                      // {...register("director", {
+                      //   required: true,
+                      // })}
                     />
+                    
                   </div>
                   <div className="item-input">
                     <label htmlFor="estreno">Estreno</label>
@@ -297,7 +325,6 @@ export default function Peliculas({ pelis }) {
                       placeholder="90 minutos"
                       id="duracion"
                     />
-                    <span className="mensaje-error">Complete este campo.</span>
                   </div>
                   <div className="item-input">
                     <label htmlFor="protagonistas">Protagonistas</label>
@@ -406,8 +433,8 @@ export default function Peliculas({ pelis }) {
                 Cerrar
               </button>
               <button
-                onClick={agregarItem}
-                type="button"
+                onClick={(e) => {validacion(e)}}
+                type="submit"
                 className="btn btn-primary"
               >
                 Guardar
