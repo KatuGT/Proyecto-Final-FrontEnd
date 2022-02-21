@@ -143,7 +143,7 @@ figure.nombre-item-row {
   background-color: rgb(175, 175, 175);
   position: absolute;
   left: 120%;
-  top: -600%;
+  top: -500%;
   border-radius: 1em 1em 1em 0;
   clip-path: circle(0% at 0% 100%);
   transition: all ease 1s;
@@ -154,4 +154,7 @@ figure.nombre-item-row {
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
 }
 
-
+.modal-footer .fa-times,
+.modal-footer  .fa-eraser{
+  margin-left: 0.5em;
+}

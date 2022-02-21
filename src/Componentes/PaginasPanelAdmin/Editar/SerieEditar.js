@@ -1,6 +1,7 @@
 import "./Editar.css";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import axios from "axios";
 
 export default function Pelicula() {
@@ -8,6 +9,7 @@ export default function Pelicula() {
   let { serieId } = useParams();
 
   const [serie, setSerie] = useState([]);
+
   useEffect(() => {
     async function getSerie() {
       try {
@@ -22,123 +24,187 @@ export default function Pelicula() {
     getSerie();
   }, [serieId]);
 
-  //ACTUALIZAR INFORMACION
+  //VALIDACIONES
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
 
-  const [updatedItem, setUpdatedItem] = useState({});
+  useEffect(() => {
+    reset(serie);
+  }, [serie, reset]);
 
-  function handleUpdate(event) {
-    if (event.target.name === "esPelicula") {
-      setUpdatedItem(() => {
-        return {
-          [event.target.name]: event.target.checked,
-        };
-      });
-    } else if (event.target.name === "destacada") {
-      setUpdatedItem(() => {
-        return {
-          [event.target.name]: event.target.checked,
-        };
-      });
-    } else {
-      const { name, value } = event.target;
-      setUpdatedItem(() => {
-        return {
-          [name]: value,
-        };
-      });
-    }
-  }
-
-  function actualizarItem(event) {
-    event.preventDefault();
-    const informacionActualizada = {
-      nombre: updatedItem.nombre,
-      director: updatedItem.director,
-      protagonistas: updatedItem.protagonistas,
-      duracion: updatedItem.duracion,
-      trailer: updatedItem.trailer,
-      imagenVertical: updatedItem.imagenVertical,
-      imagenHorizontal: updatedItem.imagenHorizontal,
-      fecha_de_Estreno: updatedItem.fecha_de_Estreno,
-      sinopsis: updatedItem.sinopsis,
-      genero: updatedItem.genero,
-      esPelicula: updatedItem.esPelicula,
-      destacada: updatedItem.destacada,
-    };
-    axios.put(`/films/${serieId}`, informacionActualizada);
+  async function actualizarItem(formData) {
+    await axios.put(`/films/${serieId}`, formData);
     window.location.reload();
-  }
+
+    }
 
   return (
     <div className="contenedor-principal-editar">
       <div className="pelicula">
         <div className="contenedor-titulo-pelicula">
-          <h2>Editar Pelicula</h2>
+          <h2>Editar Serie</h2>
         </div>
       </div>
       <div className="contenedor-info-editar">
         {/* FORMULARIO PARA EDITAR  */}
-        <form className="row" onSubmit={actualizarItem}>
+        <form className="row" onSubmit={handleSubmit(actualizarItem)}>
           <div className="editar-izquierda col-12 col-sm-6 col-xl-8">
             <div className="item-input">
               <label htmlFor="nombre">Nombre</label>
               <input
-                onChange={handleUpdate}
-                name="nombre"
                 type="text"
-                defaultValue={serie.nombre}
                 id="nombre"
+                {...register("nombre", {
+                  required: {
+                    value: true,
+                    message: "El campo es requerido.",
+                  },
+                  minLength: {
+                    value: 1,
+                    message: "Mínimo 1 caracter.",
+                  },
+                  maxLength: {
+                    value: 60,
+                    message: "Máximo  60 caracteres.",
+                  },
+                })}
               />
+              {errors.nombre && (
+                <span className="mensaje-error">{errors.nombre.message}</span>
+              )}
+            </div>
+            <div className="item-input">
+              <label htmlFor="director">Director/es</label>
+              <input
+                type="text"
+                id="director"
+                {...register("director", {
+                  required: {
+                    value: true,
+                    message: "El campo es requerido.",
+                  },
+                  minLength: {
+                    value: 1,
+                  },
+                })}
+              />
+              {errors.director && (
+                <span className="mensaje-error">{errors.director.message}</span>
+              )}
             </div>
             <div className="item-input">
               <label htmlFor="estreno">Estreno</label>
               <input
-                onChange={handleUpdate}
-                name="estreno"
                 type="text"
-                defaultValue={serie.fecha_de_Estreno}
                 id="estreno"
+                {...register("fecha_de_Estreno", {
+                  required: {
+                    value: true,
+                    message: "El campo es requerido.",
+                  },
+                  minLength: {
+                    value: 1,
+                  },
+                })}
               />
+              {errors.director && (
+                <span className="mensaje-error">
+                  {errors.fecha_de_Estreno.message}
+                </span>
+              )}
             </div>
             <div className="item-input">
-              <label htmlFor="duracion">Duración</label>
+              <div className="item-duracion">
+                <label htmlFor="duracion">Duración</label>
+                <p className="info duracion">?</p>
+              </div>
               <input
-                onChange={handleUpdate}
-                name="duracion"
                 type="text"
-                defaultValue={serie.duracion}
-                id="duracion"
+                {...register("duracion", {
+                  required: {
+                    value: true,
+                    message: "El campo es requerido.",
+                  },
+                  minLength: {
+                    value: 5,
+                    message:
+                      "Escriba la duracion en minutos de la pelicula o cantidad de episodios de la serie",
+                  },
+                })}
               />
+              {errors.duracion && (
+                <span className="mensaje-error">{errors.duracion.message}</span>
+              )}
             </div>
             <div className="item-input">
               <label htmlFor="protagonistas">Protagonistas</label>
               <input
-                onChange={handleUpdate}
-                name="protagonistas"
                 type="text"
-                defaultValue={serie.protagonistas}
                 id="protagonistas"
+                {...register("protagonistas", {
+                  required: {
+                    value: true,
+                    message: "El campo es requerido.",
+                  },
+                  minLength: {
+                    value: 5,
+                    message: "Minimo 6 caracteres",
+                  },
+                })}
               />
+              {errors.protagonistas && (
+                <span className="mensaje-error">
+                  {errors.protagonistas.message}
+                </span>
+              )}
             </div>
             <div className="item-input">
               <label htmlFor="sinopsis">Sinopsis</label>
-              <input
-                onChange={handleUpdate}
-                name="sinopsis"
+              <textarea
                 type="text"
-                defaultValue={serie.sinopsis}
                 id="sinopsis"
+                {...register("sinopsis", {
+                  required: {
+                    value: true,
+                    message: "El campo es requerido.",
+                  },
+                  minLength: {
+                    value: 100,
+                    message: "Minimo 100 caracteres.",
+                  },
+                })}
               />
+              {errors.sinopsis && (
+                <span className="mensaje-error">{errors.sinopsis.message}</span>
+              )}
             </div>
             <div className="item-input">
-              <label htmlFor="trailer">Trailer</label>
+              <div className="item-duracion">
+                <label htmlFor="trailer">Trailer</label>
+                <p className="info trailer">!</p>
+              </div>
               <input
-                onChange={handleUpdate}
-                name="trailer"
                 type="url"
-                defaultValue={serie.trailer}
                 id="trailer"
+                {...register("trailer", {
+                  required: {
+                    value: true,
+                    message: "El campo es requerido.",
+                  },
+                  minLength: {
+                    value: 5,
+                    message: "Minimo 6 caracteres",
+                  },
+                })}
               />
+              <p className="tipo">Debe ser tipo embebido.</p>
+              {errors.trailer && (
+                <span className="mensaje-error">{errors.trailer.message}</span>
+              )}
             </div>
           </div>
           <div className="editar-derecha col-12 col-sm-6 col-xl-4">
@@ -147,44 +213,69 @@ export default function Pelicula() {
                 Imagen vertical <i className="fas fa-arrows-alt-v"></i>
               </label>
               <input
-                onChange={handleUpdate}
-                name="imagenVertical"
                 type="url"
-                defaultValue={serie.imagenVertical}
                 id="imagenVertical"
+                {...register("imagenVertical", {
+                  required: {
+                    value: true,
+                    message: "El campo es requerido.",
+                  },
+                })}
               />
+              {errors.imagenVertical && (
+                <span className="mensaje-error">
+                  {errors.imagenVertical.message}
+                </span>
+              )}
             </div>
             <div className="item-input">
               <label htmlFor="imagenHorizontal">
                 Imagen horizontal <i className="fas fa-arrows-alt-h"></i>
               </label>
               <input
-                onChange={handleUpdate}
-                name="imagenHorizontal"
                 type="url"
-                defaultValue={serie.imagenHorizontal}
                 id="imagenHorizontal"
+                {...register("imagenHorizontal", {
+                  required: {
+                    value: true,
+                    message: "El campo es requerido.",
+                  },
+                })}
               />
+              {errors.imagenHorizontal && (
+                <span className="mensaje-error">
+                  {errors.imagenHorizontal.message}
+                </span>
+              )}
             </div>
             <div className="item-input">
               <label htmlFor="genero">Género</label>
               <input
-                onChange={handleUpdate}
-                name="genero"
                 type="text"
-                defaultValue={serie.genero}
                 id="genero"
+                {...register("genero", {
+                  required: {
+                    value: true,
+                    message: "El campo es requerido.",
+                  },
+                  minLength: {
+                    value: 5,
+                    message: "Minimo 6 caracteres.",
+                  },
+                })}
               />
+              {errors.genero && (
+                <span className="mensaje-error">{errors.genero.message}</span>
+              )}
             </div>
             <div className="item-input">
               <div className="opcion-tipo">
                 <label htmlFor="pelicula">¿Es una película?</label>
                 <input
-                  onChange={handleUpdate}
                   type="checkbox"
                   name="esPelicula"
                   id="pelicula"
-                  defaultValue={false}
+                  {...register("esPelicula")}
                 />
               </div>
             </div>
@@ -192,10 +283,10 @@ export default function Pelicula() {
               <div className="opcion-destacada">
                 <label htmlFor="destacada">¿Es destacada?</label>
                 <input
-                  onChange={handleUpdate}
                   type="checkbox"
                   name="destacada"
                   id="destacada"
+                  {...register("destacada")}
                 />
               </div>
             </div>

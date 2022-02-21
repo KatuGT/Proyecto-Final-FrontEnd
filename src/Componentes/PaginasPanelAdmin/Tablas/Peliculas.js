@@ -89,6 +89,7 @@ export default function Peliculas({ pelis }) {
       console.log(err);
     }
   };
+  console.log(films);
 
   useEffect(() => {
     getFilms();
@@ -268,7 +269,7 @@ export default function Peliculas({ pelis }) {
                     )}
                   </div>
                   <div className="item-input">
-                  <div className="item-duracion">
+                    <div className="item-duracion">
                       <label htmlFor="duracion">Duración</label>
                       <p className="info duracion">?</p>
                     </div>
@@ -467,7 +468,7 @@ export default function Peliculas({ pelis }) {
                 onClick={() => reset()}
               >
                 Borrar todo
-                 <i class="fas fa-eraser"></i>
+                <i className="fas fa-eraser"></i>
               </button>
               <button
                 type="button"
@@ -476,7 +477,7 @@ export default function Peliculas({ pelis }) {
                 id="cerrarModalAgregarItem"
                 onClick={() => clearErrors()}
               >
-                Cerrar <i class="fas fa-times"></i>
+                Cerrar <i className="fas fa-times"></i>
               </button>
             </div>
           </div>

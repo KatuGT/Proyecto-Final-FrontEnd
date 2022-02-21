@@ -77,10 +77,10 @@ export default function Series({ pelis }) {
     },
   ];
 
-  //MOSTRAR PELICULAS EN LISTA
+  //MOSTRAR SERIES EN LISTA
   const [series, setSeries] = useState([]);
 
-  const getSeries = async () => {
+  const getFilms = async () => {
     try {
       await axios.get(`http://localhost:8800/api/films/`).then((response) => {
         setSeries(response.data);
@@ -91,7 +91,7 @@ export default function Series({ pelis }) {
   };
 
   useEffect(() => {
-    getSeries();
+    getFilms();
   }, [pelis]);
 
   const sonSeries = series.filter((serie) => serie.esPelicula === false);
@@ -120,7 +120,7 @@ export default function Series({ pelis }) {
       const res = await axios.delete(`http://localhost:8800/api/films/` + id);
       if (res.status === 200) {
         console.log("item borrado");
-        getSeries();
+        getFilms();
       }
     }
   };
@@ -131,12 +131,12 @@ export default function Series({ pelis }) {
     handleSubmit,
     formState: { errors },
     reset,
-    clearErrors
+    clearErrors,
   } = useForm();
 
   async function addItem(formData) {
     await axios.post("/films", formData);
-    getSeries();
+    getFilms();
     reset();
   }
 
@@ -183,6 +183,7 @@ export default function Series({ pelis }) {
                 className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
+                onClick={() => clearErrors()}
               ></button>
             </div>
             <div className="modal-body">
@@ -244,6 +245,8 @@ export default function Series({ pelis }) {
                       type="number"
                       placeholder="2021"
                       id="estreno"
+                      max={2022}
+                      min={1500}
                       {...register("fecha_de_Estreno", {
                         required: {
                           value: true,
@@ -251,8 +254,12 @@ export default function Series({ pelis }) {
                             "El campo es requerido. Escriba el año, por ejemplo: 2021, 2020, 2019...",
                         },
                         minLength: {
-                          value: 3,
+                          value: 4,
                           message: "Mínimo 4 caracteres",
+                        },
+                        maxLength: {
+                          value: 4,
+                          message: "Maximo 4 caracteres",
                         },
                       })}
                     />
@@ -338,7 +345,6 @@ export default function Series({ pelis }) {
                   <div className="item-input">
                     <div className="item-duracion">
                       <label htmlFor="trailer">Trailer</label>
-                      
                       <p className="info trailer">!</p>
                     </div>
                     <input
@@ -378,10 +384,6 @@ export default function Series({ pelis }) {
                           value: true,
                           message: "El campo es requerido.",
                         },
-                        minLength: {
-                          value: 5,
-                          message: "Minimo 6 caracteres",
-                        },
                       })}
                     />
                     {errors.imagenVertical && (
@@ -402,10 +404,6 @@ export default function Series({ pelis }) {
                         required: {
                           value: true,
                           message: "El campo es requerido.",
-                        },
-                        minLength: {
-                          value: 5,
-                          message: "Minimo 6 caracteres",
                         },
                       })}
                     />
@@ -468,11 +466,19 @@ export default function Series({ pelis }) {
               <button
                 type="button"
                 className="btn btn-secondary"
+                onClick={() => reset()}
+              >
+                Borrar todo
+                <i className="fas fa-eraser"></i>
+              </button>
+              <button
+                type="button"
+                className="btn btn-danger"
                 data-bs-dismiss="modal"
                 id="cerrarModalAgregarItem"
                 onClick={() => clearErrors()}
               >
-                Cerrar
+                Cerrar <i className="fas fa-times"></i>
               </button>
             </div>
           </div>
