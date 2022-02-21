@@ -77,97 +77,6 @@ export default function Peliculas({ pelis }) {
     },
   ];
 
-  // AGREGAR NUEVA PELICULA
-  const [item, setItem] = useState({
-    nombre: "",
-    director: "",
-    protagonistas: "",
-    duracion: "",
-    trailer: "",
-    imagenVertical: "",
-    imagenHorizontal: "",
-    fecha_de_Estreno: "",
-    sinopsis: "",
-    genero: "",
-    destacada: false,
-    esPelicula: false,
-  });
-
-  function handleChange(event) {
-    if (event.target.name === "esPelicula") {
-      setItem((prevImput) => {
-        return {
-          ...prevImput,
-          [event.target.name]: event.target.checked,
-        };
-      });
-    } else if (event.target.name === "destacada") {
-      setItem((prevImput) => {
-        return {
-          ...prevImput,
-          [event.target.name]: event.target.checked,
-        };
-      });
-    } else {
-      const { name, value } = event.target;
-      setItem((prevImput) => {
-        return {
-          ...prevImput,
-          [name]: value,
-        };
-      });
-    }
-  }
-
-  const validacion = (event) => {
-    let validado = true;
-    Object.keys(item).forEach((key) => {
-      if (key === "destacada" || key === "esPelicula") return;
-      if (item[key].length < 2 || item[key].length > 100) {
-        alert(`Complete el campo ${key} correctamente.`);
-        validado = false;        
-      }
-    });
-    if(validado){
-      agregarItem(event)
-    }
-  };
-
-  async function agregarItem(event) {
-    event.preventDefault();
-    const nuevoItem = {
-      nombre: item.nombre,
-      director: item.director,
-      protagonistas: item.protagonistas,
-      duracion: item.duracion,
-      trailer: item.trailer,
-      imagenVertical: item.imagenVertical,
-      imagenHorizontal: item.imagenHorizontal,
-      fecha_de_Estreno: item.fecha_de_Estreno,
-      sinopsis: item.sinopsis,
-      genero: item.genero,
-      esPelicula: item.esPelicula,
-      destacada: item.destacada,
-    };
-    await axios.post("/films", nuevoItem);
-    //document.getElementById("cerrarModalAgregarItem").click();
-    setItem({
-      nombre: "",
-      director: "",
-      protagonistas: "",
-      duracion: "",
-      trailer: "",
-      imagenVertical: "",
-      imagenHorizontal: "",
-      fecha_de_Estreno: "",
-      sinopsis: "",
-      genero: "",
-      esPelicula: false,
-      destacada: false,
-    });
-    getFilms();
-  }
-
   //MOSTRAR PELICULAS EN LISTA
   const [films, setFilms] = useState([]);
 
@@ -215,16 +124,20 @@ export default function Peliculas({ pelis }) {
     }
   };
 
-  // VALIDACIONES
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   formState: { errors },
-  // } = useForm({});
+  //VALIDACIONES
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+    clearErrors,
+  } = useForm();
 
-  // const onSubmit = (data) => {
-  //   console.log(data);
-  // };
+  async function addItem(formData) {
+    await axios.post("/films", formData);
+    getFilms();
+    reset();
+  }
 
   return (
     <div className="tabla-contenido">
@@ -268,96 +181,191 @@ export default function Peliculas({ pelis }) {
                 className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
+                onClick={() => clearErrors()}
               ></button>
             </div>
             <div className="modal-body">
               {/* FORMULARIO AGREGAR PELICULA */}
-              <form className="row" >
+              <form className="row" onSubmit={handleSubmit(addItem)}>
                 <div className="editar-izquierda col-6">
                   <div className="item-input">
                     <label htmlFor="nombre">Nombre</label>
                     <input
-                      onChange={handleChange}
-                      name="nombre"
-                      value={item.nombre}
                       type="text"
                       placeholder=" Titanic"
                       id="nombre"
-                      // {...register("nombre", {
-                      //   required: true,
-                      // })}
+                      {...register("nombre", {
+                        required: {
+                          value: true,
+                          message: "El campo es requerido.",
+                        },
+                        minLength: {
+                          value: 1,
+                          message: "Mínimo 1 caracter.",
+                        },
+                        maxLength: {
+                          value: 60,
+                          message: "Máximo  60 caracteres.",
+                        },
+                      })}
                     />
-                    
+                    {errors.nombre && (
+                      <span className="mensaje-error">
+                        {errors.nombre.message}
+                      </span>
+                    )}
                   </div>
                   <div className="item-input">
-                    <label htmlFor="director">Direccion</label>
+                    <label htmlFor="director">Director/es</label>
                     <input
-                      onChange={handleChange}
-                      name="director"
-                      value={item.director}
                       type="text"
                       placeholder=" quien sabe"
                       id="director"
-                      // {...register("director", {
-                      //   required: true,
-                      // })}
+                      {...register("director", {
+                        required: {
+                          value: true,
+                          message: "El campo es requerido.",
+                        },
+                        minLength: {
+                          value: 1,
+                        },
+                      })}
                     />
-                    
+                    {errors.director && (
+                      <span className="mensaje-error">
+                        {errors.director.message}
+                      </span>
+                    )}
                   </div>
                   <div className="item-input">
                     <label htmlFor="estreno">Estreno</label>
                     <input
-                      onChange={handleChange}
-                      name="fecha_de_Estreno"
-                      value={item.fecha_de_Estreno}
                       type="number"
                       placeholder="2021"
                       id="estreno"
+                      max={2022}
+                      min={1500}
+                      {...register("fecha_de_Estreno", {
+                        required: {
+                          value: true,
+                          message:
+                            "El campo es requerido. Escriba el año, por ejemplo: 2021, 2020, 2019...",
+                        },
+                        minLength: {
+                          value: 4,
+                          message: "Mínimo 4 caracteres",
+                        },
+                        maxLength: {
+                          value: 4,
+                          message: "Maximo 4 caracteres",
+                        },
+                      })}
                     />
+                    {errors.fecha_de_Estreno && (
+                      <span className="mensaje-error">
+                        {errors.fecha_de_Estreno.message}
+                      </span>
+                    )}
                   </div>
                   <div className="item-input">
-                    <label htmlFor="duracion">Duración</label>
+                  <div className="item-duracion">
+                      <label htmlFor="duracion">Duración</label>
+                      <p className="info duracion">?</p>
+                    </div>
                     <input
-                      onChange={handleChange}
-                      name="duracion"
-                      value={item.duracion}
                       type="text"
                       placeholder="90 minutos"
                       id="duracion"
+                      {...register("duracion", {
+                        required: {
+                          value: true,
+                          message: "El campo es requerido.",
+                        },
+                        minLength: {
+                          value: 5,
+                          message:
+                            "Escriba la duracion en minutos de la pelicula o cantidad de episodios de la serie",
+                        },
+                      })}
                     />
+                    {errors.duracion && (
+                      <span className="mensaje-error">
+                        {errors.duracion.message}
+                      </span>
+                    )}
                   </div>
                   <div className="item-input">
                     <label htmlFor="protagonistas">Protagonistas</label>
                     <input
-                      onChange={handleChange}
-                      name="protagonistas"
-                      value={item.protagonistas}
                       type="text"
                       placeholder="Leonardo Di Caprio"
                       id="protagonistas"
+                      {...register("protagonistas", {
+                        required: {
+                          value: true,
+                          message: "El campo es requerido.",
+                        },
+                        minLength: {
+                          value: 5,
+                          message: "Minimo 6 caracteres",
+                        },
+                      })}
                     />
+                    {errors.protagonistas && (
+                      <span className="mensaje-error">
+                        {errors.protagonistas.message}
+                      </span>
+                    )}
                   </div>
                   <div className="item-input">
                     <label htmlFor="sinopsis">Sinopsis</label>
-                    <input
-                      onChange={handleChange}
-                      name="sinopsis"
-                      value={item.sinopsis}
+                    <textarea
                       type="text"
                       placeholder="bla bla"
                       id="sinopsis"
+                      {...register("sinopsis", {
+                        required: {
+                          value: true,
+                          message: "El campo es requerido.",
+                        },
+                        minLength: {
+                          value: 100,
+                          message: "Minimo 100 caracteres.",
+                        },
+                      })}
                     />
+                    {errors.sinopsis && (
+                      <span className="mensaje-error">
+                        {errors.sinopsis.message}
+                      </span>
+                    )}
                   </div>
                   <div className="item-input">
-                    <label htmlFor="trailer">Trailer</label>
+                    <div className="item-duracion">
+                      <label htmlFor="trailer">Trailer</label>
+                      <p className="info trailer">!</p>
+                    </div>
                     <input
-                      onChange={handleChange}
-                      name="trailer"
-                      value={item.trailer}
                       type="url"
                       placeholder="https://www.youtube.com/embed/..."
                       id="trailer"
+                      {...register("trailer", {
+                        required: {
+                          value: true,
+                          message: "El campo es requerido.",
+                        },
+                        minLength: {
+                          value: 5,
+                          message: "Minimo 6 caracteres",
+                        },
+                      })}
                     />
+                    <p className="tipo">Debe ser tipo embebido.</p>
+                    {errors.trailer && (
+                      <span className="mensaje-error">
+                        {errors.trailer.message}
+                      </span>
+                    )}
                   </div>
                 </div>
                 <div className="editar-derecha col-6">
@@ -366,46 +374,73 @@ export default function Peliculas({ pelis }) {
                       Imagen vertical <i className="fas fa-arrows-alt-v"></i>
                     </label>
                     <input
-                      onChange={handleChange}
-                      name="imagenVertical"
-                      value={item.imagenVertical}
                       type="url"
                       placeholder="https://picsum.photos/id/237/200/300"
                       id="imagenVertical"
+                      {...register("imagenVertical", {
+                        required: {
+                          value: true,
+                          message: "El campo es requerido.",
+                        },
+                      })}
                     />
+                    {errors.imagenVertical && (
+                      <span className="mensaje-error">
+                        {errors.imagenVertical.message}
+                      </span>
+                    )}
                   </div>
                   <div className="item-input">
                     <label htmlFor="imagenHorizontal">
                       Imagen horizontal <i className="fas fa-arrows-alt-h"></i>
                     </label>
                     <input
-                      onChange={handleChange}
-                      name="imagenHorizontal"
-                      value={item.imagenHorizontal}
                       type="url"
                       placeholder="https://picsum.photos/id/237/200/300"
                       id="imagenHorizontal"
+                      {...register("imagenHorizontal", {
+                        required: {
+                          value: true,
+                          message: "El campo es requerido.",
+                        },
+                      })}
                     />
+                    {errors.imagenHorizontal && (
+                      <span className="mensaje-error">
+                        {errors.imagenHorizontal.message}
+                      </span>
+                    )}
                   </div>
                   <div className="item-input">
                     <label htmlFor="genero">Género</label>
                     <input
-                      onChange={handleChange}
-                      name="genero"
-                      value={item.genero}
                       type="text"
                       placeholder="Romance"
                       id="genero"
+                      {...register("genero", {
+                        required: {
+                          value: true,
+                          message: "El campo es requerido.",
+                        },
+                        minLength: {
+                          value: 5,
+                          message: "Minimo 6 caracteres.",
+                        },
+                      })}
                     />
+                    {errors.genero && (
+                      <span className="mensaje-error">
+                        {errors.genero.message}
+                      </span>
+                    )}
                   </div>
                   <div className="item-input">
                     <div className="opcion-tipo">
                       <label htmlFor="pelicula">¿Es una pelicula?</label>
                       <input
-                        onChange={handleChange}
                         type="checkbox"
-                        name="esPelicula"
                         id="pelicula"
+                        {...register("esPelicula")}
                       />
                     </div>
                   </div>
@@ -413,31 +448,35 @@ export default function Peliculas({ pelis }) {
                     <div className="opcion-destacada">
                       <label htmlFor="destacada">¿Es destacada?</label>
                       <input
-                        onChange={handleChange}
                         type="checkbox"
-                        name="destacada"
                         id="destacada"
+                        {...register("destacada")}
                       />
                     </div>
                   </div>
                 </div>
+                <button type="submit" className="btn btn-primary">
+                  Guardar
+                </button>
               </form>
             </div>
             <div className="modal-footer">
               <button
                 type="button"
                 className="btn btn-secondary"
-                data-bs-dismiss="modal"
-                id="cerrarModalAgregarItem"
+                onClick={() => reset()}
               >
-                Cerrar
+                Borrar todo
+                 <i class="fas fa-eraser"></i>
               </button>
               <button
-                onClick={(e) => {validacion(e)}}
-                type="submit"
-                className="btn btn-primary"
+                type="button"
+                className="btn btn-danger"
+                data-bs-dismiss="modal"
+                id="cerrarModalAgregarItem"
+                onClick={() => clearErrors()}
               >
-                Guardar
+                Cerrar <i class="fas fa-times"></i>
               </button>
             </div>
           </div>
