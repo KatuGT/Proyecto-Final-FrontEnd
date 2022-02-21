@@ -130,13 +130,14 @@ export default function Series({ pelis }) {
     register,
     handleSubmit,
     formState: { errors },
-    reset
+    reset,
+    clearErrors
   } = useForm();
 
   async function addItem(formData) {
-    await axios.post("/films", formData)
-    getSeries()
-    reset()
+    await axios.post("/films", formData);
+    getSeries();
+    reset();
   }
 
   return (
@@ -190,7 +191,7 @@ export default function Series({ pelis }) {
                 <div className="editar-izquierda col-6">
                   <div className="item-input">
                     <label htmlFor="nombre">Nombre</label>
-                    <input                      
+                    <input
                       type="text"
                       placeholder=" Titanic"
                       id="nombre"
@@ -202,10 +203,11 @@ export default function Series({ pelis }) {
                         minLength: {
                           value: 1,
                           message: "Mínimo 1 caracter.",
-                        },maxLength: {
+                        },
+                        maxLength: {
                           value: 60,
                           message: "Máximo  60 caracteres.",
-                        }
+                        },
                       })}
                     />
                     {errors.nombre && (
@@ -216,7 +218,7 @@ export default function Series({ pelis }) {
                   </div>
                   <div className="item-input">
                     <label htmlFor="nombre">Director/es</label>
-                    <input   
+                    <input
                       type="text"
                       placeholder=" quien sabe"
                       id="director"
@@ -226,8 +228,8 @@ export default function Series({ pelis }) {
                           message: "El campo es requerido.",
                         },
                         minLength: {
-                          value: 1,                          
-                        }
+                          value: 1,
+                        },
                       })}
                     />
                     {errors.director && (
@@ -238,17 +240,18 @@ export default function Series({ pelis }) {
                   </div>
                   <div className="item-input">
                     <label htmlFor="estreno">Estreno</label>
-                    <input 
+                    <input
                       type="number"
                       placeholder="2021"
                       id="estreno"
                       {...register("fecha_de_Estreno", {
                         required: {
                           value: true,
-                          message: "El campo es requerido.",
+                          message:
+                            "El campo es requerido. Escriba el año, por ejemplo: 2021, 2020, 2019...",
                         },
                         minLength: {
-                          value: 5,
+                          value: 3,
                           message: "Mínimo 4 caracteres",
                         },
                       })}
@@ -260,21 +263,23 @@ export default function Series({ pelis }) {
                     )}
                   </div>
                   <div className="item-input">
-                    <label htmlFor="duracion">Duración</label>
+                    <div className="item-duracion">
+                      <label htmlFor="duracion">Duración</label>
+                      <p className="info duracion">?</p>
+                    </div>
                     <input
-                      // onChange={handleChange}
-                      // value={item.duracion}
                       type="text"
                       placeholder="90 minutos"
                       id="duracion"
                       {...register("duracion", {
                         required: {
                           value: true,
-                          message: "El campo es requerido",
+                          message: "El campo es requerido.",
                         },
                         minLength: {
                           value: 5,
-                          message: "Minimo 6 caracteres",
+                          message:
+                            "Escriba la duracion en minutos de la pelicula o cantidad de episodios de la serie",
                         },
                       })}
                     />
@@ -287,15 +292,13 @@ export default function Series({ pelis }) {
                   <div className="item-input">
                     <label htmlFor="protagonistas">Protagonistas</label>
                     <input
-                      // onChange={handleChange}
-                      // value={item.protagonistas}
                       type="text"
                       placeholder="Leonardo Di Caprio"
                       id="protagonistas"
                       {...register("protagonistas", {
                         required: {
                           value: true,
-                          message: "El campo es requerido",
+                          message: "El campo es requerido.",
                         },
                         minLength: {
                           value: 5,
@@ -311,22 +314,20 @@ export default function Series({ pelis }) {
                   </div>
                   <div className="item-input">
                     <label htmlFor="sinopsis">Sinopsis</label>
-                    <input
-                      // onChange={handleChange}
-                      // value={item.sinopsis}
-                      type="text"
+                    <textarea
+                      type=""
                       placeholder="bla bla"
                       id="sinopsis"
                       {...register("sinopsis", {
                         required: {
                           value: true,
-                          message: "El campo es requerido",
+                          message: "El campo es requerido.",
                         },
                         minLength: {
-                          value: 5,
-                          message: "Minimo 6 caracteres",
+                          value: 100,
+                          message: "Minimo 100 caracteres.",
                         },
-                      })}                      
+                      })}
                     />
                     {errors.sinopsis && (
                       <span className="mensaje-error">
@@ -335,17 +336,19 @@ export default function Series({ pelis }) {
                     )}
                   </div>
                   <div className="item-input">
-                    <label htmlFor="trailer">Trailer</label>
+                    <div className="item-duracion">
+                      <label htmlFor="trailer">Trailer</label>
+                      
+                      <p className="info trailer">!</p>
+                    </div>
                     <input
-                      // onChange={handleChange}
-                      // value={item.trailer}
                       type="url"
                       placeholder="https://www.youtube.com/embed/...."
                       id="trailer"
                       {...register("trailer", {
                         required: {
                           value: true,
-                          message: "El campo es requerido",
+                          message: "El campo es requerido.",
                         },
                         minLength: {
                           value: 5,
@@ -353,6 +356,7 @@ export default function Series({ pelis }) {
                         },
                       })}
                     />
+                    <p className="tipo">Debe ser tipo embebido.</p>
                     {errors.trailer && (
                       <span className="mensaje-error">
                         {errors.trailer.message}
@@ -366,15 +370,13 @@ export default function Series({ pelis }) {
                       Imagen vertical <i className="fas fa-arrows-alt-v"></i>
                     </label>
                     <input
-                      // onChange={handleChange}
-                      // value={item.imagenVertical}
                       type="url"
                       placeholder="https://picsum.photos/id/237/200/300"
                       id="imagenVertical"
                       {...register("imagenVertical", {
                         required: {
                           value: true,
-                          message: "El campo es requerido",
+                          message: "El campo es requerido.",
                         },
                         minLength: {
                           value: 5,
@@ -393,15 +395,13 @@ export default function Series({ pelis }) {
                       Imagen horizontal <i className="fas fa-arrows-alt-h"></i>
                     </label>
                     <input
-                      // onChange={handleChange}
-                      // value={item.imagenHorizontal}
                       type="url"
                       placeholder="https://picsum.photos/id/237/200/300"
                       id="imagenHorizontal"
                       {...register("imagenHorizontal", {
                         required: {
                           value: true,
-                          message: "El campo es requerido",
+                          message: "El campo es requerido.",
                         },
                         minLength: {
                           value: 5,
@@ -418,19 +418,17 @@ export default function Series({ pelis }) {
                   <div className="item-input">
                     <label htmlFor="genero">Género</label>
                     <input
-                      // onChange={handleChange}
-                      // value={item.genero}
                       type="text"
                       placeholder="Romance"
                       id="genero"
                       {...register("genero", {
                         required: {
                           value: true,
-                          message: "El campo es requerido",
+                          message: "El campo es requerido.",
                         },
                         minLength: {
                           value: 5,
-                          message: "Minimo 6 caracteres",
+                          message: "Minimo 6 caracteres.",
                         },
                       })}
                     />
@@ -442,9 +440,8 @@ export default function Series({ pelis }) {
                   </div>
                   <div className="item-input">
                     <div className="opcion-tipo">
-                      <label htmlFor="pelicula">¿Es una pelicula?</label>
+                      <label htmlFor="pelicula">¿Es una película?</label>
                       <input
-                        // onChange={handleChange}
                         type="checkbox"
                         id="pelicula"
                         {...register("esPelicula")}
@@ -455,7 +452,6 @@ export default function Series({ pelis }) {
                     <div className="opcion-destacada">
                       <label htmlFor="destacada">¿Es destacada?</label>
                       <input
-                        //onChange={handleChange}
                         type="checkbox"
                         id="destacada"
                         {...register("destacada")}
@@ -463,11 +459,7 @@ export default function Series({ pelis }) {
                     </div>
                   </div>
                 </div>
-                <button
-                  //onClick={handleSubmit(agregarItem)}
-                  type="submit"
-                  className="btn btn-primary"
-                >
+                <button type="submit" className="btn btn-primary">
                   Guardar
                 </button>
               </form>
@@ -478,6 +470,7 @@ export default function Series({ pelis }) {
                 className="btn btn-secondary"
                 data-bs-dismiss="modal"
                 id="cerrarModalAgregarItem"
+                onClick={() => clearErrors()}
               >
                 Cerrar
               </button>

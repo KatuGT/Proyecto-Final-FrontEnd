@@ -61,26 +61,24 @@ figure.nombre-item-row {
 }
 
 .acciones .fa-user-edit,
-.acciones .fa-trash-alt
- {
+.acciones .fa-trash-alt {
   font-size: 1.5em;
   margin: 0 0.5em;
   cursor: pointer;
   opacity: 0.5;
 }
 
-.acciones .fa-user-edit{
+.acciones .fa-user-edit {
   color: var(--clr-morado1);
 }
 
-.acciones .fa-trash-alt{
-  color:  #ff0000;
+.acciones .fa-trash-alt {
+  color: #ff0000;
 }
 
 .acciones .fas:hover {
   opacity: 1;
 }
-
 
 /* MODAL */
 .modal {
@@ -88,8 +86,72 @@ figure.nombre-item-row {
   z-index: 99999999;
 }
 
-.mensaje-error{
+.mensaje-error {
   color: red;
   font-size: 10px;
 }
+
+/* INFO ADICIONAL INPUT */
+.item-duracion {
+  display: flex;
+  align-items: center;
+}
+
+.item-duracion .info {
+  background-color: rgb(223, 222, 222);
+  border: 0.5px solid rgb(219, 219, 219);
+  color: #fff;
+  font-size: 0.7em;
+  height: 1.5em;
+  width: 1.5em;
+  border-radius: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0;
+  cursor: pointer;
+  position: relative;
+}
+
+.item-duracion .info.trailer{
+  background-color: #ff0000;
+}
+.item-duracion .info.duracion::after {
+  font-size: 1.2em;
+  padding: 0.5em;
+  content: "Películas: duración en minutos. Series: cantidad de episodios. ";
+  width: 10em;
+  background-color: rgb(175, 175, 175);
+  position: absolute;
+  left: 120%;
+  top: -600%;
+  border-radius: 1em 1em 1em 0;
+  clip-path: circle(0% at 0% 100%);
+  transition: all ease 1s;
+}
+
+.item-input .tipo{
+  margin-bottom: 0;
+  font-size: 0.8em;
+}
+
+.item-duracion .info.trailer::after{
+  font-size: 1.2em;
+  padding: 0.5em;
+  content: 'Si el enlace no es "embebido", no se mostrara el video. Para mas información, usá Google.';
+  width: 15em;
+  background-color: rgb(175, 175, 175);
+  position: absolute;
+  left: 120%;
+  top: -600%;
+  border-radius: 1em 1em 1em 0;
+  clip-path: circle(0% at 0% 100%);
+  transition: all ease 1s;
+}
+
+.item-duracion .info:hover::after {
+  clip-path: circle(100% at 50% 50%);
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+}
+
 
