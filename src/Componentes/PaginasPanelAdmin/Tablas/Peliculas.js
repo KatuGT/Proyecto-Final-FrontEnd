@@ -134,6 +134,8 @@ export default function Peliculas({ pelis }) {
     clearErrors,
   } = useForm();
 
+  const anioActual = new Date().getFullYear()
+
   async function addItem(formData) {
     await axios.post("/films", formData);
     getFilms();
@@ -437,7 +439,7 @@ export default function Peliculas({ pelis }) {
                   </div>
                   <div className="item-input">
                     <div className="opcion-tipo">
-                      <label htmlFor="pelicula">¿Es una pelicula?</label>
+                      <label htmlFor="pelicula">¿Es una película?</label>
                       <input
                         type="checkbox"
                         id="pelicula"

@@ -21,15 +21,15 @@ export default function Sidebar() {
                   <i className="fas fa-users"></i> <p>Usuarios</p>
                 </li>
               </NavLink>
-              <hr />{" "}
+              <hr />
               <NavLink to="peliculas" className="link" activeclassname="active-link">
                 <li className="sidebar-item">
-                  <i className="fas fa-film"></i> <p>Peliculas</p>
+                  <i className="fas fa-film"></i> <p>Películas</p>
                 </li>
               </NavLink>
-              <NavLink to="listapeliculas" className="link" activeclassname="active-link">
+              <NavLink to="listapelículas" className="link" activeclassname="active-link">
                 <li className="sidebar-item">
-                <i className="fas fa-list"></i> <p>Categorias de Peliculas</p>
+                <i className="fas fa-list"></i> <p>Categorias de Películas</p>
                 </li>
               </NavLink>
               <hr />

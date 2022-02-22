@@ -32,6 +32,8 @@ export default function Pelicula() {
     reset,
   } = useForm();
 
+  const anioActual = new Date().getFullYear();
+
   useEffect(() => {
     reset(serie);
   }, [serie, reset]);
@@ -39,8 +41,7 @@ export default function Pelicula() {
   async function actualizarItem(formData) {
     await axios.put(`/films/${serieId}`, formData);
     window.location.reload();
-
-    }
+  }
 
   return (
     <div className="contenedor-principal-editar">
@@ -99,8 +100,10 @@ export default function Pelicula() {
             <div className="item-input">
               <label htmlFor="estreno">Estreno</label>
               <input
-                type="text"
+                type="number"
                 id="estreno"
+                max={anioActual}
+                min={1500}
                 {...register("fecha_de_Estreno", {
                   required: {
                     value: true,
@@ -124,6 +127,7 @@ export default function Pelicula() {
               </div>
               <input
                 type="text"
+                id="duracion"
                 {...register("duracion", {
                   required: {
                     value: true,
