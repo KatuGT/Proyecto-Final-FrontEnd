@@ -2,6 +2,7 @@ import "./Tabla.css";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
 import axios from "axios";
 
 export default function ListasPeliculas({ Lista }) {
@@ -43,51 +44,14 @@ export default function ListasPeliculas({ Lista }) {
     },
   ];
 
-  // AGREGAR NUEVA PELICULA
-  const [item, setItem] = useState({
-    nombre: "",
-    tipo: "",
-    genero: "",
-  });
-
-  function handleChange(event) {
-    const { name, value } = event.target;
-    setItem((prevImput) => {
-      return {
-        ...prevImput,
-        [name]: value,
-      };
-    });
-  }
-
-  async function agregarItem(event) {
-    event.preventDefault();
-    const nuevoItem = {
-      nombre: item.nombre,
-      tipo: item.tipo,
-      genero: item.genero,
-    };
-    const resultado = await axios.post("/listafilms", nuevoItem);
-    document.getElementById("cerrarModalAgregarLista").click();
-    setListas([resultado.data, ...listas]);
-    setItem({
-      nombre: "",
-      tipo: "",
-      genero: "",
-    });
-  }
-
   //MOSTRAR LISTAS
   const [listas, setListas] = useState([]);
-  const [listasSeries, setListasSeries] = useState([]);
 
   const getListas = async () => {
     try {
-      axios
-        .get(`http://localhost:8800/api/listafilms/`)
-        .then((response) => {
-          setListas(response.data);
-        });
+     await axios.get(`http://localhost:8800/api/listafilms/`).then((response) => {
+        setListas(response.data);
+      });
     } catch (err) {
       console.log(err);
     }
@@ -96,6 +60,8 @@ export default function ListasPeliculas({ Lista }) {
   useEffect(() => {
     getListas();
   }, [Lista]);
+
+  const [listasSeries, setListasSeries] = useState([]);
 
   useEffect(() => {
     if (listas) {
@@ -114,6 +80,8 @@ export default function ListasPeliculas({ Lista }) {
     return listaActual;
   });
 
+
+
   // BORRAR LISTA
   const history = useNavigate();
 
@@ -129,6 +97,22 @@ export default function ListasPeliculas({ Lista }) {
       }
     }
   };
+
+  //VALIDACIONES
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+    clearErrors,
+  } = useForm();
+
+  // AGREGAR NUEVA PELICULA
+  async function agregarItem(formData) {
+    await axios.post("/listafilms", formData);
+    getListas();
+    reset();
+  }
 
   return (
     <div className="tabla-contenido">
@@ -176,63 +160,99 @@ export default function ListasPeliculas({ Lista }) {
             </div>
             <div className="modal-body">
               {/* FORMULARIO AGREGAR LISTAS */}
-              <form className="row">
+              <form className="row" onSubmit={handleSubmit(agregarItem)}>
                 <div className="editar-izquierda col-6">
                   <div className="item-input">
                     <label htmlFor="nombre">Nombre</label>
                     <input
-                      onChange={handleChange}
-                      name="nombre"
-                      value={item.nombre}
                       type="text"
                       placeholder="Series de Drama"
                       id="nombre"
+                      {...register("nombre", {
+                        required: {
+                          value: true,
+                          message: "El campo es requerido.",
+                        },
+                        minLength: {
+                          value: 1,
+                          message: "Mínimo 1 caracter.",
+                        },
+                        maxLength: {
+                          value: 60,
+                          message: "Máximo  60 caracteres.",
+                        },
+                      })}
                     />
+                    {errors.nombre && (
+                      <span className="mensaje-error">
+                        {errors.nombre.message}
+                      </span>
+                    )}
                   </div>
                   <div className="item-input">
                     <label htmlFor="genero">Género</label>
                     <input
-                      onChange={handleChange}
-                      name="genero"
-                      value={item.genero}
                       type="text"
                       placeholder="Drama"
                       id="genero"
-                      required
+                      {...register("genero", {
+                        required: {
+                          value: true,
+                          message: "El campo es requerido.",
+                        },
+                        minLength: {
+                          value: 5,
+                          message: "Minimo 6 caracteres.",
+                        },
+                      })}
                     />
+                    {errors.genero && (
+                      <span className="mensaje-error">
+                        {errors.genero.message}
+                      </span>
+                    )}
                   </div>
                 </div>
                 <div className="editar-derecha col-6">
                   <div className="item-input">
                     <label>Contenido</label>
-                    <p className="aviso-contenido">
-                      Lo agregaras luedo de creada la lista
-                    </p>
+                    <input
+                      type="text"
+                      placeholder="Lo agregaras luego"
+                      id="contenido"
+                      disabled
+                      {...register("contenido", {
+                        required: {
+                          value: false,
+                        },
+                      })}
+                    />
                   </div>
                   <div className="item-input radiobutton">
                     <span>Es una lista de...</span>
                     <div className="elegir">
                       <input
-                        onChange={handleChange}
-                        name="tipo"
                         type="radio"
                         value="pelicula"
                         id="esPelicula"
+                        {...register("tipo")}
                       />
                       <label htmlFor="esPelicula">Peliculas</label>
                     </div>
                     <div className="elegir">
                       <input
-                        onChange={handleChange}
-                        name="tipo"
                         type="radio"
                         value="serie"
                         id="esSerie"
+                        {...register("tipo")}
                       />
                       <label htmlFor="esSerie">Series</label>
                     </div>
                   </div>
                 </div>
+                <button type="submit" className="btn btn-primary">
+                  Guardar
+                </button>
               </form>
             </div>
             <div className="modal-footer">
@@ -241,15 +261,9 @@ export default function ListasPeliculas({ Lista }) {
                 className="btn btn-secondary"
                 data-bs-dismiss="modal"
                 id="cerrarModalAgregarLista"
+                onClick={() => clearErrors()}
               >
-                Cerrar
-              </button>
-              <button
-                onClick={agregarItem}
-                type="button"
-                className="btn btn-primary"
-              >
-                Guardar
+                Cerrar <i className="fas fa-times"></i>
               </button>
             </div>
           </div>

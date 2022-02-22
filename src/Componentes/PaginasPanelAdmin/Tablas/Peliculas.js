@@ -134,7 +134,6 @@ export default function Peliculas({ pelis }) {
     clearErrors,
   } = useForm();
 
-  const anioActual = new Date().getFullYear()
 
   async function addItem(formData) {
     await axios.post("/films", formData);

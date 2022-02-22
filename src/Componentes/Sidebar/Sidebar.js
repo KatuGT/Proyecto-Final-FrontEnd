@@ -27,7 +27,7 @@ export default function Sidebar() {
                   <i className="fas fa-film"></i> <p>Películas</p>
                 </li>
               </NavLink>
-              <NavLink to="listapelículas" className="link" activeclassname="active-link">
+              <NavLink to="listapeliculas" className="link" activeclassname="active-link">
                 <li className="sidebar-item">
                 <i className="fas fa-list"></i> <p>Categorias de Películas</p>
                 </li>
