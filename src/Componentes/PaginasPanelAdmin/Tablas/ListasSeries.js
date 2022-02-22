@@ -61,6 +61,9 @@ export default function ListasPeliculas({ Lista }) {
     getListas();
   }, [Lista]);
 
+
+
+    //FILTRAR LISTAR PARA MOSTRAR EN LA TABLA
   const [listasSeries, setListasSeries] = useState([]);
 
   useEffect(() => {
@@ -107,7 +110,7 @@ export default function ListasPeliculas({ Lista }) {
     clearErrors,
   } = useForm();
 
-  // AGREGAR NUEVA PELICULA
+  // AGREGAR NUEVA LISTA
   async function agregarItem(formData) {
     await axios.post("/listafilms", formData);
     getListas();
@@ -156,6 +159,7 @@ export default function ListasPeliculas({ Lista }) {
                 className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
+                onClick={() => clearErrors()}
               ></button>
             </div>
             <div className="modal-body">
@@ -204,6 +208,10 @@ export default function ListasPeliculas({ Lista }) {
                           value: 5,
                           message: "Minimo 6 caracteres.",
                         },
+                        pattern: {
+                          value: /^[A-Za-z]+$/i,
+                          message: "Solo letras de la A a la Z"
+                        } 
                       })}
                     />
                     {errors.genero && (
@@ -216,17 +224,9 @@ export default function ListasPeliculas({ Lista }) {
                 <div className="editar-derecha col-6">
                   <div className="item-input">
                     <label>Contenido</label>
-                    <input
-                      type="text"
-                      placeholder="Lo agregaras luego"
-                      id="contenido"
-                      disabled
-                      {...register("contenido", {
-                        required: {
-                          value: false,
-                        },
-                      })}
-                    />
+                    <p className="aviso-contenido">
+                      Lo agregaras luedo de creada la lista
+                    </p>
                   </div>
                   <div className="item-input radiobutton">
                     <span>Es una lista de...</span>
@@ -237,13 +237,14 @@ export default function ListasPeliculas({ Lista }) {
                         id="esPelicula"
                         {...register("tipo")}
                       />
-                      <label htmlFor="esPelicula">Peliculas</label>
+                      <label htmlFor="esPelicula">Películas</label>
                     </div>
                     <div className="elegir">
                       <input
                         type="radio"
                         value="serie"
                         id="esSerie"
+                        defaultChecked
                         {...register("tipo")}
                       />
                       <label htmlFor="esSerie">Series</label>
