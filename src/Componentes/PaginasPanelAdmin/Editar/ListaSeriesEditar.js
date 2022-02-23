@@ -99,26 +99,23 @@ export default function Pelicula() {
   //ACTUALIZAR INFORMACION
 
   async function actualizarItem(formData) {
+    console.log(formData);
     await axios.put(`/listafilms/find/${listaId}`, formData);
     getListas();
     window.location.reload();
   }
 
-  //ACTUALIZANDO CONTENIDO
-  const [select, setSelect] = useState("");
+  //AGREGAR CONTENIDO A LISTA
+  const { register: registerB, handleSubmit: handleSubmitB } = useForm();
 
-  async function agregarIDenArray(event) {
-    event.preventDefault();
-    if (select) {
-      const respuesta = await axios.post(
-        `/listafilms/${listaId}/agregarfilm/${select}`
-      );
-      setSelect("");
-      document.getElementById("cerrarAgregarItemLista").click();
-      setContenido(respuesta.data.contenido);
-    } else {
-      alert("Seleccione de la lista");
-    }
+  async function agregarIDenArray(formData) {
+    console.log(formData.contenido);
+    const respuesta = await axios.post(
+      `/listafilms/${listaId}/agregarfilm/${formData.contenido}`
+    );
+    document.getElementById("cerrarAgregarItemLista").click();
+    setContenido(respuesta);
+    getListas();
   }
 
   //Borrar ID de Contenido
@@ -142,9 +139,7 @@ export default function Pelicula() {
           <div className="editar-izquierda col-12 row ">
             <div className="item-input col-xl-5">
               <label htmlFor="nombre">Nombre</label>
-
               <input
-                name="nombre"
                 type="text"
                 id="nombre"
                 {...register("nombre", {
@@ -153,7 +148,7 @@ export default function Pelicula() {
                     message: "El campo es requerido.",
                   },
                   minLength: {
-                    value: 1,
+                    value: 8,
                     message: "Mínimo 8 caracter.",
                   },
                   maxLength: {
@@ -252,7 +247,6 @@ export default function Pelicula() {
                 <h5 className="modal-title" id="exampleModalLabel">
                   Seleccione la serie
                 </h5>
-
                 <button
                   type="button"
                   id="cerrarAgregarItemLista"
@@ -264,20 +258,22 @@ export default function Pelicula() {
 
               <div className="modal-body">
                 {/* FORMULARIO AGREGAR SERIE A LA LISTAS*/}
-                <form className="row" >
+                <form
+                  className="row"
+                  onSubmit={handleSubmitB(agregarIDenArray)}
+                >
                   <div className="editar-izquierda col-6">
                     <div className="item-input">
                       <label htmlFor="nombre">Nombre</label>
-                      <select 
-                      name="select"
-                      onChange={(e) => setSelect(e.target.value)}
-                      >
+                      <select {...registerB("contenido")}>
                         <option disabled selected>
                           Seleccione...
                         </option>
                         {films.map((film, index) =>
                           film.esPelicula !== true ? (
-                            <option key={index} value={film._id}>{film.nombre}</option>
+                            <option key={index} value={film._id}>
+                              {film.nombre}
+                            </option>
                           ) : (
                             ""
                           )
@@ -285,6 +281,9 @@ export default function Pelicula() {
                       </select>
                     </div>
                   </div>
+                  <button type="submit" className="btn btn-primary">
+                    Agregar
+                  </button>
                 </form>
               </div>
               <div className="modal-footer">
@@ -294,13 +293,6 @@ export default function Pelicula() {
                   data-bs-dismiss="modal"
                 >
                   Cerrar
-                </button>
-                <button
-                  onClick={agregarIDenArray}
-                  type="button"
-                  className="btn btn-primary"
-                >
-                  Agregar
                 </button>
               </div>
             </div>

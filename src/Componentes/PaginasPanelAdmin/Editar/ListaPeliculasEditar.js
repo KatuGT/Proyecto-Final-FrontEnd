@@ -2,6 +2,7 @@ import "./Editar.css";
 import { useParams } from "react-router-dom";
 import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
+import { useForm } from "react-hook-form";
 import { DataGrid } from "@mui/x-data-grid";
 
 export default function Pelicula() {
@@ -20,11 +21,9 @@ export default function Pelicula() {
           setLista(response.data);
           setContenido(response.data.contenido);
         });
-      await axios
-        .get(`http://localhost:8800/api/films/`)
-        .then((response) => {
-          setFilms(response.data);
-        });
+      await axios.get(`http://localhost:8800/api/films/`).then((response) => {
+        setFilms(response.data);
+      });
     } catch (err) {
       console.log(err);
     }
@@ -85,49 +84,41 @@ export default function Pelicula() {
     };
   });
 
-  //ACTUALIZAR INFORMACION
-  const [updatedItem, setUpdatedItem] = useState({});
+  //VALIDACIONES
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
 
-  function handleUpdate(event) {
-    const { name, value } = event.target;
-    setUpdatedItem(() => {
-      return {
-        [name]: value,
-      };
-    });
-  }
+  useEffect(() => {
+    reset(lista);
+  }, [lista, reset]);
 
-  function actualizarItem(event) {
-    event.preventDefault();
-    const informacionActualizada = {
-      nombre: updatedItem.nombre,
-      tipo: updatedItem.tipo,
-      genero: updatedItem.genero,
-    };
-    axios.put(`/listafilms/find/${listaId}`, informacionActualizada);
+  async function actualizarItem(formData) {
+    await axios.put(`/listafilms/find/${listaId}`, formData);
+    getListas();
     window.location.reload();
   }
 
-  //ACTUALIZANDO CONTENIDO
-  const [select, setSelect] = useState("");
+  //AGREGAR CONTENIDO A LISTA
+  const { register: registerB, handleSubmit: handleSubmitB } = useForm();
 
-  async function agregarIDenArray(event) {
-    event.preventDefault();
-    if (select) {
-      const respuesta = await axios.post(
-        `/listapeliculas/${listaId}/agregarfilm/${select}`
-      );
-      document.getElementById("cerrarAgregarItemLista").click();
-      setContenido(respuesta.data.contenido);
-    } else {
-      alert("Seleccione de la lista");
-    }
+  async function agregarIDenArray(formData) {
+    console.log(formData.contenido);
+    const respuesta = await axios.post(
+      `/listafilms/${listaId}/agregarfilm/${formData.contenido}`
+    );
+    document.getElementById("cerrarAgregarItemLista").click();
+    setContenido(respuesta);
+    getListas();
   }
 
   //Borrar ID de Contenido
   async function borrarIDArray(id) {
     const borrado = await axios.delete(
-      `/listapeliculas/${listaId}/borrarfilm/${id}`
+      `/listafilms/${listaId}/borrarfilm/${id}`
     );
     setContenido(borrado.data.contenido);
   }
@@ -141,48 +132,74 @@ export default function Pelicula() {
       </div>
       <div className="contenedor-info-editar">
         {/* FORMULARIO PARA EDITAR  */}
-        <form className="row" onSubmit={actualizarItem}>
+        <form className="row" onSubmit={handleSubmit(actualizarItem)}>
           <div className="editar-izquierda col-12 row ">
             <div className="item-input col-xl-5">
               <label htmlFor="nombre">Nombre</label>
               <input
-                onChange={handleUpdate}
-                name="nombre"
                 type="text"
-                defaultValue={lista.nombre}
                 id="nombre"
+                {...register("nombre", {
+                  required: {
+                    value: true,
+                    message: "El campo es requerido.",
+                  },
+                  minLength: {
+                    value: 8,
+                    message: "Mínimo 8 caracter.",
+                  },
+                  maxLength: {
+                    value: 60,
+                    message: "Máximo  60 caracteres.",
+                  },
+                })}
               />
+              {errors.nombre && (
+                <span className="mensaje-error">{errors.nombre.message}</span>
+              )}
             </div>
             <div className="item-input col-xl-5">
               <label htmlFor="genero">Género</label>
               <input
-                onChange={handleUpdate}
-                name="estreno"
                 type="text"
-                defaultValue={lista.genero}
                 id="genero"
+                {...register("genero", {
+                  required: {
+                    value: true,
+                    message: "El campo es requerido.",
+                  },
+                  minLength: {
+                    value: 4,
+                    message: "Mínimo 4 caracter.",
+                  },
+                  maxLength: {
+                    value: 60,
+                    message: "Máximo  60 caracteres.",
+                  },
+                })}
               />
+              {errors.genero && (
+                <span className="mensaje-error">{errors.genero.message}</span>
+              )}
             </div>
             <div className="item-input radiobutton col-xl-2">
               <span>Es una lista de...</span>
               <div className="elegir">
                 <input
-                  onChange={handleUpdate}
-                  name="tipo"
                   type="radio"
                   value="pelicula"
                   id="pelicula"
                   defaultChecked
+                  {...register("tipo")}
                 />
                 <label htmlFor="pelicula">Peliculas</label>
               </div>
               <div className="elegir">
                 <input
-                  onChange={handleUpdate}
-                  name="tipo"
                   type="radio"
                   value="serie"
                   id="serie"
+                  {...register("tipo")}
                 />
                 <label htmlFor="serie">Series</label>
               </div>
@@ -196,7 +213,7 @@ export default function Pelicula() {
                   data-bs-toggle="modal"
                   data-bs-target="#agregarItemALista"
                 >
-                  Agregar serie a la lista <i className="fas fa-plus"></i>
+                  Agregar película a la lista <i className="fas fa-plus"></i>
                 </button>
               </div>
               <DataGrid
@@ -213,6 +230,7 @@ export default function Pelicula() {
             Enviar
           </button>
         </form>
+        {/* MODAL PARA MODIFICAR CONTENIDO DE LISTA */}
         <div
           className="modal fade"
           id="agregarItemALista"
@@ -224,9 +242,8 @@ export default function Pelicula() {
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel">
-                  Ingrese los datos
+                  Seleccione la película
                 </h5>
-
                 <button
                   type="button"
                   id="cerrarAgregarItemLista"
@@ -235,23 +252,22 @@ export default function Pelicula() {
                   aria-label="Close"
                 ></button>
               </div>
+
               <div className="modal-body">
                 {/* FORMULARIO AGREGAR SERIE */}
-                <form className="row">
+                <form className="row" onSubmit={handleSubmitB(agregarIDenArray)}>
                   <div className="editar-izquierda col-6">
                     <div className="item-input">
                       <label htmlFor="nombre">Nombre</label>
-                      <select
-                        name="select"
-                        onChange={(e) => setSelect(e.target.value)}
-                        required
-                      >
+                      <select {...registerB("contenido")}>
                         <option disabled selected>
                           Seleccione...
                         </option>
-                        {films.map((film) =>
+                        {films.map((film, index) =>
                           film.esPelicula === true ? (
-                            <option value={film._id}>{film.nombre}</option>
+                            <option key={index} value={film._id}>
+                              {film.nombre}
+                            </option>
                           ) : (
                             ""
                           )
@@ -259,6 +275,9 @@ export default function Pelicula() {
                       </select>
                     </div>
                   </div>
+                  <button type="submit" className="btn btn-primary">
+                    Agregar
+                  </button>
                 </form>
               </div>
               <div className="modal-footer">
@@ -268,13 +287,6 @@ export default function Pelicula() {
                   data-bs-dismiss="modal"
                 >
                   Cerrar
-                </button>
-                <button
-                  onClick={agregarIDenArray}
-                  type="button"
-                  className="btn btn-primary"
-                >
-                  Agregar
                 </button>
               </div>
             </div>
