@@ -255,24 +255,32 @@ export default function Pelicula() {
 
               <div className="modal-body">
                 {/* FORMULARIO AGREGAR SERIE */}
-                <form className="row" onSubmit={handleSubmitB(agregarIDenArray)}>
+                <form
+                  className="row"
+                  onSubmit={handleSubmitB(agregarIDenArray)}
+                >
                   <div className="editar-izquierda col-6">
                     <div className="item-input">
                       <label htmlFor="nombre">Nombre</label>
-                      <select {...registerB("contenido")}>
-                        <option disabled selected>
-                          Seleccione...
-                        </option>
+                      <input
+                        className="form-control"
+                        list="datalistOptions"
+                        id="nombre"
+                        placeholder="Type to search..."
+                        {...registerB("contenido")}
+                      />
+
+                      <datalist id="datalistOptions">
                         {films.map((film, index) =>
                           film.esPelicula === true ? (
                             <option key={index} value={film._id}>
-                              {film.nombre}
+                              {film.nombre} || {film.genero}
                             </option>
                           ) : (
                             ""
                           )
                         )}
-                      </select>
+                      </datalist>
                     </div>
                   </div>
                   <button type="submit" className="btn btn-primary">

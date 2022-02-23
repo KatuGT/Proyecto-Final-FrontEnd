@@ -265,10 +265,9 @@ export default function Pelicula() {
                   <div className="editar-izquierda col-6">
                     <div className="item-input">
                       <label htmlFor="nombre">Nombre</label>
-                      <select {...registerB("contenido")}>
-                        <option disabled selected>
-                          Seleccione...
-                        </option>
+                      <input className="form-control" list="datalistOptions" id="exampleDataList" placeholder="Type to search..." {...registerB("contenido")}/>
+
+                      <datalist id="datalistOptions">                      
                         {films.map((film, index) =>
                           film.esPelicula !== true ? (
                             <option key={index} value={film._id}>
@@ -278,7 +277,7 @@ export default function Pelicula() {
                             ""
                           )
                         )}
-                      </select>
+                      </datalist>
                     </div>
                   </div>
                   <button type="submit" className="btn btn-primary">
