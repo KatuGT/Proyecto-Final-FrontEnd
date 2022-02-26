@@ -3,7 +3,7 @@ import "./Editar.css";
 
 export default function User() {
   return (
-    <div className="contenedor-principal-editar">
+    <div className=" formulario-editar contenedor-principal-editar">
       <div className="contenedor-titulo-user">
         <h2>Editar Usuario</h2>
       </div>

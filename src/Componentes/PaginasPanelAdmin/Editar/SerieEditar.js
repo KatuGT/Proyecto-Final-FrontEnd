@@ -44,7 +44,7 @@ export default function Pelicula() {
   }
 
   return (
-    <div className="contenedor-principal-editar">
+    <div className="formulario-editar contenedor-principal-editar">
       <div className="pelicula">
         <div className="contenedor-titulo-pelicula">
           <h2>Editar Serie</h2>

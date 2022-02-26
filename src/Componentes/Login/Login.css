@@ -1,0 +1,123 @@
+.container-login-registro {
+  background-image: url(../../Imagenes/background-login.jpg);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container-login-registro .login-registro-wrapper {
+  width: min(95%, 70%);
+  height: 600px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+}
+
+.login-registro-wrapper .formulario {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-registro-wrapper .formulario input {
+  width: 70%;
+  height: 2em;
+  font-size: 1.5em;
+  padding-left: 0.5em;
+  background-color: transparent;
+  border: none;
+}
+
+.login-registro-wrapper .formulario button {
+  border: none;
+  font-size: 1.5em;
+  padding: 0.4em 1em;
+  margin-top: 1em;
+}
+
+.login-registro-wrapper .login-wrapper {
+  background-color: rgba(68, 0, 163, 0.8);
+}
+
+.login-registro-wrapper .login-wrapper h3 {
+  margin-bottom: 0.8em;
+  color: var(--clr-gris);
+  font-size: 2.2em;
+}
+
+.login-registro-wrapper .login-wrapper input {
+  margin: 1em 0;
+  border-bottom: 1px var(--clr-gris) solid;
+  color: var(--clr-gris);
+}
+
+.login-registro-wrapper .login-wrapper button {
+  opacity: 1;
+  background-color: var(--clr-gris);
+  color: var(--clr-morado1);
+}
+
+.login-registro-wrapper .registro-wrapper {
+  background-color: var(--clr-gris);
+}
+
+.login-registro-wrapper .registro-wrapper h3{
+  color: var(--clr-morado1);
+}
+
+.login-registro-wrapper .registro-wrapper input {
+  border-bottom: 1px var(--clr-morado1) solid;
+  margin-bottom: 0.5em;
+  color: var(--clr-morado1);
+}
+
+.login-registro-wrapper .registro-wrapper p{
+    margin-bottom: 0;
+    width: 70%;
+}
+
+.login-registro-wrapper .registro-wrapper button{
+    color: var(--clr-morado1);
+}
+
+@media screen and (max-width:1080px) {    
+
+    .container-login-registro{
+        height: auto;
+        padding: 3em 0;
+        background-position: top center;
+    }
+
+    .container-login-registro .login-registro-wrapper {
+        grid-template-columns: 1fr;
+        grid-template-rows: min-content  1fr;
+        height: auto;
+      }
+
+
+      .login-registro-wrapper .login-wrapper,
+      .login-registro-wrapper .registro-wrapper{
+          padding: 2em;
+      }
+
+      .login-registro-wrapper .login-wrapper input,
+      .login-registro-wrapper .registro-wrapper input{
+        width: 100%;
+      }
+
+      .login-registro-wrapper .login-wrapper h3{
+          text-align: center;
+      }
+
+      .login-registro-wrapper .registro-wrapper p,
+      .login-registro-wrapper .registro-wrapper input{
+          width: 100%;
+          padding-left: 0;
+      }
+     
+      .login-wrapper button{
+        margin-bottom: 0;
+      }
+}

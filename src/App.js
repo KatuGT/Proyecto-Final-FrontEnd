@@ -18,13 +18,15 @@ import ListaSeriesEditar from "./Componentes/PaginasPanelAdmin/Editar/ListaSerie
 import UsuarioEditar from "./Componentes/PaginasPanelAdmin/Editar/UserEditar";
 import SeccionIndividual from "./Componentes/SeccionIndividual/SeccionIndividual";
 import NotFound from "./Componentes/404/NotFound";
+import Login from "./Componentes/Login/Login";
 
 export default function App() {
+  const user = false
   return (
     <div>
       <Router>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={ user ? <Home /> : <Login/>} />
           <Route path="/peliculas" element={<Home tipo="pelicula" />} />
           <Route path="/series" element={<Home tipo="serie" />} />
           <Route path="/configuracion" element={<Configuracion />}>
