@@ -48,7 +48,8 @@
 }
 
 .login-registro-wrapper .login-wrapper input {
-  margin: 1em 0;
+  margin-bottom: 0.3em;
+  margin-top: 1em;
   border-bottom: 1px var(--clr-gris) solid;
   color: var(--clr-gris);
 }
@@ -69,7 +70,8 @@
 
 .login-registro-wrapper .registro-wrapper input {
   border-bottom: 1px var(--clr-morado1) solid;
-  margin-bottom: 0.5em;
+  margin-bottom: 0.2em;
+  margin-top: 0.5em;
   color: var(--clr-morado1);
 }
 
