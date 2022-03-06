@@ -16,9 +16,9 @@ import ListaPeliculasEditar from "./Componentes/PaginasPanelAdmin/Editar/ListaPe
 import ListaSeriesEditar from "./Componentes/PaginasPanelAdmin/Editar/ListaSeriesEditar";
 
 import UsuarioEditar from "./Componentes/PaginasPanelAdmin/Editar/UserEditar";
-import SeccionIndividual from "./Componentes/SeccionIndividual/SeccionIndividual";
+import SeccionIndividual from "../src/SeccionIndividual/SeccionIndividual";
 import NotFound from "./Componentes/404/NotFound";
-import Login from "./Componentes/Login/Login";
+import Login from "../src/Login/Login";
 
 export default function App() {
   const user = false

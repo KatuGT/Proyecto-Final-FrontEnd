@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "./SeccionIndividual.css";
-import Navbar from "../Navbar/Navbar";
-import Footer from "../Footer/Footer"
+import Navbar from "../Componentes/Navbar/Navbar";
+import Footer from "../Componentes/Footer/Footer"
 import axios from "axios";
 
 export default function SeccionIndividual() {

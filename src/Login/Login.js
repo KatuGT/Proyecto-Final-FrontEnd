@@ -1,6 +1,9 @@
 import "./Login.css";
 import React from "react";
-import { useForm, useFormState, useWatch } from "react-hook-form";
+import axios from "axios";
+import { useForm } from "react-hook-form";
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as Yup from 'yup'
 
 export default function Login() {
   // VALIDACIONES INICIAR
@@ -16,35 +19,40 @@ export default function Login() {
     reset();
   }
 
-  // VALIDACIONES REGISTRO
-  const {
-    register: registerB,
-    handleSubmit: handleSubmitB,
-    formState: { errors: errorsB },
-    reset: resetB,
-    control,
-    trigger,
-  } = useForm();
-
+  
   //Validacion de la confirmacion de contraseña
-  const { touchedFields } = useFormState({
-    control,
-  });
-  const primeraContrasenia = useWatch({ control, name: "password" });
+  const esquemaRegistro = Yup.object().shape({
+    username: Yup.string()
+    .required("El campo es requerido.")
+    .min(6, 'Tu apodo debe tener almenos 6 caracteres.')
+    .max(30, 'Tu apodo debe tener maximo 30 caracteres.'),
+    email: Yup.string()
+            .required('El campo es requerido.')
+            .email('Introdusca un Email valido.'),
+    password: Yup.string()
+      .required('El campo es requerido.')
+      .min(8, 'La contraseña debe tener almenos 8 caracteres.')
+      .matches(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/, "No cumple con lo requisitos."),
+    confirmPwd: Yup.string()
+      .required('El campo es requerido.')
+      .oneOf([Yup.ref('password'), null], 'Las contraseñas no coinciden.'),
+  })
 
-  const passwordInput = registerB("password", {
-    required: {
-      value: true,
-      message:"Este campo es requerido."
-    },
-    minLength: {
-      value: 8,
-      message: "La contraseña debe tener almenos 8 caracteres.",
-    },
-  });
+  const opcionesRegistro = { resolver: yupResolver(esquemaRegistro) }
 
+// VALIDACIONES REGISTRO
+const {
+  register: registerB,
+  handleSubmit: handleSubmitB,
+  formState: { errors: errorsB },
+  reset: resetB,
+} = useForm(opcionesRegistro);
+
+
+
+  //CREAR CUENTA NUEVA
   async function crearCuenta(formData) {
-    console.log(formData);
+    await axios.post("http://localhost:8800/api/aut/registro", formData);
     resetB();
   }
 
@@ -100,81 +108,51 @@ export default function Login() {
           <input
             type="text"
             placeholder="Apodo*"
-            {...registerB("apodo", {
-              required: {
-                value: true,
-                message: "El campo es requerido.",
-              },
-              minLength: {
-                value: 6,
-                message: "Minimo 6 caracteres.",
-              },
-            })}
+            {...registerB("username")}
           />
-          {errorsB.apodo && (
-            <span className="mensaje-error">{errorsB.apodo.message}</span>
+          {errorsB.username && (
+            <span className="mensaje-error">{errorsB.username.message}</span>
           )}
           <input
             type="email"
             placeholder="E-mail*"
-            {...registerB("emailRegistro", {
-              required: {
-                value: true,
-                message: "El campo es requerido.",
-              },
-            })}
+            {...registerB("email")}
           />
-          {errorsB.emailRegistro && (
+          {errorsB.email && (
             <span className="mensaje-error">
-              {errorsB.emailRegistro.message}
+              {errorsB.email.message}
             </span>
           )}
           <input
             type="password"
             autoComplete="off"
             placeholder="Contraseña*"
-            name={passwordInput.name}
-            onBlur={passwordInput.onBlur}
-            ref={passwordInput.ref}
-            onChange={async (e) => {
-              await passwordInput.onChange(e);
-              if (touchedFields.confirmPassword) {
-                trigger("confirmPassword");
-              }
-            }}
+            {...registerB('password')}
           />
-          {errorsB.passwordInput && (
+          {errorsB.password && (
             <span className="mensaje-error">
-              {errorsB.passwordInput.message}
+              {errorsB.password.message}
             </span>
           )}
           <input
             type="password"
             autoComplete="off"
             placeholder="Repita la contraseña*"
-            isinvalid={errors.confirmPassword}
-            {...registerB("confirmPassword", {
-              required: "Este campo es requerido.",
-              validate: {
-                match: (value) =>
-                primeraContrasenia === value || "Your passwords do not match.",
-              },
-            })}
+            {...registerB('confirmPwd')}
           />
-          {errorsB.confirmPassword && (
+          {errorsB.confirmPwd && (
             <span className="mensaje-error">
-              {errorsB.confirmPassword.message}
+              {errorsB.confirmPwd.message}
             </span>
           )}
 
 
           <p>- Los campos con (*) son requeridos.</p>
-          <p>- El apodo debe contener minimo 6 caracteres.</p>
+          <p>- El apodo debe contener mínimo 6 caracteres.</p>
           <p>
-            - La contraseña debe contener numeros y letras, entre ellos almenos
-            1 mayuscula.
+            - La contraseña debe contener al menos 1 numero, 1 letra y 1 carácter especial.
           </p>
-          <p>- La contraseña debe contener minimo 8 caracteres.</p>
+          <p>- La contraseña debe contener mínimo 8 caracteres.</p>
           <button type="submit">Enviar</button>
         </form>
       </div>
