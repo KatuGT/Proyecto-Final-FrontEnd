@@ -30,6 +30,35 @@
   border: none;
 }
 
+.login-registro-wrapper .formulario .contrasenia{
+  width:70%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+.login-registro-wrapper .formulario .contrasenia input{
+  width: 100%;
+}
+
+.fa-eye,
+.fa-eye-slash{
+  position: absolute;
+  right: 2%;
+  top: 45%;
+  cursor: pointer;
+}
+
+.login-wrapper .fa-eye,
+.login-wrapper .fa-eye-slash{
+  color: var(--clr-gris);
+}
+
+.registro-wrapper .fa-eye,
+.registro-wrapper .fa-eye-slash{
+  color: var(--clr-morado1);
+}
+
 .login-registro-wrapper .formulario button {
   border: none;
   font-size: 1.5em;
@@ -106,6 +135,13 @@
 
       .login-registro-wrapper .login-wrapper input,
       .login-registro-wrapper .registro-wrapper input{
+        width: 100%;
+      }
+
+      .login-registro-wrapper .formulario .contrasenia{
+        width:100%;        
+      }
+      .login-registro-wrapper .formulario .contrasenia input{
         width: 100%;
       }
 

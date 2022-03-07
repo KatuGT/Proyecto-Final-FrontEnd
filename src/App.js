@@ -5,6 +5,7 @@ import Configuracion from "./Componentes/Configuracion";
 import MisDatos from "./Componentes/PaginasPanelAdmin/MisDatos/MisDatos";
 
 import UsuariosLista from "./Componentes/PaginasPanelAdmin/Tablas/ListaUsuarios";
+import UsuarioEditar from "./Componentes/PaginasPanelAdmin/Editar/UserEditar";
 import ListasPeliculas from "./Componentes/PaginasPanelAdmin/Tablas/ListasPeliculas";
 import Peliculas from "./Componentes/PaginasPanelAdmin/Tablas/Peliculas";
 import ListasSeries from "./Componentes/PaginasPanelAdmin/Tablas/ListasSeries";
@@ -15,10 +16,11 @@ import SerieEditar from "./Componentes/PaginasPanelAdmin/Editar/SerieEditar";
 import ListaPeliculasEditar from "./Componentes/PaginasPanelAdmin/Editar/ListaPeliculasEditar";
 import ListaSeriesEditar from "./Componentes/PaginasPanelAdmin/Editar/ListaSeriesEditar";
 
-import UsuarioEditar from "./Componentes/PaginasPanelAdmin/Editar/UserEditar";
 import SeccionIndividual from "../src/SeccionIndividual/SeccionIndividual";
 import NotFound from "./Componentes/404/NotFound";
-import Login from "../src/Login/Login";
+import LoginRegistro from "../src/LoginRegistro/LoginRegistro";
+import RegsitroExitoso from "./RegistroExitoso/RegsitroExitoso";
+
 
 export default function App() {
   const user = false
@@ -26,7 +28,8 @@ export default function App() {
     <div>
       <Router>
         <Routes>
-          <Route path="/" element={ user ? <Home /> : <Login/>} />
+          <Route path="/" element={ user ? <Home /> : <LoginRegistro/>} />
+          <Route path="/registro-exitoso" element={<RegsitroExitoso/>}/>
           <Route path="/peliculas" element={<Home tipo="pelicula" />} />
           <Route path="/series" element={<Home tipo="serie" />} />
           <Route path="/configuracion" element={<Configuracion />}>

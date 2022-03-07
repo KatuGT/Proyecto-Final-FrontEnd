@@ -1,0 +1,81 @@
+.container-registro-exitoso {
+  background-image: url(../Imagenes/background-registro-exitoso.jpg);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.registro-exitoso {
+  position: relative;
+  background-color: rgba(68, 0, 163, 0.8);
+  height: 50%;
+  width: min(70%, 96%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--clr-gris);
+  padding: 1em;
+}
+
+.registro-exitoso .container-estrellas .estrella-uno,
+.registro-exitoso .container-estrellas .estrella-dos,
+.registro-exitoso .container-estrellas .estrella-tres {
+  height: min(12vw, 10vw);
+  position: absolute;
+  fill: var(--clr-gris);
+  top: -30%;
+  right: 55%;
+  transform: rotate(-20deg);
+}
+
+.container-estrellas .estrella-dos {
+  animation-name: estrellados;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes estrellados {
+  50% {
+    transform: rotate(10deg) translateX(100%) scale(0.8);
+  }
+  100% {
+    transform: rotate(-20deg) translateX(0);
+  }
+}
+
+.container-estrellas .estrella-tres {
+  animation-name: estrellatres;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes estrellatres {
+  50% {
+    transform: rotate(20deg) translateX(180%) scale(0.6);
+  }
+  100% {
+    transform: rotate(-20deg) translateX(0);
+  }
+}
+
+.registro-exitoso .felicitaciones {
+  font-size: min(8vw, 5em);
+  font-weight: 700;
+}
+
+.registro-exitoso .contenido,
+.registro-exitoso .exitoso {
+  font-size: 1.5em;
+  text-align: center;
+}
+
+.registro-exitoso .volver-login {
+  text-decoration: none;
+  background-color: var(--clr-gris);
+  color: var(--clr-morado1);
+  padding: 0.5em 1em;
+  margin-top: 1em;
+  font-weight: 700;
+}
