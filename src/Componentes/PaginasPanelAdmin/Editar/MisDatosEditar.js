@@ -1,8 +1,6 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as Yup from "yup";
 
 import { Context } from "../../../Context/Context";
 import "./Editar.css";
@@ -37,35 +35,17 @@ export default function User() {
   }
 
   //Validacion registro
-  const esquemaActualisacionUsuario = Yup.object().shape({
-    username: Yup.string()
-      .required("El campo es requerido.")
-      .min(6, "Tu apodo debe tener almenos 6 caracteres.")
-      .max(15, "Tu apodo debe tener maximo 15 caracteres."),
-    email: Yup.string()
-      .required("El campo es requerido.")
-      .email("Introdusca un Email valido."),
-    password: Yup.string()
-      .required("El campo es requerido.")
-      .min(8, "La contraseña debe tener almenos 8 caracteres.")
-      .matches(
-        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-        "No cumple con lo requisitos."
-      ),
-    confirmPwd: Yup.string()
-      .required("El campo es requerido.")
-      .oneOf([Yup.ref("password"), null], "Las contraseñas no coinciden."),
-    esAdmin: Yup.boolean().required("El campo es requerido."),
-  });
-  const opcionesActualisacion = {
-    resolver: yupResolver(esquemaActualisacionUsuario),
-  };
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm(opcionesActualisacion);
+    reset
+  } = useForm();
+
+  useEffect(() => {
+    reset(usuario);
+  }, [usuario, reset]);
 
   return (
     <div className=" formulario-editar contenedor-principal-editar">
@@ -84,8 +64,20 @@ export default function User() {
                 <input
                   type="text"
                   id="apodo"
-                  Value={usuario?.username}
-                  {...register("username")}
+                  {...register("username", {
+                    required: {
+                      value: true,
+                      message: "El campo es requerido.",
+                    },
+                    minLength: {
+                      value: 1,
+                      message: "Mínimo 1 caracter.",
+                    },
+                    maxLength: {
+                      value: 60,
+                      message: "Máximo  60 caracteres.",
+                    },
+                  })}
                 />
                 {errors.username && (
                   <span className="mensaje-error">
@@ -161,7 +153,7 @@ export default function User() {
                   />
                   <label htmlFor="admin">Admin</label>
                 </div>
-              </div>              
+              </div>
               <div className="item-input">
                 <label htmlFor="avatar">Avatar</label>
                 <input
