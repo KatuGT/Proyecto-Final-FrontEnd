@@ -89,7 +89,6 @@ export default function Peliculas({ pelis }) {
       console.log(err);
     }
   };
-  console.log(films);
 
   useEffect(() => {
     getFilms();

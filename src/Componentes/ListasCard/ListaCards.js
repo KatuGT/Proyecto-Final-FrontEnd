@@ -46,7 +46,7 @@ function ListaCards({ lista, genero }) {
       <section className="contenedor-lista-items">
         <section className={`${genero !== null ? "lista-con-genero" : "lista-sin-genero"}`} style={{ left: scrollX }}>
           {lista.contenido.length > 0
-            ? lista.contenido.map((item) => <CardItems item={item} />)
+            ? lista.contenido.map((item, index) => <CardItems key={index} item={item} />)
             : ""}
         </section>
       </section>

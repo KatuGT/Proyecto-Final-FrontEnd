@@ -35,24 +35,6 @@ const [lista, setLista] = useState("");
   }
 
 
- // const [destacadas, setDestacadas] = useState([]);
-
-  // useEffect(() => {
-  //   if (films) {
-  //     setDestacadas(films.filter((film) => film.destacada === true));
-  //   }
-  // }, [films]);
-
-  //   const header = destacadas.map((element) => {
-  //     const mostrarDestacada = {
-  //       id: element._id,
-  //       nombre: element.nombre,
-  //       sinopsis: element.sinopsis,
-  //       imagenHorizontal: element.imagenHorizontal
-  //     };
-  //     return mostrarDestacada;
-  //   });
-
   return (
     <div className="contenedor-slider">
       {tipo && (
@@ -65,7 +47,7 @@ const [lista, setLista] = useState("");
             onChange={(e) => setGenero(e.target.value)}
           >
             <option disabled selected>Genero</option>
-            {listaCategorias.map((categoria) => <option value={categoria}>{categoria}</option>)}
+            {listaCategorias.map((categoria, index) => <option key={index} value={categoria}>{categoria}</option>)}
           </select>
         </div>
       )}
@@ -131,9 +113,9 @@ const [lista, setLista] = useState("");
           <div className="carousel-item active">
             <img src={RollflixHeader} className="d-block w-100" alt="..." />
           </div>
-          {films.map((element) =>
+          {films.map((element, index) =>
             element.destacada === true ? (
-              <div className="carousel-item">
+              <div className="carousel-item" key={index}>
                 <img
                   src={element.imagenHorizontal}
                   className="d-block"

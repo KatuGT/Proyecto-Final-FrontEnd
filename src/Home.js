@@ -45,8 +45,8 @@ export default function Home({ tipo }) {
     <div className="main-container">
       <Navbar />
       <Slider tipo={tipo} setGenero={setGenero} />
-      {listasMostrar.map((lista) => (
-        <ListaCards lista={lista} genero={genero}/>
+      {listasMostrar.map((lista, index) => (
+        <ListaCards key={index} lista={lista} genero={genero}/>
       ))}
       {listas.length <= 0 && (
         <div className="loading">

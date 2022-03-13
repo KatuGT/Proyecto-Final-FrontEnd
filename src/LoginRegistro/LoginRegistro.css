@@ -113,6 +113,10 @@
     color: var(--clr-morado1);
 }
 
+button[type="submit"]:disabled{
+  background-color: grey;
+}
+
 @media screen and (max-width:1080px) {    
 
     .container-login-registro{

@@ -91,6 +91,12 @@ figure.nombre-item-row {
   font-size: 10px;
 }
 
+.mensaje-error-duplicado{
+ text-align: center; 
+ color: #ff0000;
+ margin-top: 10px;
+}
+
 /* INFO ADICIONAL INPUT */
 .item-duracion {
   display: flex;

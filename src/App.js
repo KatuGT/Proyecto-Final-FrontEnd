@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./Home";
 import Configuracion from "./Componentes/Configuracion";
@@ -20,16 +20,17 @@ import SeccionIndividual from "../src/SeccionIndividual/SeccionIndividual";
 import NotFound from "./Componentes/404/NotFound";
 import LoginRegistro from "../src/LoginRegistro/LoginRegistro";
 import RegsitroExitoso from "./RegistroExitoso/RegsitroExitoso";
-
+import { Context } from "./Context/Context";
 
 export default function App() {
-  const user = false
+  const {user} = useContext(Context);
+
   return (
     <div>
       <Router>
         <Routes>
-          <Route path="/" element={ user ? <Home /> : <LoginRegistro/>} />
-          <Route path="/registro-exitoso" element={<RegsitroExitoso/>}/>
+          <Route path="/" element={user ? <Home /> : <LoginRegistro />} />
+          <Route path="/registro-exitoso" element={<RegsitroExitoso />} />
           <Route path="/peliculas" element={<Home tipo="pelicula" />} />
           <Route path="/series" element={<Home tipo="serie" />} />
           <Route path="/configuracion" element={<Configuracion />}>
@@ -42,17 +43,23 @@ export default function App() {
               <Route path="pelicula/:peliId" element={<PeliculaEditar />} />
             </Route>
             <Route path="listapeliculas" element={<ListasPeliculas />}>
-              <Route path="listapelicula/:listaId" element={<ListaPeliculasEditar/>} />
+              <Route
+                path="listapelicula/:listaId"
+                element={<ListaPeliculasEditar />}
+              />
             </Route>
             <Route path="series" element={<Series />}>
               <Route path="serie/:serieId" element={<SerieEditar />} />
             </Route>
             <Route path="listaseries" element={<ListasSeries />}>
-              <Route path="listaseries/:listaId" element={<ListaSeriesEditar/>} />
+              <Route
+                path="listaseries/:listaId"
+                element={<ListaSeriesEditar />}
+              />
             </Route>
           </Route>
-          <Route path="/ver/:id"  element={<SeccionIndividual/>}/>
-          <Route path="*"element={<NotFound/>}/>
+          <Route path="/ver/:id" element={<SeccionIndividual />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
     </div>

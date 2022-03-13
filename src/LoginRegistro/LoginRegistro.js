@@ -1,12 +1,15 @@
 import "./LoginRegistro.css";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
+import { Context } from "../Context/Context";
 
 export default function LoginRegistro() {
+  const { dispatch, isFetching } = useContext(Context);
+
   // VALIDACIONES INICIAR
   const {
     register,
@@ -16,8 +19,15 @@ export default function LoginRegistro() {
   } = useForm();
 
   async function iniciarSesion(formData) {
-    console.log(formData);
-    reset();
+    dispatch({ type: "LOGIN_START" });
+     try {
+       const res = await axios.post("http://localhost:8800/api/aut/login", formData);
+       dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
+       reset();
+     } catch (error) {
+       dispatch({ type: "LOGIN_FAIL" });
+       console.log(error);
+     }
   }
 
   //Validacion registro
@@ -34,7 +44,8 @@ export default function LoginRegistro() {
       .min(8, "La contraseña debe tener almenos 8 caracteres.")
       .matches(
         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-        "No cumple con lo requisitos."),
+        "No cumple con lo requisitos."
+      ),
     confirmPwd: Yup.string()
       .required("El campo es requerido.")
       .oneOf([Yup.ref("password"), null], "Las contraseñas no coinciden."),
@@ -52,12 +63,19 @@ export default function LoginRegistro() {
 
   //CREAR CUENTA NUEVA
   let navigate = useNavigate();
+  const [error, setError] = useState(false);
 
   async function crearCuenta(formData) {
-    await axios.post("http://localhost:8800/api/aut/registro", formData);
-    resetB();
-    navigate("/registro-exitoso");
+    setError(false);
+    try {
+      await axios.post("http://localhost:8800/api/aut/registro", formData);
+      resetB();
+      navigate("/registro-exitoso");
+    } catch (error) {
+      setError(error);
+    }
   }
+  
 
   // MOSTRAR/OCULTAR CONTRASÑA
 
@@ -104,7 +122,7 @@ export default function LoginRegistro() {
               autoComplete="current-password"
               type={toggleContraseniaLogin ? "text" : "password"}
               placeholder="Contraseña"
-              {...register("contrasenia", {
+              {...register("password", {
                 required: {
                   value: true,
                   message: "El campo es requerido.",
@@ -125,7 +143,7 @@ export default function LoginRegistro() {
           {errors.contrasenia && (
             <span className="mensaje-error">{errors.contrasenia.message}</span>
           )}
-          <button type="submit">Inicia sesión</button>
+          <button type="submit" disabled={isFetching}>Inicia sesión</button>
         </form>
         {/* //FORMULARIO CREAR CUENTA */}
         <form
@@ -183,6 +201,11 @@ export default function LoginRegistro() {
           </p>
           <p>- La contraseña debe contener mínimo 8 caracteres.</p>
           <button type="submit">Enviar</button>
+          {error && (
+            <p className="mensaje-error-duplicado">
+              Puede que el Email o apodo ya este en uso.
+            </p>
+          )}
         </form>
       </div>
     </div>

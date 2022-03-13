@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./Navbar.css";
 import { NavLink, Link } from "react-router-dom";
+import { Context } from "../../Context/Context";
 import axios from "axios";
 
 import Logo from "../../Imagenes/ROLLFLIX-LOGO.jpg";
@@ -54,10 +55,20 @@ export default function Navbar() {
     }
   };
 
+
+  //CERRAR SESION
+  const {user, dispatch } = useContext(Context)
+  const handleLogout = () =>{
+    dispatch({type: "LOGOUT"})
+  }
+
   return (
     <nav className="barra">
       <div className="contenedor-barra">
+        <NavLink to="/">
         <img src={Logo} alt="logo Rollflix"></img>
+
+        </NavLink>
         <div className="menu-icon" onClick={() => toggleNav(!isMobile)}>
           <i className={isMobile ? "fas fa-times" : "fas fa-bars"} />
         </div>
@@ -100,13 +111,12 @@ export default function Navbar() {
           >
             Configuracion
           </NavLink>
-          <NavLink
-            to="/"
-            className="link desktop"
+          <p           
+            className="link  desktop"
             onClick={() => setIsMobile(!isMobile)}
           >
             Cerrar Sesion
-          </NavLink>
+          </p>
         </div>
         <div className="barra-derecha">
           <div className="search-bar">
@@ -136,8 +146,8 @@ export default function Navbar() {
             <i className="fas fa-search"></i>
           </div>
           <div className="profile-user">
-            <i className="fas fa-user-circle"></i>
-            <span>Katu</span>
+            {user.fotoPerfil !== "" ? <img src={user?.fotoPerfil} className="foto-perfil "alt="Foto de perfil"/> : <i className="fas fa-user-circle"></i>}
+            <span>{user.username}</span>
           </div>
           <div className="perfil">
             <i className="fas fa-caret-down"></i>
@@ -145,9 +155,9 @@ export default function Navbar() {
               <NavLink to="/configuracion" className="link">
                 Configuracion
               </NavLink>
-              <NavLink to="/hhh" className="link">
+              <p className="link" onClick={handleLogout}>
                 Cerrar Sesion
-              </NavLink>
+              </p>
             </div>
           </div>
         </div>
