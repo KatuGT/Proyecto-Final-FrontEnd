@@ -101,7 +101,7 @@ export default function Navbar() {
             activeclassname="active-link"
             onClick={() => setIsMobile(!isMobile)}
           >
-            Peliculas
+            Películas
           </NavLink>
           <NavLink
             to="/configuracion"
@@ -109,13 +109,13 @@ export default function Navbar() {
             activeclassname="active-link"
             onClick={() => setIsMobile(!isMobile)}
           >
-            Configuracion
+            Configuración
           </NavLink>
           <p           
             className="link  desktop"
             onClick={() => setIsMobile(!isMobile)}
           >
-            Cerrar Sesion
+            Cerrar Sesión
           </p>
         </div>
         <div className="barra-derecha">
@@ -146,17 +146,17 @@ export default function Navbar() {
             <i className="fas fa-search"></i>
           </div>
           <div className="profile-user">
-            {user.fotoPerfil !== "" ? <img src={user?.fotoPerfil} className="foto-perfil "alt="Foto de perfil"/> : <i className="fas fa-user-circle"></i>}
-            <span>{user.username}</span>
+            {user?.fotoPerfil !== "" ? <img src={user?.fotoPerfil} className="foto-perfil "alt="Foto de perfil"/> : <i className="fas fa-user-circle"></i>}
+            <span>{user?.username}</span>
           </div>
           <div className="perfil">
             <i className="fas fa-caret-down"></i>
             <div className="opciones">
               <NavLink to="/configuracion" className="link">
-                Configuracion
+                Configuración
               </NavLink>
               <p className="link" onClick={handleLogout}>
-                Cerrar Sesion
+                Cerrar Sesión
               </p>
             </div>
           </div>
