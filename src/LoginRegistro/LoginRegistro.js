@@ -8,7 +8,7 @@ import * as Yup from "yup";
 import { Context } from "../Context/Context";
 
 export default function LoginRegistro() {
-  const { dispatch, isFetching } = useContext(Context);
+  const { dispatch } = useContext(Context);
 
   // VALIDACIONES INICIAR
   const {
@@ -18,16 +18,26 @@ export default function LoginRegistro() {
     reset,
   } = useForm();
 
+  //LOGIN
+  const [loginError, setLoginError] = useState(false);
   async function iniciarSesion(formData) {
     dispatch({ type: "LOGIN_START" });
-     try {
-       const res = await axios.post("http://localhost:8800/api/aut/login", formData);
-       dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
-       reset();
-     } catch (error) {
-       dispatch({ type: "LOGIN_FAIL" });
-       console.log(error);
-     }
+    try {
+      const res = await axios.post(
+        "http://localhost:8800/api/aut/login",
+        formData
+      );
+
+      if (!res.data.estaActivo) {
+        alert("Tu usuario fue bloqueado.");
+      } else {
+        dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
+      }
+      reset();
+    } catch (error) {
+      dispatch({ type: "LOGIN_FAIL" });
+      setLoginError(error);
+    }
   }
 
   //Validacion registro
@@ -35,7 +45,7 @@ export default function LoginRegistro() {
     username: Yup.string()
       .required("El campo es requerido.")
       .min(6, "Tu apodo debe tener almenos 6 caracteres.")
-      .max(30, "Tu apodo debe tener maximo 30 caracteres."),
+      .max(15, "Tu apodo debe tener maximo 15 caracteres."),
     email: Yup.string()
       .required("El campo es requerido.")
       .email("Introdusca un Email valido."),
@@ -75,7 +85,6 @@ export default function LoginRegistro() {
       setError(error);
     }
   }
-  
 
   // MOSTRAR/OCULTAR CONTRASÑA
 
@@ -143,7 +152,12 @@ export default function LoginRegistro() {
           {errors.contrasenia && (
             <span className="mensaje-error">{errors.contrasenia.message}</span>
           )}
-          <button type="submit" disabled={isFetching}>Inicia sesión</button>
+          <button type="submit">Inicia sesión</button>
+          {loginError && (
+            <p className="mensaje-error-duplicado">
+              Email o contraseña erroneos.
+            </p>
+          )}
         </form>
         {/* //FORMULARIO CREAR CUENTA */}
         <form

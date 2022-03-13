@@ -23,7 +23,7 @@ export default function Pelicula() {
     getPelicula();
   }, [peliId]);
 
-  //ACTUALIZAR INFORMACION
+  
 
   //VALIDACIONES
   const {

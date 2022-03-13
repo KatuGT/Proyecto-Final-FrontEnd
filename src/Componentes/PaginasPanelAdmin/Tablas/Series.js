@@ -117,7 +117,7 @@ export default function Series({ pelis }) {
   // BORRAR SERIE
   const borrarItem = async (id) => {
     if (window.confirm("¿Estas seguro de borrar este item?")) {
-      const res = await axios.delete(`https://localhost:8800/api/films/` + id);
+      const res = await axios.delete(`http://localhost:8800/api/films/` + id);
       if (res.status === 200) {
         console.log("item borrado");
         getFilms();

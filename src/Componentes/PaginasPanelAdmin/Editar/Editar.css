@@ -100,3 +100,15 @@ button.enviar-edicion {
 .opcion-rol input {
   margin-right: 0.5em;
 }
+
+
+.contrasenia-edit-confirm,
+.contrasenia-edit{
+  position: relative;
+}
+
+.contrasenia-edit-confirm .fas,
+.contrasenia-edit .fas{
+  top: 48%;
+}
+

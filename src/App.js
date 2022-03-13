@@ -15,6 +15,7 @@ import PeliculaEditar from "./Componentes/PaginasPanelAdmin/Editar/PeliculaEdita
 import SerieEditar from "./Componentes/PaginasPanelAdmin/Editar/SerieEditar";
 import ListaPeliculasEditar from "./Componentes/PaginasPanelAdmin/Editar/ListaPeliculasEditar";
 import ListaSeriesEditar from "./Componentes/PaginasPanelAdmin/Editar/ListaSeriesEditar";
+import MisDatosEditar from "./Componentes/PaginasPanelAdmin/Editar/MisDatosEditar";
 
 import SeccionIndividual from "../src/SeccionIndividual/SeccionIndividual";
 import NotFound from "./Componentes/404/NotFound";
@@ -30,14 +31,19 @@ export default function App() {
     <div>
       <Router>
         <Routes>
-          <Route path="/" element={user ? <Home /> : <LoginRegistro />} />
+          <Route
+            path="/"
+            element={user && user.estaActivo ? <Home /> : <LoginRegistro />}
+          />
           <Route path="/registro-exitoso" element={<RegsitroExitoso />} />
           <Route element={<RutasPrivadas />}>
             <Route path="/peliculas" element={<Home tipo="pelicula" />} />
             <Route path="/series" element={<Home tipo="serie" />} />
             <Route path="/configuracion" element={<Configuracion />}>
-              <Route index element={<MisDatos />} />
-              <Route path="misdatos" element={<MisDatos />} />
+              {/* <Route index element={<MisDatos />} /> */}
+              <Route path="misdatos" element={<MisDatos />}>
+                <Route path="datos/:userId" element={<MisDatosEditar />} />
+              </Route>
               {user?.esAdmin && (
                 <>
                   <Route path="usuarioslista" element={<UsuariosLista />}>

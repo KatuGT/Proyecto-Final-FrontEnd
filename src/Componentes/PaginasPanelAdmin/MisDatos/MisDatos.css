@@ -1,23 +1,19 @@
-.contenedor-mis-datos{
-  background: rgb(240, 240, 240);
-  height: calc( 100vh - 57px);
-  color: rgb(34, 34, 34);
-}
-
 .titulo-configuracion{
   font-size: 3em;
   margin-left: 1em;
+  margin-top: 1em;
   font-weight: 700;
 }
 
 
 .mis-datos {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
-  flex-direction: column;
+  flex-direction: row;
   margin-top: 2em;
   flex-wrap: wrap;
+  gap: 4em;
 }
 
 .avatar img {
@@ -27,9 +23,9 @@
   object-fit: cover;
 }
 .datos-cuenta{
-  display: flex;
-  justify-content: space-between;
-  gap: 5em;
+  display: grid;
+  grid-template-columns: 1fr 1fr ;  
+  gap: 3em;
 }
 
 .item-info-cuenta .info-titulo {
@@ -42,6 +38,28 @@
   font-size: 1.5em;
 }
 
+.edit-perfil{
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: grey;
+  background-color: #383838;
+  padding: 0.2em 1em;
+  margin-left: 2.5em;
+  border-radius: 0.5em;
+  font-size: 1.2em;
+  width: max-content;
+}
+
+.edit-perfil:hover{
+  color: #f0f8ff;
+}
+
+.edit-perfil p{
+  margin-right: 0.5em;
+  margin-bottom: 0;
+}
+
 @media (max-width:1050px) { 
   .datos-cuenta{
     flex-direction: column;
@@ -51,5 +69,19 @@
 
   .datos-cuenta .info-titulo{
     margin-bottom: 0;
+  }
+}
+
+@media (max-width:845px) {
+  .datos-cuenta{
+    grid-template-columns: 1fr 1fr ;  
+    text-align: left;
+  }
+}
+
+@media (max-width:620px) {
+  .datos-cuenta{
+    grid-template-columns: 1fr;  
+    text-align: left;
   }
 }
