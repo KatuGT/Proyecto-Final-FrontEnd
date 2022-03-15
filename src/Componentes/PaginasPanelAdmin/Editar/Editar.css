@@ -112,3 +112,17 @@ button.enviar-edicion {
   top: 48%;
 }
 
+a.edit-perfil:focus{
+  color: #fff;
+}
+
+.condicional-contrasenia{
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  margin-top: 1em;
+}
+
+.condicional-contrasenia label{
+  margin-left: 0.5em;
+}

@@ -45,18 +45,22 @@ export default function User() {
     email: Yup.string()
       .required("El campo es requerido.")
       .email("Introdusca un Email valido."),
-    password: Yup.string()
-      .required("El campo es requerido.")
-      .min(8, "La contraseña debe tener almenos 8 caracteres.")
-      .matches(
-        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-        "No cumple con lo requisitos."
-      ),
-    confirmPwd: Yup.string()
-      .required("El campo es requerido.")
-      .oneOf([Yup.ref("password"), null], "Las contraseñas no coinciden."),
-    esAdmin: Yup.boolean().required("El campo es requerido."),
+    editContrasenia: Yup.boolean(),
+    password: Yup.string().when("editContrasenia", {
+      is: true,
+      then: Yup.string()
+        .required("El campo es requerido.")
+        .min(8, "La contraseña debe tener almenos 8 caracteres.")
+        .matches(
+          /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+          "No cumple con lo requisitos."
+        ),
+      confirmPwd: Yup.string()
+        .required("El campo es requerido.")
+        .oneOf([Yup.ref("password"), null], "Las contraseñas no coinciden."),
+    }),
   });
+
   const opcionesActualisacion = {
     resolver: yupResolver(esquemaActualisacionUsuario),
   };
@@ -65,7 +69,27 @@ export default function User() {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
+    watch,
   } = useForm(opcionesActualisacion);
+
+  const editContrasenia = watch("editContrasenia");
+
+  useEffect(() => {
+    reset(usuario);
+  }, [usuario, reset]);
+
+  //ocultar / mostrar contraseña
+
+  const [toggleContrasenia, setContrasenia] = useState(false);
+  const togglePSW = () => {
+    setContrasenia((prevState) => !prevState);
+  };
+
+  const [toggleConfirmContrasenia, setConfirmContrasenia] = useState(false);
+  const toggleConfirmPSW = () => {
+    setConfirmContrasenia((prevState) => !prevState);
+  };
 
   return (
     <div className=" formulario-editar contenedor-principal-editar">
@@ -84,7 +108,7 @@ export default function User() {
                 <input
                   type="text"
                   id="apodo"
-                  Value={usuario?.username}
+                  value={usuario?.username}
                   {...register("username")}
                 />
                 {errors.username && (
@@ -98,70 +122,15 @@ export default function User() {
                 <input
                   type="text"
                   id="email"
-                  Value={usuario?.email}
+                  value={usuario?.email}
                   {...register("email")}
                 />
                 {errors.email && (
                   <span className="mensaje-error">{errors.email.message}</span>
                 )}
               </div>
-              <div className="item-input contrasenia-edit">
-                <label htmlFor="contrasenia">Contraseña nueva</label>
-                <input
-                  defaultValue={user?.password}
-                  className="nuevaContrasenia"
-                  type="password"
-                  placeholder="*******"
-                  id="contrasenia"
-                  {...register("password")}
-                />
-                {errors.password && (
-                  <span className="mensaje-error">
-                    {errors.password.message}
-                  </span>
-                )}
-              </div>
-              <div className="item-input contrasenia-edit-confirm">
-                <label htmlFor="nuevaContraseniaConf">
-                  Confirmacion de nueva contraseña
-                </label>
-                <input
-                  defaultValue={user?.password}
-                  className="nuevaContraseniaConf"
-                  id="nuevaContraseniaConf"
-                  type="password"
-                  autoComplete="off"
-                  placeholder="Repita la contraseña*"
-                  {...register("confirmPwd")}
-                ></input>
-                {errors.confirmPwd && (
-                  <span className="mensaje-error">
-                    {errors.confirmPwd.message}
-                  </span>
-                )}
-              </div>
             </div>
             <div className="editar-derecha col-xl-3">
-              <div className="item-input">
-                <div className="opcion-rol">
-                  <input
-                    type="radio"
-                    id="usuario"
-                    value="false"
-                    {...register("esAdmin")}
-                  />
-                  <label htmlFor="usuario">Usuario</label>
-                </div>
-                <div className="opcion-rol">
-                  <input
-                    type="radio"
-                    id="admin"
-                    {...register("esAdmin")}
-                    value="true"
-                  />
-                  <label htmlFor="admin">Admin</label>
-                </div>
-              </div>              
               <div className="item-input">
                 <label htmlFor="avatar">Avatar</label>
                 <input
@@ -172,6 +141,69 @@ export default function User() {
                 />
               </div>
             </div>
+            <div className="condicional-contrasenia">
+              <input
+                id="editContrasenia"
+                type="checkbox"
+                name="editContrasenia"
+                {...register("editContrasenia")}
+              />
+              <label htmlFor="editContrasenia">Deseo editar contraseña</label>
+            </div>
+            {editContrasenia && (
+              <>
+                <div className="item-input contrasenia-edit">
+                  <label htmlFor="contrasenia">Contraseña nueva</label>
+                  <input
+                    defaultValue={user?.password}
+                    className="nuevaContrasenia"
+                    type={toggleContrasenia ? "text" : "password"}
+                    placeholder="*******"
+                    autoComplete="off"
+                    id="contrasenia"
+                    {...register("password")}
+                  />
+                  <i
+                    className={
+                      toggleContrasenia ? "fas fa-eye" : "fas fa-eye-slash"
+                    }
+                    onClick={togglePSW}
+                  ></i>
+                  {errors.password && (
+                    <span className="mensaje-error">
+                      {errors.password.message}
+                    </span>
+                  )}
+                </div>
+                <div className="item-input contrasenia-edit-confirm">
+                  <label htmlFor="nuevaContraseniaConf">
+                    Confirmacion de nueva contraseña
+                  </label>
+                  <input
+                    defaultValue={user?.password}
+                    className="nuevaContraseniaConf"
+                    id="nuevaContraseniaConf"
+                    type={toggleConfirmContrasenia ? "text" : "password"}
+                    autoComplete="off"
+                    placeholder="Repita la contraseña*"
+                    {...register("confirmPwd")}
+                  />
+                  <i
+                    className={
+                      toggleConfirmContrasenia
+                        ? "fas fa-eye"
+                        : "fas fa-eye-slash"
+                    }
+                    onClick={toggleConfirmPSW}
+                  ></i>
+                  {errors.confirmPwd && (
+                    <span className="mensaje-error">
+                      {errors.confirmPwd.message}
+                    </span>
+                  )}
+                </div>
+              </>
+            )}
             <button type="submit" className="enviar-edicion">
               Enviar
             </button>
