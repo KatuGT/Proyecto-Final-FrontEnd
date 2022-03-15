@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
@@ -13,19 +13,21 @@ export default function User() {
   let { userId } = useParams();
 
   const [usuario, setUsuario] = useState([]);
-  useEffect(() => {
-    async function getUsuario() {
-      try {
-        const usuario = await axios.get(
-          `http://localhost:8800/api/usuario/find/${userId}`
-        );
-        setUsuario(usuario.data);
-      } catch (err) {
-        console.log("messaje", err);
-      }
+
+  const getMisDatos = useCallback(async () => {
+    try {
+      const usuario = await axios.get(
+        `http://localhost:8800/api/usuario/find/${userId}`
+      );
+      setUsuario(usuario.data);
+    } catch (err) {
+      console.log("messaje", err);
     }
-    getUsuario();
-  }, [userId]);
+  });
+
+  useEffect(() => {
+    getMisDatos();
+  }, [getMisDatos]);
 
   //ACTUALIZAR MIS DATOS
   async function actualizarUsuario(formData) {
@@ -108,7 +110,7 @@ export default function User() {
                 <input
                   type="text"
                   id="apodo"
-                  value={usuario?.username}
+                  defaultValue={usuario?.username}
                   {...register("username")}
                 />
                 {errors.username && (
@@ -122,7 +124,7 @@ export default function User() {
                 <input
                   type="text"
                   id="email"
-                  value={usuario?.email}
+                  defaultValue={usuario?.email}
                   {...register("email")}
                 />
                 {errors.email && (
@@ -158,7 +160,7 @@ export default function User() {
                     defaultValue={user?.password}
                     className="nuevaContrasenia"
                     type={toggleContrasenia ? "text" : "password"}
-                    placeholder="*******"
+                    placeholder="Nueva contraseña"
                     autoComplete="off"
                     id="contrasenia"
                     {...register("password")}

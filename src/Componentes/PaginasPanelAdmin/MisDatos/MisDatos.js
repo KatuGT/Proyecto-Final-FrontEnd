@@ -11,6 +11,9 @@ export default function MisDatos() {
 
 
   const [usuario, setUsuario] = useState([]);
+
+
+
   useEffect(() => {
     async function getUsuario() {
       try {
@@ -27,7 +30,7 @@ export default function MisDatos() {
 
 
   return (
-    <div className="tabla-contenidos">
+    <div className="tabla-contenido">
       <div className="titulo-configuracion">Mis Datos</div>
       <Link to={"datos/"+user._id } className="edit-perfil">
           <p>Editar</p>    <i className="fas fa-user-edit"></i>
