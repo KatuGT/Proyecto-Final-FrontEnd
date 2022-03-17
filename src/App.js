@@ -41,8 +41,8 @@ export default function App() {
             <Route path="/series" element={<Home tipo="serie" />} />
             <Route path="/configuracion" element={<Configuracion />}>
               {/* <Route index element={<MisDatos />} /> */}
-              <Route path="misdatos" element={<MisDatos />}>
-                <Route path="datos/:userId" element={<MisDatosEditar />} />
+              <Route path="misdatos/:userId" element={<MisDatos />}>
+                <Route path="datos/" element={<MisDatosEditar />} />
               </Route>
               {user?.esAdmin && (
                 <>

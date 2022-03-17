@@ -16,7 +16,7 @@ export default function Sidebar() {
 
             <ul>
               <NavLink
-                to="misdatos"
+                to={"misdatos/"+user._id}
                 className="link"
                 activeclassname="active-link"
               >
@@ -51,7 +51,7 @@ export default function Sidebar() {
                     activeclassname="active-link"
                   >
                     <li className="sidebar-item">
-                      <i className="fas fa-list"></i>{" "}
+                      <i className="fas fa-list"></i>
                       <p>Categorias de Películas</p>
                     </li>
                   </NavLink>
@@ -71,7 +71,7 @@ export default function Sidebar() {
                     activeclassname="active-link"
                   >
                     <li className="sidebar-item">
-                      <i className="fas fa-list"></i>{" "}
+                      <i className="fas fa-list"></i>
                       <p>Categorias de Series</p>
                     </li>
                   </NavLink>

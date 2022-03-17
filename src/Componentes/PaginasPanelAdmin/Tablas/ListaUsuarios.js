@@ -1,10 +1,16 @@
-import './Tabla.css'
+import "./Tabla.css";
 import { DataGrid } from "@mui/x-data-grid";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
+import { useState, useEffect, useContext } from "react";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+import { Context } from "../../../Context/Context";
 
 export default function UsuariosLista() {
+  const { user } = useContext(Context);
+
   const columns = [
-    { field: "id", headerName: "ID", width: 70 },
+    { field: "id", headerName: "ID", width: 200 },
     {
       field: "apodo",
       headerName: "Apodo",
@@ -12,7 +18,12 @@ export default function UsuariosLista() {
       renderCell: (params) => {
         return (
           <figure className="nombre-item-row">
-            <img src={params.row.avatar} alt="avatar" />
+            {params.row.avatar !== "" ? (
+              <img src={params.row.avatar} alt="avatar" />
+            ) : (
+              <i className="fas fa-user-circle"></i>
+            )}
+
             {params.row.apodo}
           </figure>
         );
@@ -20,8 +31,13 @@ export default function UsuariosLista() {
     },
     { field: "email", headerName: "E-mail", width: 200 },
     {
-      field: "rol",
+      field: "esAdmin",
       headerName: "Rol",
+      width: 130,
+    },
+    {
+      field: "estaActivo",
+      headerName: "Estado",
       width: 130,
     },
     {
@@ -36,34 +52,81 @@ export default function UsuariosLista() {
       width: 160,
       renderCell: (params) => {
         return (
+          // BOTON EDITAR
           <div className="acciones">
             <Link to={"user/" + params.row.id}>
               <i className="fas fa-user-edit"></i>
             </Link>
-            <i className="fas fa-trash-alt"></i>
+            {/* BOTON BORRAR */}
+            <i
+              className="fas fa-trash-alt"
+              onClick={() => borrarItem(params.row.id)}
+            ></i>
           </div>
         );
       },
     },
   ];
 
-  const rows = [
-    {
-      id: 1,
-      avatar: "https://picsum.photos/id/237/200/300",
-      apodo: "Snow",
-      email: "1234@gmail.com",
-      rol: "usuario comun",
-      contrasenia: "sdfvzdsdfs",
-    },
-  ];
+  const [listasUsuarios, setListasUsuarios] = useState([]);
+
+  const getListasUsuarios = async () => {
+    try {
+      await axios
+        .get(`http://localhost:8800/api/usuario/`, {
+          headers: { token: user.tokenDeAcceso },
+        })
+        .then((response) => {
+          setListasUsuarios(response.data);
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    getListasUsuarios();
+  });
+
+  const filas = listasUsuarios.map((usuario) => {
+    const listaActual = {
+      id: usuario._id,
+      apodo: usuario.username,
+      email: usuario.email,
+      contrasenia: usuario.password,
+      avatar: usuario.fotoPerfil,
+      esAdmin: usuario.esAdmin,
+      estaActivo: usuario.estaActivo,
+    };
+    return listaActual;
+  });
+
+  // BORRAR USUARIO
+  const history = useNavigate();
+
+  const borrarItem = async (id) => {
+    if (window.confirm("¿Estas seguro de borrar este item?")) {
+      try {
+         await axios.delete(
+          `http://localhost:8800/api/usuario/` + id,
+          {
+            headers: { token: user.tokenDeAcceso },
+          }
+        );
+        getListasUsuarios();
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
   return (
     <div className="tabla-contenido">
       <div className="contenedor-tabla">
         <DataGrid
           className="dataGrid"
           disableSelectionOnClick
-          rows={rows}
+          rows={filas}
           columns={columns}
           pageSize={5}
           rowsPerPageOptions={[5]}

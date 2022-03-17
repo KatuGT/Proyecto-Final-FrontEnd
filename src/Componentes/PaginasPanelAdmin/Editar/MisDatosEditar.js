@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
@@ -14,20 +14,19 @@ export default function User() {
 
   const [usuario, setUsuario] = useState([]);
 
-  const getMisDatos = useCallback(async () => {
-    try {
-      const usuario = await axios.get(
-        `http://localhost:8800/api/usuario/find/${userId}`
-      );
-      setUsuario(usuario.data);
-    } catch (err) {
-      console.log("messaje", err);
-    }
-  });
-
   useEffect(() => {
-    getMisDatos();
-  }, [getMisDatos]);
+    async function getMiUsuario() {
+      try {
+        const usuario = await axios.get(
+          `http://localhost:8800/api/usuario/find/${userId}`
+        );
+        setUsuario(usuario.data);
+      } catch (err) {
+        console.log("messaje", err);
+      }
+    }
+    getMiUsuario();
+  }, [userId]);
 
   //ACTUALIZAR MIS DATOS
   async function actualizarUsuario(formData) {
@@ -57,10 +56,13 @@ export default function User() {
           /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
           "No cumple con lo requisitos."
         ),
-      confirmPwd: Yup.string()
-        .required("El campo es requerido.")
-        .oneOf([Yup.ref("password"), null], "Las contraseñas no coinciden."),
     }),
+    confirmPwd: Yup.string().when("editContraseña",{
+      is: true,
+      then: Yup.string()
+      .required("El campo es requerido.")
+      .oneOf([Yup.ref("password"), null], "Las contraseñas no coinciden."),
+    })
   });
 
   const opcionesActualisacion = {

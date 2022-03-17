@@ -32,7 +32,7 @@ export default function MisDatos() {
   return (
     <div className="tabla-contenido">
       <div className="titulo-configuracion">Mis Datos</div>
-      <Link to={"datos/"+user._id } className="edit-perfil">
+      <Link to={"datos"} className="edit-perfil">
           <p>Editar</p>    <i className="fas fa-user-edit"></i>
       </Link>
       <div className="mis-datos">

@@ -7,6 +7,9 @@ import axios from "axios";
 import Logo from "../../Imagenes/ROLLFLIX-LOGO.jpg";
 
 export default function Navbar() {
+
+
+
   const [isMobile, setIsMobile] = useState(false);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
