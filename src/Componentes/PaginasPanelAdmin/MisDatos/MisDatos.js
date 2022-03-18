@@ -1,12 +1,10 @@
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import { Link, Outlet, useParams } from "react-router-dom";
-import { Context } from "../../../Context/Context";
 import FotoDefault from "../../../Imagenes/fotoperfildefault.jpg";
 import "./MisDatos.css";
 
 export default function MisDatos() {
-  const { user } = useContext(Context);
   let { userId } = useParams();
 
 

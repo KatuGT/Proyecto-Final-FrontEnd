@@ -95,9 +95,6 @@ export default function User() {
     setConfirmContrasenia((prevState) => !prevState);
   };
 
-
-  
-
   return (
     <div className=" formulario-editar contenedor-principal-editar">
       <div className="contenedor-titulo-user">
@@ -148,26 +145,7 @@ export default function User() {
                 />
               </div>
             </div>
-            <div className="item-input">
-                <div className="opcion-rol">
-                  <input
-                    type="radio"
-                    id="usuario"
-                    value="false"
-                    {...register("esAdmin")}
-                  />
-                  <label htmlFor="usuario">Usuario</label>
-                </div>
-                <div className="opcion-rol">
-                  <input
-                    type="radio"
-                    id="admin"
-                    {...register("esAdmin")}
-                    value="true"
-                  />
-                  <label htmlFor="admin">Admin</label>
-                </div>
-              </div>              
+
             <div className="condicional-contrasenia">
               <input
                 id="editContrasenia"

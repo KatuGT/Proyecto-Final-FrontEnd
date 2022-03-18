@@ -149,6 +149,12 @@ figure.nombre-item-row {
   font-size: 0.8em;
 }
 
+
+.item-input.contrasenia{
+  position: relative;  
+}
+
+
 .item-duracion .info.trailer::after{
   font-size: 1.2em;
   padding: 0.5em;

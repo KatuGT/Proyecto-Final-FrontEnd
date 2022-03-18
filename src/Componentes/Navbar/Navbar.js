@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import "./Navbar.css";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import { Context } from "../../Context/Context";
 import axios from "axios";
 
@@ -57,12 +57,13 @@ export default function Navbar() {
       setDataFiltrada(nuevoFiltro);
     }
   };
-
+  let navigate = useNavigate();
 
   //CERRAR SESION
   const {user, dispatch } = useContext(Context)
   const handleLogout = () =>{
     dispatch({type: "LOGOUT"})
+    navigate("/");
   }
 
   return (

@@ -1,6 +1,6 @@
 import "./Tabla.css";
 import { DataGrid } from "@mui/x-data-grid";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
@@ -147,7 +147,7 @@ export default function UsuariosLista() {
     handleSubmit: handleSubmitB,
     formState: { errors: errorsB },
     reset: resetB,
-    clearErrors
+    clearErrors,
   } = useForm(opcionesRegistro);
 
   //CREAR CUENTA NUEVA
@@ -223,7 +223,7 @@ export default function UsuariosLista() {
                 className="formulario-editar row"
                 onSubmit={handleSubmitB(crearCuenta)}
               >
-                <div className="editar-izquierda col-6">
+                <div className="editar-izquierda">
                   <div className="item-input">
                     <label htmlFor="apodo">Apodo</label>
                     <input
@@ -252,7 +252,7 @@ export default function UsuariosLista() {
                       </span>
                     )}
                   </div>
-                  <div className="item-input">
+                  <div className="item-input contrasenia">
                     <label htmlFor="contrasenia">Contraseña</label>
                     <input
                       type={toggleContrasenia ? "text" : "password"}
@@ -261,14 +261,24 @@ export default function UsuariosLista() {
                       {...registerB("password")}
                       onClick={togglePSW}
                     />
+                    <i
+                      className={
+                        toggleConfirmContrasenia
+                          ? "fas fa-eye"
+                          : "fas fa-eye-slash"
+                      }
+                      onClick={togglePSW}
+                    ></i>
                     {errorsB.password && (
                       <span className="mensaje-error">
                         {errorsB.password.message}
                       </span>
                     )}
                   </div>
-                  <div className="item-input">
-                    <label htmlFor="contrasenia">Confirmacion de ontraseña</label>
+                  <div className="item-input contrasenia">
+                    <label htmlFor="contrasenia">
+                      Confirmacion de contraseña
+                    </label>
                     <input
                       type={toggleConfirmContrasenia ? "text" : "password"}
                       placeholder="Repita la contraseña*"
@@ -290,7 +300,12 @@ export default function UsuariosLista() {
                     </span>
                   )}
                 </div>
-                <div className="editar-derecha col-6">
+                {error && (
+                    <p className="mensaje-error-duplicado">
+                      Puede que el Email o apodo ya este en uso.
+                    </p>
+                  )}
+                <div className="editar-derecha ">
                   <div className="item-input">
                     <label htmlFor="avatar">Avatar</label>
                     <input
@@ -300,7 +315,7 @@ export default function UsuariosLista() {
                       {...registerB("fotoPerfil")}
                     />
                   </div>
-                  <div className="item-input">
+                  <div className="item-input mb-2">
                     <div className="opcion-rol">
                       <input
                         type="radio"
@@ -320,6 +335,12 @@ export default function UsuariosLista() {
                       <label htmlFor="admin">Admin</label>
                     </div>
                   </div>
+                  <p>- El apodo debe contener mínimo 6 caracteres.</p>
+                  <p>
+                    - La contraseña debe contener al menos 1 numero, 1 letra y 1
+                    carácter especial (@$!%*#?&).
+                  </p>
+                  <p>- La contraseña debe contener mínimo 8 caracteres.</p>
                 </div>
                 <button type="submit" className="btn btn-primary">
                   Crear Usuario
@@ -338,9 +359,7 @@ export default function UsuariosLista() {
               <button
                 type="button"
                 className="btn btn-danger"
-                data-bs-dismiss="modal"
                 onClick={() => resetB()}
-                
               >
                 Borrar todo
               </button>
