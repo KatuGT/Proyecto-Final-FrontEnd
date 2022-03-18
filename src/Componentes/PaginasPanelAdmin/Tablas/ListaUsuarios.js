@@ -5,6 +5,8 @@ import { useState, useEffect, useContext } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { Context } from "../../../Context/Context";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
 
 export default function UsuariosLista() {
   const { user } = useContext(Context);
@@ -95,29 +97,81 @@ export default function UsuariosLista() {
       email: usuario.email,
       contrasenia: usuario.password,
       avatar: usuario.fotoPerfil,
-      esAdmin: usuario.esAdmin,
-      estaActivo: usuario.estaActivo,
+      esAdmin: usuario.esAdmin ? "Admin" : "Usuario",
+      estaActivo: usuario.estaActivo ? "Activo" : "Bloqueado",
     };
     return listaActual;
   });
 
   // BORRAR USUARIO
-  const history = useNavigate();
-
   const borrarItem = async (id) => {
     if (window.confirm("¿Estas seguro de borrar este item?")) {
       try {
-         await axios.delete(
-          `http://localhost:8800/api/usuario/` + id,
-          {
-            headers: { token: user.tokenDeAcceso },
-          }
-        );
+        await axios.delete(`http://localhost:8800/api/usuario/` + id, {
+          headers: { token: user.tokenDeAcceso },
+        });
         getListasUsuarios();
       } catch (error) {
         console.log(error);
       }
     }
+  };
+
+  //Validacion registro
+  const esquemaRegistro = Yup.object().shape({
+    username: Yup.string()
+      .required("El campo es requerido.")
+      .min(6, "Tu apodo debe tener almenos 6 caracteres.")
+      .max(15, "Tu apodo debe tener maximo 15 caracteres."),
+    email: Yup.string()
+      .required("El campo es requerido.")
+      .email("Introdusca un Email valido."),
+    fotoPerfil: Yup.string().url(),
+    password: Yup.string()
+      .required("El campo es requerido.")
+      .min(8, "La contraseña debe tener almenos 8 caracteres.")
+      .matches(
+        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+        "No cumple con lo requisitos."
+      ),
+    confirmPwd: Yup.string()
+      .required("El campo es requerido.")
+      .oneOf([Yup.ref("password"), null], "Las contraseñas no coinciden."),
+  });
+
+  const opcionesRegistro = { resolver: yupResolver(esquemaRegistro) };
+
+  // VALIDACIONES REGISTRO
+  const {
+    register: registerB,
+    handleSubmit: handleSubmitB,
+    formState: { errors: errorsB },
+    reset: resetB,
+    clearErrors
+  } = useForm(opcionesRegistro);
+
+  //CREAR CUENTA NUEVA
+  const [error, setError] = useState(false);
+
+  async function crearCuenta(formData) {
+    setError(false);
+    try {
+      await axios.post("http://localhost:8800/api/aut/registro", formData);
+      resetB();
+    } catch (error) {
+      setError(error);
+    }
+  }
+
+  // MOSTRAR/OCULTAR CONTRASÑA
+  const [toggleContrasenia, setContrasenia] = useState(false);
+  const togglePSW = () => {
+    setContrasenia((prevState) => !prevState);
+  };
+
+  const [toggleConfirmContrasenia, setConfirmContrasenia] = useState(false);
+  const toggleConfirmPSW = () => {
+    setConfirmContrasenia((prevState) => !prevState);
   };
 
   return (
@@ -165,28 +219,76 @@ export default function UsuariosLista() {
               ></button>
             </div>
             <div className="modal-body">
-              <form className="formulario-editar row">
+              <form
+                className="formulario-editar row"
+                onSubmit={handleSubmitB(crearCuenta)}
+              >
                 <div className="editar-izquierda col-6">
                   <div className="item-input">
                     <label htmlFor="apodo">Apodo</label>
-                    <input type="text" placeholder="Teito" id="apodo"></input>
+                    <input
+                      type="text"
+                      placeholder="Teito"
+                      id="apodo"
+                      {...registerB("username")}
+                    />
                   </div>
+                  {errorsB.username && (
+                    <span className="mensaje-error">
+                      {errorsB.username.message}
+                    </span>
+                  )}
                   <div className="item-input">
                     <label htmlFor="email">E-mail</label>
                     <input
                       type="text"
                       placeholder="123@gmail.com"
                       id="email"
-                    ></input>
+                      {...registerB("email")}
+                    />
+                    {errorsB.email && (
+                      <span className="mensaje-error">
+                        {errorsB.email.message}
+                      </span>
+                    )}
                   </div>
                   <div className="item-input">
                     <label htmlFor="contrasenia">Contraseña</label>
                     <input
-                      type="text"
-                      placeholder="2132155"
+                      type={toggleContrasenia ? "text" : "password"}
+                      placeholder="Escriba la contraseña"
                       id="contrasenia"
-                    ></input>
+                      {...registerB("password")}
+                      onClick={togglePSW}
+                    />
+                    {errorsB.password && (
+                      <span className="mensaje-error">
+                        {errorsB.password.message}
+                      </span>
+                    )}
                   </div>
+                  <div className="item-input">
+                    <label htmlFor="contrasenia">Confirmacion de ontraseña</label>
+                    <input
+                      type={toggleConfirmContrasenia ? "text" : "password"}
+                      placeholder="Repita la contraseña*"
+                      id="contrasenia"
+                      {...registerB("confirmPwd")}
+                    />
+                    <i
+                      className={
+                        toggleConfirmContrasenia
+                          ? "fas fa-eye"
+                          : "fas fa-eye-slash"
+                      }
+                      onClick={toggleConfirmPSW}
+                    ></i>
+                  </div>
+                  {errorsB.confirmPwd && (
+                    <span className="mensaje-error">
+                      {errorsB.confirmPwd.message}
+                    </span>
+                  )}
                 </div>
                 <div className="editar-derecha col-6">
                   <div className="item-input">
@@ -195,7 +297,8 @@ export default function UsuariosLista() {
                       type="url"
                       placeholder="https://picsum.photos/id/237/200/300"
                       id="avatar"
-                    ></input>
+                      {...registerB("fotoPerfil")}
+                    />
                   </div>
                   <div className="item-input">
                     <div className="opcion-rol">
@@ -218,6 +321,9 @@ export default function UsuariosLista() {
                     </div>
                   </div>
                 </div>
+                <button type="submit" className="btn btn-primary">
+                  Crear Usuario
+                </button>
               </form>
             </div>
             <div className="modal-footer">
@@ -225,11 +331,18 @@ export default function UsuariosLista() {
                 type="button"
                 className="btn btn-secondary"
                 data-bs-dismiss="modal"
+                onClick={() => clearErrors()}
               >
-                Close
+                Cerrar
               </button>
-              <button type="button" className="btn btn-primary">
-                Save changes
+              <button
+                type="button"
+                className="btn btn-danger"
+                data-bs-dismiss="modal"
+                onClick={() => resetB()}
+                
+              >
+                Borrar todo
               </button>
             </div>
           </div>

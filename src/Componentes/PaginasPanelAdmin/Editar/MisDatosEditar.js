@@ -30,14 +30,13 @@ export default function User() {
 
   //ACTUALIZAR MIS DATOS
   async function actualizarUsuario(formData) {
-    console.log(formData);
     await axios.put(`http://localhost:8800/api/usuario/${userId}`, formData, {
       headers: { token: user.tokenDeAcceso },
     });
     window.location.reload();
   }
 
-  //Validacion registro
+  //Validacion
   const esquemaActualisacionUsuario = Yup.object().shape({
     username: Yup.string()
       .required("El campo es requerido.")
@@ -47,6 +46,7 @@ export default function User() {
       .required("El campo es requerido.")
       .email("Introdusca un Email valido."),
     editContrasenia: Yup.boolean(),
+    esAdmin: Yup.boolean().required("El campo es requerido."),
     password: Yup.string().when("editContrasenia", {
       is: true,
       then: Yup.string()
@@ -57,12 +57,12 @@ export default function User() {
           "No cumple con lo requisitos."
         ),
     }),
-    confirmPwd: Yup.string().when("editContraseña",{
+    confirmPwd: Yup.string().when("editContrasenia", {
       is: true,
       then: Yup.string()
-      .required("El campo es requerido.")
-      .oneOf([Yup.ref("password"), null], "Las contraseñas no coinciden."),
-    })
+        .required("El campo es requerido.")
+        .oneOf([Yup.ref("password"), null], "Las contraseñas no coinciden."),
+    }),
   });
 
   const opcionesActualisacion = {
@@ -94,6 +94,9 @@ export default function User() {
   const toggleConfirmPSW = () => {
     setConfirmContrasenia((prevState) => !prevState);
   };
+
+
+  
 
   return (
     <div className=" formulario-editar contenedor-principal-editar">
@@ -134,7 +137,7 @@ export default function User() {
                 )}
               </div>
             </div>
-            <div className="editar-derecha col-xl-3">
+            <div className="editar-derecha">
               <div className="item-input">
                 <label htmlFor="avatar">Avatar</label>
                 <input
@@ -145,6 +148,26 @@ export default function User() {
                 />
               </div>
             </div>
+            <div className="item-input">
+                <div className="opcion-rol">
+                  <input
+                    type="radio"
+                    id="usuario"
+                    value="false"
+                    {...register("esAdmin")}
+                  />
+                  <label htmlFor="usuario">Usuario</label>
+                </div>
+                <div className="opcion-rol">
+                  <input
+                    type="radio"
+                    id="admin"
+                    {...register("esAdmin")}
+                    value="true"
+                  />
+                  <label htmlFor="admin">Admin</label>
+                </div>
+              </div>              
             <div className="condicional-contrasenia">
               <input
                 id="editContrasenia"
@@ -181,7 +204,7 @@ export default function User() {
                 </div>
                 <div className="item-input contrasenia-edit-confirm">
                   <label htmlFor="nuevaContraseniaConf">
-                    Confirmacion de nueva contraseña
+                    Confirmación de nueva contraseña
                   </label>
                   <input
                     defaultValue={user?.password}

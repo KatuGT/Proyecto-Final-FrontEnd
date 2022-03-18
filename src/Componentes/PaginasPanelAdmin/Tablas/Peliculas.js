@@ -109,7 +109,7 @@ export default function Peliculas({ pelis }) {
       estreno: pelicula.fecha_de_Estreno,
       sinopsis: pelicula.sinopsis,
       genero: pelicula.genero,
-      destacada: pelicula.destacada,
+      destacada: pelicula.destacada  ? "SI" : "NO",
     };
     return peliculaActual;
   });

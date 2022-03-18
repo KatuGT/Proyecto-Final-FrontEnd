@@ -23,8 +23,6 @@ export default function Pelicula() {
     getPelicula();
   }, [peliId]);
 
-  
-
   //VALIDACIONES
   const {
     register,

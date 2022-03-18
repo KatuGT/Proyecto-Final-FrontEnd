@@ -109,7 +109,7 @@ export default function Series({ pelis }) {
       estreno: serie.fecha_de_Estreno,
       sinopsis: serie.sinopsis,
       genero: serie.genero,
-      destacada: serie.destacada,
+      destacada: serie.destacada  ? "SI" : "NO",
     };
     return serieActual;
   });
