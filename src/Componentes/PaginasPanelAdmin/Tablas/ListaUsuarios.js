@@ -105,9 +105,10 @@ export default function UsuariosLista() {
 
   // BORRAR USUARIO
   const borrarItem = async (id) => {
-    if (window.confirm("¿Estas seguro de borrar este item?")) {
+    console.log(id);
+    if (window.confirm("¿Estas seguro de borrar este usuario? Es Permanente.")) {
       try {
-        await axios.delete(`http://localhost:8800/api/usuario/` + id, {
+        await axios.delete(`http://localhost:8800/api/usuario/delete/` + id, {
           headers: { token: user.tokenDeAcceso },
         });
         getListasUsuarios();
