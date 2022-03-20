@@ -4,6 +4,8 @@ import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import toast, { Toaster } from 'react-hot-toast';
+
 
 export default function ListasPeliculas({ Lista }) {
   // COLUMNAS
@@ -89,12 +91,16 @@ export default function ListasPeliculas({ Lista }) {
   const history = useNavigate();
 
   const borrarItem = async (id) => {
-    if (window.confirm("¿Estas seguro de borrar este item?")) {
+    if (window.confirm("¿Estas seguro de borrar esta categoria?")) {
       const res = await axios.delete(
         `http://localhost:8800/api/listafilms/` + id
       );
       if (res.status === 200) {
         console.log("item borrado");
+        toast.error('Categoria borrada permanentemente.', {
+          position: 'bottom-center',
+          style: { backgroundColor: "#FA392D", color: "#fff" }
+        });
         setListas(res.data.listaBorrar);
         history("/configuracion/listaseries/");
       }
@@ -114,6 +120,10 @@ export default function ListasPeliculas({ Lista }) {
   async function agregarItem(formData) {
     await axios.post("/listafilms", formData);
     getListas();
+    toast.success('Nueva categoria creada!', {
+      position: 'bottom-center',
+      style: { backgroundColor: "#2DFA6E", color: "#fff" }
+    });
     reset();
   }
 
@@ -270,6 +280,7 @@ export default function ListasPeliculas({ Lista }) {
           </div>
         </div>
       </div>
+      <Toaster />
       <Outlet />
     </div>
   );
