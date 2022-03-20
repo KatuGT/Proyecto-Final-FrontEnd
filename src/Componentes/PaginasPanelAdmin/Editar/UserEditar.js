@@ -7,6 +7,7 @@ import { Context } from "../../../Context/Context";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 
+
 export default function User() {
   let { userId } = useParams();
   const { user } = useContext(Context);

@@ -4,6 +4,8 @@ import { useEffect, useState, useCallback } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import toast, { Toaster } from 'react-hot-toast';
+
 
 export default function Pelicula() {
   //MUESTRA EN INPUTS INFORMACION DE LA LISTA PARA EDITAR
@@ -106,14 +108,19 @@ export default function Pelicula() {
   }
 
   //AGREGAR CONTENIDO A LISTA
-  const { register: registerB, handleSubmit: handleSubmitB } = useForm();
+  const { register: registerB, reset: resetB, handleSubmit: handleSubmitB } = useForm();
 
   async function agregarIDenArray(formData) {
     const respuesta = await axios.post(
       `/listafilms/${listaId}/agregarfilm/${formData.contenido}`
     );
+    resetB()
     document.getElementById("cerrarAgregarItemLista").click();
     setContenido(respuesta);
+    toast.success('Serie agregada a la lista!',{
+      position: 'bottom-center',
+      style: {backgroundColor : "#2DFA6E", color:"#fff"}
+    });
     getListas();
   }
 
@@ -123,6 +130,10 @@ export default function Pelicula() {
       `/listafilms/${listaId}/borrarfilm/${id}`
     );
     setContenido(borrado.data.contenido);
+    toast.error('Serie borrada de la lista!',{
+      position: 'bottom-center',
+      style: {backgroundColor : "#FA392D", color:"#fff"}
+    });
   }
 
   return (
@@ -297,6 +308,7 @@ export default function Pelicula() {
           </div>
         </div>
       </div>
+      <Toaster/>
     </div>
   );
 }

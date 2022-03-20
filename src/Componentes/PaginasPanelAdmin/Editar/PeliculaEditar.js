@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import toast, { Toaster } from 'react-hot-toast';
+
 
 export default function Pelicula() {
   //MUESTRA EN INPUTS INFORMACION DE LA PELICULA SLECCIONADA PARA EDITAR
@@ -40,6 +42,8 @@ export default function Pelicula() {
   async function actualizarItem(formData) {
     await axios.put(`/films/${peliId}`, formData);
     window.location.reload();
+    toast.success('Edición realizada!');
+
   }
 
   return (
@@ -297,6 +301,7 @@ export default function Pelicula() {
             </button>
           </div>
         </form>
+      <Toaster />
       </div>
     </div>
   );

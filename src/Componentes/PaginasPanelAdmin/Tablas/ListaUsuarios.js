@@ -7,6 +7,8 @@ import axios from "axios";
 import { Context } from "../../../Context/Context";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
+import toast, { Toaster } from 'react-hot-toast';
+
 
 export default function UsuariosLista() {
   const { user } = useContext(Context);
@@ -105,17 +107,21 @@ export default function UsuariosLista() {
 
   // BORRAR USUARIO
   const borrarItem = async (id) => {
-    console.log(id);
     if (window.confirm("¿Estas seguro de borrar este usuario? Es Permanente.")) {
       try {
         await axios.delete(`http://localhost:8800/api/usuario/delete/` + id, {
           headers: { token: user.tokenDeAcceso },
         });
         getListasUsuarios();
+        
       } catch (error) {
         console.log(error);
       }
     }
+    toast.error('Usuario borrado permanentemente.', {
+      position: 'bottom-center',
+      style: { backgroundColor: "#FA392D", color: "#fff" }
+    });
   };
 
   //Validacion registro
@@ -159,6 +165,10 @@ export default function UsuariosLista() {
     try {
       await axios.post("http://localhost:8800/api/aut/registro", formData);
       resetB();
+      toast.success('Usuario nuevo creado!', {
+        position: 'bottom-center',
+        style: { backgroundColor: "#2DFA6E", color: "#fff" }
+      });
     } catch (error) {
       setError(error);
     }
@@ -259,8 +269,7 @@ export default function UsuariosLista() {
                       type={toggleContrasenia ? "text" : "password"}
                       placeholder="Escriba la contraseña"
                       id="contrasenia"
-                      {...registerB("password")}
-                      onClick={togglePSW}
+                      {...registerB("password")}                      
                     />
                     <i
                       className={
@@ -323,6 +332,7 @@ export default function UsuariosLista() {
                         name="rol"
                         required
                         id="usuario"
+                        defaultChecked
                       ></input>
                       <label htmlFor="usuario">Usuario</label>
                     </div>
@@ -368,6 +378,7 @@ export default function UsuariosLista() {
           </div>
         </div>
       </div>
+      <Toaster />
       <Outlet />
     </div>
   );

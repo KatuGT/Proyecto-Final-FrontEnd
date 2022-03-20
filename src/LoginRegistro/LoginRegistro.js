@@ -198,7 +198,9 @@ export default function LoginRegistro() {
             />
             <i
               className={
-                toggleConfirmContrasenia ? "fas fa-eye" : "fas fa-eye-slash"
+                toggleConfirmContrasenia
+                 ? "fas fa-eye"
+                 : "fas fa-eye-slash"
               }
               onClick={toggleConfirmPSW}
             ></i>

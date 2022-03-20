@@ -4,6 +4,8 @@ import { Link, Outlet } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import toast, { Toaster } from 'react-hot-toast';
+
 
 export default function Peliculas({ pelis }) {
   // COLUMNAS
@@ -116,12 +118,18 @@ export default function Peliculas({ pelis }) {
 
   // BORRAR PELICULA
   const borrarItem = async (id) => {
-    if (window.confirm("¿Estas seguro de borrar este item?")) {
+   if (window.confirm("¿Estas seguro de borrar este item?")) {
       const res = await axios.delete(`http://localhost:8800/api/films/` + id);
+      
       if (res.status === 200) {
         getFilms();
+        toast.error('Pelicula borrada!',{
+          position: 'bottom-center',
+          style: {backgroundColor : "#FA392D", color:"#fff"}
+        });
       }
     }
+    
   };
 
   //VALIDACIONES
@@ -138,6 +146,10 @@ export default function Peliculas({ pelis }) {
     await axios.post("/films", formData);
     getFilms();
     reset();
+    toast.success('Pelicula agregada!', {
+      position: 'bottom-center',
+      style: {backgroundColor : "#2DFA6E", color:"#fff"}});
+
   }
 
   return (
@@ -482,6 +494,8 @@ export default function Peliculas({ pelis }) {
             </div>
           </div>
         </div>
+        <Toaster position="bottom-center"/>
+
       </div>
       <Outlet />
     </div>

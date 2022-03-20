@@ -3,7 +3,6 @@ import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-
 import { Context } from "../../../Context/Context";
 import "./Editar.css";
 import { useParams } from "react-router-dom";
@@ -33,7 +32,7 @@ export default function User() {
     await axios.put(`http://localhost:8800/api/usuario/${userId}`, formData, {
       headers: { token: user.tokenDeAcceso },
     });
-    window.location.reload();
+   window.location.reload();
   }
 
   //Validacion
