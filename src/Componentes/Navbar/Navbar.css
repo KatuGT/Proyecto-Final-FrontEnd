@@ -5,7 +5,8 @@
 a:focus,
 a:hover,
 p.link:hover{
- color: var(--clr-morado1);
+  font-weight: bolder;
+  color: #fff;
 }
 
 .barra {
@@ -62,6 +63,7 @@ p.link:hover{
   position: absolute;
   left:-100%;
   top: 90%;
+  width: max-content;
 }
 
 .barra-derecha .perfil:hover .opciones {
