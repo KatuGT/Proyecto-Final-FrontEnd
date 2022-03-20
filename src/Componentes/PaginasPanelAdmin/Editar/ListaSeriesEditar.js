@@ -109,7 +109,6 @@ export default function Pelicula() {
   const { register: registerB, handleSubmit: handleSubmitB } = useForm();
 
   async function agregarIDenArray(formData) {
-    console.log(formData.contenido);
     const respuesta = await axios.post(
       `/listafilms/${listaId}/agregarfilm/${formData.contenido}`
     );
@@ -265,9 +264,9 @@ export default function Pelicula() {
                   <div className="editar-izquierda col-6">
                     <div className="item-input">
                       <label htmlFor="nombre">Nombre</label>
-                      <input className="form-control" list="datalistOptions" id="exampleDataList" placeholder="Type to search..." {...registerB("contenido")}/>
+                      <input className="form-control" list="datalistOptions" id="exampleDataList" placeholder="Type to search..." {...registerB("contenido")} />
 
-                      <datalist id="datalistOptions">                      
+                      <datalist id="datalistOptions">
                         {films.map((film, index) =>
                           film.esPelicula !== true ? (
                             <option key={index} value={film._id}>

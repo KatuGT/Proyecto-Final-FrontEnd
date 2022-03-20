@@ -4,6 +4,7 @@ import "./SeccionIndividual.css";
 import Navbar from "../Componentes/Navbar/Navbar";
 import Footer from "../Componentes/Footer/Footer"
 import axios from "axios";
+import Comentarios from "../Componentes/Comentarios/Comentarios";
 
 export default function SeccionIndividual() {
   let { id } = useParams();
@@ -22,6 +23,8 @@ export default function SeccionIndividual() {
     }
     getPelicula();
   });
+
+
   return (
     <div>
       <Navbar />
@@ -70,11 +73,12 @@ export default function SeccionIndividual() {
             height="315"
             src={pelicula.trailer}
             title="YouTube video player"
-            frameborder="0"
+            frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
+            allowFullScreen
           ></iframe>
         </div>
+        <Comentarios id={id}/>
       </section>
      <Footer/>
     </div>
