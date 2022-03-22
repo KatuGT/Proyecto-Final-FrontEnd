@@ -4,18 +4,20 @@ import "./slider.css";
 import RollflixHeader from "../../Imagenes/ROLLFLIX-HEADER.jpg";
 import { Link } from "react-router-dom";
 
-export default function Slider({tipo, setGenero}) {
+export default function Slider({ tipo, setGenero }) {
   const [films, setFilms] = useState([]);
-const [lista, setLista] = useState("");
+  const [lista, setLista] = useState("");
 
   useEffect(() => {
     async function getFilms() {
       await axios
-        .get(`http://localhost:8800/api/listafilms/filterList${
-          tipo ? "?tipo="+tipo : ""
-        }`)
+        .get(
+          `http://localhost:8800/api/listafilms/filterList${
+            tipo ? "?tipo=" + tipo : ""
+          }`
+        )
         .then((response) => {
-          setLista(response.data);         
+          setLista(response.data);
         });
       try {
         const film = await axios.get(`http://localhost:8800/api/films/`);
@@ -27,13 +29,12 @@ const [lista, setLista] = useState("");
     getFilms();
   }, [tipo]);
 
-  const listaCategorias = []
+  const listaCategorias = [];
 
   for (let i = 0; i < lista.length; i++) {
     const element = lista[i].genero;
-    listaCategorias.push(element)
+    listaCategorias.push(element);
   }
-
 
   return (
     <div className="contenedor-slider">
@@ -46,8 +47,14 @@ const [lista, setLista] = useState("");
             className="form-select"
             onChange={(e) => setGenero(e.target.value)}
           >
-            <option disabled selected>Genero</option>
-            {listaCategorias.map((categoria, index) => <option key={index} value={categoria}>{categoria}</option>)}
+            <option disabled selected>
+              Genero
+            </option>
+            {listaCategorias.map((categoria, index) => (
+              <option key={index} value={categoria}>
+                {categoria}
+              </option>
+            ))}
           </select>
         </div>
       )}
@@ -126,7 +133,15 @@ const [lista, setLista] = useState("");
                     <p>{element.nombre}</p>
                   </div>
                   <div className="sinopsis-header">
-                    <p>{element.sinopsis.slice(0, 200)}... <Link to={{ pathname: `/ver/${element?._id}` }} className="link-header">VER MAS</Link></p>
+                    <p>
+                      {element.sinopsis.slice(0, 200)}...{" "}
+                      <Link
+                        to={{ pathname: `/ver/${element?._id}` }}
+                        className="link-header"
+                      >
+                        VER MAS
+                      </Link>
+                    </p>
                   </div>
                 </section>
               </div>

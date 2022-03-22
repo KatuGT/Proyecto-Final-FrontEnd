@@ -75,6 +75,16 @@ export default function Sidebar() {
                       <p>Categorias de Series</p>
                     </li>
                   </NavLink>
+                  <hr />
+                  <NavLink
+                    to="filmsDestacados"
+                    className="link"
+                    activeclassname="active-link"
+                  >
+                    <li className="sidebar-item">
+                      <i className="fas fa-star"></i> <p>Films destacados</p>
+                    </li>
+                  </NavLink>
                 </>
               )}
             </ul>

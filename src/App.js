@@ -10,6 +10,7 @@ import ListasPeliculas from "./Componentes/PaginasPanelAdmin/Tablas/ListasPelicu
 import Peliculas from "./Componentes/PaginasPanelAdmin/Tablas/Peliculas";
 import ListasSeries from "./Componentes/PaginasPanelAdmin/Tablas/ListasSeries";
 import Series from "./Componentes/PaginasPanelAdmin/Tablas/Series";
+import Destacados from "./Componentes/PaginasPanelAdmin/Tablas/ListaDestacados";
 
 import PeliculaEditar from "./Componentes/PaginasPanelAdmin/Editar/PeliculaEditar";
 import SerieEditar from "./Componentes/PaginasPanelAdmin/Editar/SerieEditar";
@@ -70,6 +71,7 @@ export default function App() {
                       element={<ListaSeriesEditar />}
                     />
                   </Route>
+                  <Route path="filmsDestacados" element={<Destacados/>}></Route>
                 </>
               )}
             </Route>

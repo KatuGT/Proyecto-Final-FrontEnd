@@ -22,7 +22,7 @@ export default function SeccionIndividual() {
       }
     }
     getPelicula();
-  });
+  },[id]);
 
 
   return (

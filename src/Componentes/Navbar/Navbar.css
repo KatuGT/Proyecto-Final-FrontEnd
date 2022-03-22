@@ -82,8 +82,7 @@ p.link:hover{
 
 .contenedor-barra .active{
   font-weight: bolder;
-  color: var(--clr-morado1);
-
+  color: #fff;
 }
 
 .search-bar form{

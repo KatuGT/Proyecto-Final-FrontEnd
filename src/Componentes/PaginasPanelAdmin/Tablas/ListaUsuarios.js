@@ -269,6 +269,7 @@ export default function UsuariosLista() {
                       type={toggleContrasenia ? "text" : "password"}
                       placeholder="Escriba la contraseña"
                       id="contrasenia"
+                      autoComplete="off"
                       {...registerB("password")}                      
                     />
                     <i
@@ -286,13 +287,14 @@ export default function UsuariosLista() {
                     )}
                   </div>
                   <div className="item-input contrasenia">
-                    <label htmlFor="contrasenia">
+                    <label htmlFor="contraseniaConfirm">
                       Confirmacion de contraseña
                     </label>
                     <input
                       type={toggleConfirmContrasenia ? "text" : "password"}
                       placeholder="Repita la contraseña*"
-                      id="contrasenia"
+                      id="contraseniaConfirm"
+                      autoComplete="off"
                       {...registerB("confirmPwd")}
                     />
                     <i
