@@ -1,15 +1,36 @@
 import axios from "axios";
-import React, { useContext } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Context } from "../../Context/Context";
+import "./Comentarios.css";
 
 export default function Comentarios({ id }) {
-  //Comentarios
+  //GET COMENTARIOS
+  const [comentarios, setComentarios] = useState([]);
+
+  const getComentarios = useCallback(async () => {
+    try {
+      await axios
+        .get(`http://localhost:8800/api/films/${id}`)
+        .then((response) => {
+          setComentarios(response.data.comentarios);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  }, [id]);
+
+  useEffect(() => {
+    getComentarios();
+  }, [comentarios, getComentarios]);
+
+  //Comentarios VALIDACIONES
   const { user } = useContext(Context);
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
 
   async function enviarComentario(formData) {
@@ -19,29 +40,46 @@ export default function Comentarios({ id }) {
     try {
       await axios.post(
         `http://localhost:8800/api/films/${id}/agregarcomentario/`,
-        {datosComentarios }
+        { datosComentarios }
       );
+      reset();
     } catch (error) {
       console.log(error);
     }
   }
 
+  const borrarItem = () => {
+
+  }
+
   return (
-    <>
+    <section className="contenedor-principal-comentarios">
       <section className="contenedor-comentarios">
         <div className="titulo-comentarios">
-          <h6>Comentarios</h6>
+          <h4>Comentarios</h4>
         </div>
-        <div className="comentarios"></div>
+        <div className="lista-comentarios">
+          {comentarios.map((comentario, index) => (
+            <p className="comentario">
+              <i className="fas fa-trash-alt" onClick={() => borrarItem()}></i>
+              <strong key={index}>{comentario.split(": ")[0]}:</strong>
+              {comentario.split(":")[1]}
+            </p>
+          ))}
+        </div>
       </section>
       <section className="formularios-comentarios">
         <h6>Deja un comentario</h6>
         <form onSubmit={handleSubmit(enviarComentario)}>
           <textarea
             {...register("comentario", {
+              required: {
+                value: true,
+                message: "No puede enviar un mensaje vacio.",
+              },
               maxLength: {
-                value: 10,
-                message: "Maximo 10 caracteres",
+                value: 150,
+                message: "Maximo 150 caracteres",
               },
             })}
           ></textarea>
@@ -51,6 +89,6 @@ export default function Comentarios({ id }) {
           <button type="submit">Enviar</button>
         </form>
       </section>
-    </>
+    </section>
   );
 }

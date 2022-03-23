@@ -83,7 +83,7 @@ export default function ListasSeries({ Lista }) {
     return listaActual;
   });
 
-  // BORRAR PELICULA
+  // BORRAR CATEGORIA
   const history = useNavigate();
 
   const borrarItem = async (id) => {

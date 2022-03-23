@@ -1,0 +1,28 @@
+.contenedor-principal-comentarios {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.contenedor-comentarios,
+.formularios-comentarios {
+  margin-top: 2em;
+}
+
+.contenedor-comentarios .lista-comentarios {
+  display: flex;
+  flex-direction: column;
+}
+
+.formularios-comentarios form{
+    display: flex;
+    flex-direction: column;
+}
+.formularios-comentarios textarea{
+    width: 100%;
+    margin-bottom: 1em;
+}
+.formularios-comentarios form button{
+    border: none;
+    border-radius: 4px;
+    
+}
