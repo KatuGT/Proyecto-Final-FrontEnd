@@ -7,7 +7,7 @@ import { FormControlLabel, Switch } from "@mui/material";
 import Cargando from "../../../Imagenes/Cargando-icon.svg";
 
 export default function ListasSeries({ Lista }) {
-   //MOSTRAR LISTAS
+  //MOSTRAR LISTAS
   const [filmsDestacados, setFilmDestacados] = useState([]);
 
   const getFilmsDestacados = async () => {
@@ -41,50 +41,49 @@ export default function ListasSeries({ Lista }) {
     };
     return listaActual;
   });
-  console.log(cardsDestacadas);
- 
 
   //VALIDACIONES
-   const {
-     register,
-     handleSubmit,
-   } = useForm();
+  const { register, handleSubmit } = useForm();
 
-  async function actualizarDestacados(formData) {
-    // await axios.post("/listafilms", formData);
-    // getFilmsDestacados();
-    //  toast.success("Nueva categoria creada!", {
-    //    position: "bottom-center",
-    //    style: { backgroundColor: "#2DFA6E", color: "#fff" },
-    // });
-    console.log(formData);
-   
+  async function actualizarDestacados(data) {
+    console.log(data);
+
+    toast.success("Nueva categoria creada!", {
+      position: "bottom-center",
+      style: { backgroundColor: "#2DFA6E", color: "#fff" },
+    });
   }
 
   return (
     <div className="tabla-contenido">
       <div className="contenedor-info-destacados">
         <h2>Films destacados</h2>
-        <p>Los films que ven aqui son los que se muestran en el slider de la pagina principal. Como maximo pueden seleccionar 8 films destacados.</p>
+        <p>
+          Los films que ven aqui son los que se muestran en el slider de la
+          pagina principal. Como maximo pueden seleccionar 8 films destacados.
+        </p>
       </div>
 
-      <form className="contenedor-film-destadas" onSubmit={handleSubmit(actualizarDestacados)}>
+      <section className="contenedor-film-destadas">
         {cardsDestacadas.map((destacada, index) => (
           <div className="card-film-destacado" key={index}>
             <img src={destacada?.imagen || Cargando} alt="Film Destacado" />
             <div className="datos-film-destacado">
               <h4>{destacada?.nombre}</h4>
-              <FormControlLabel
-                control={<Switch defaultChecked />}
-                value="true"
-                label="Destacada"
-                {...register("destacada")}
-              />
+              <form>
+                <FormControlLabel
+                  control={<Switch defaultChecked />}
+                  value="true"
+                  label="Destacada"
+                  {...register("destacada")}
+                  
+                />
+                
+              </form>
             </div>
           </div>
         ))}
-        <button type="submit">Enviar</button>
-      </form>
+      </section>
       <Toaster />
     </div>
   );

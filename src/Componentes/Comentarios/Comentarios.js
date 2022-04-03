@@ -33,10 +33,10 @@ export default function Comentarios({ id }) {
     reset,
   } = useForm();
 
+  //agregar comentario
   async function enviarComentario(formData) {
     const datosComentarios =
       `${user.username}: ` + JSON.stringify(formData.comentario);
-    console.log(datosComentarios);
     try {
       await axios.post(
         `http://localhost:8800/api/films/${id}/agregarcomentario/`,
@@ -48,8 +48,17 @@ export default function Comentarios({ id }) {
     }
   }
 
-  const borrarItem = () => {
-
+  //borrar comentario
+  async function borrarItem(index) {
+    console.log(index);
+    try {
+      await axios.delete(
+        `http://localhost:8800/api/films/${id}/borrarcomentario/`,
+        { data: { index } }
+      );
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
@@ -60,8 +69,11 @@ export default function Comentarios({ id }) {
         </div>
         <div className="lista-comentarios">
           {comentarios.map((comentario, index) => (
-            <p className="comentario">
-              <i className="fas fa-trash-alt" onClick={() => borrarItem()}></i>
+            <p className="comentario" key={index}>
+              <i
+                className="fas fa-trash-alt"
+                onClick={() => borrarItem(index)}
+              ></i>
               <strong key={index}>{comentario.split(": ")[0]}:</strong>
               {comentario.split(":")[1]}
             </p>

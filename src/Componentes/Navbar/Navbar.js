@@ -6,7 +6,6 @@ import axios from "axios";
 import Logo from "../../Imagenes/ROLLFLIX-LOGO.jpg";
 
 export default function Navbar() {
-
   const [isMobile, setIsMobile] = useState(false);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
@@ -56,14 +55,7 @@ export default function Navbar() {
   };
   let navigate = useNavigate();
 
-  //CERRAR SESION
-  const handleLogout = () => {
-    dispatch({ type: "LOGOUT" })
-    navigate("/");
-  }
-  
-  
-  const { user, dispatch } = useContext(Context)
+  const { user, dispatch } = useContext(Context);
   const [usuario, setUsuario] = useState([]);
   useEffect(() => {
     async function getUsuario() {
@@ -79,12 +71,17 @@ export default function Navbar() {
     getUsuario();
   }, [user._id]);
 
+  //CERRAR SESION
+  const handleLogout = () => {
+    dispatch({ type: "LOGOUT" });
+    navigate("/");
+  };
+
   return (
     <nav className="barra">
       <div className="contenedor-barra">
         <NavLink to="/">
           <img src={Logo} alt="logo Rollflix"></img>
-
         </NavLink>
         <div className="menu-icon" onClick={() => toggleNav(!isMobile)}>
           <i className={isMobile ? "fas fa-times" : "fas fa-bars"} />
@@ -128,10 +125,7 @@ export default function Navbar() {
           >
             Configuración
           </NavLink>
-          <p
-            className="link  desktop"
-            onClick={() => setIsMobile(!isMobile)}
-          >
+          <p className="link  desktop" onClick={() => setIsMobile(!isMobile)}>
             Cerrar Sesión
           </p>
         </div>
@@ -163,7 +157,15 @@ export default function Navbar() {
             <i className="fas fa-search"></i>
           </div>
           <div className="profile-user">
-            {usuario?.fotoPerfil !== "" ? <img src={usuario?.fotoPerfil} className="foto-perfil " alt="Foto de perfil" /> : <i className="fas fa-user-circle"></i>}
+            {usuario?.fotoPerfil !== "" ? (
+              <img
+                src={usuario?.fotoPerfil}
+                className="foto-perfil "
+                alt="Foto de perfil"
+              />
+            ) : (
+              <i className="fas fa-user-circle"></i>
+            )}
             <span>{usuario?.username}</span>
           </div>
           <div className="perfil">
