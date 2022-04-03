@@ -14,7 +14,7 @@ export default function SeccionIndividual() {
     async function getPelicula() {
       try {
         const pelicula = await axios.get(
-          `http://localhost:8800/api/films/${id}`
+          `https://rollflix-back.herokuapp.com/api/films/${id}`
         );
         setPelicula(pelicula.data);
       } catch (err) {

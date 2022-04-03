@@ -50,7 +50,7 @@ export default function ListasSeries({ Lista }) {
 
   const getListas = async () => {
     try {
-      axios.get(`http://localhost:8800/api/listafilms/`).then((response) => {
+      axios.get(`https://rollflix-back.herokuapp.com/api/listafilms/`).then((response) => {
         setListas(response.data);
       });
     } catch (err) {
@@ -89,7 +89,7 @@ export default function ListasSeries({ Lista }) {
   const borrarItem = async (id) => {
     if (window.confirm("¿Estas seguro de borrar esta categoria?")) {
       const res = await axios.delete(
-        `http://localhost:8800/api/listafilms/` + id
+        `https://rollflix-back.herokuapp.com/api/listafilms/` + id
       );
       if (res.status === 200) {
         toast.error('Categoria borrada permanentemente.', {

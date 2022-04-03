@@ -15,7 +15,7 @@ export default function Pelicula() {
     async function getPelicula() {
       try {
         const pelicula = await axios.get(
-          `http://localhost:8800/api/films/${peliId}`
+          `https://rollflix-back.herokuapp.com/api/films/${peliId}`
         );
         setPelicula(pelicula.data);
       } catch (err) {

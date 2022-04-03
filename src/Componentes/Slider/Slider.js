@@ -12,7 +12,7 @@ export default function Slider({ tipo, setGenero }) {
     async function getFilms() {
       await axios
         .get(
-          `http://localhost:8800/api/listafilms/filterList${
+          `https://rollflix-back.herokuapp.com/api/listafilms/filterList${
             tipo ? "?tipo=" + tipo : ""
           }`
         )
@@ -20,7 +20,7 @@ export default function Slider({ tipo, setGenero }) {
           setLista(response.data);
         });
       try {
-        const film = await axios.get(`http://localhost:8800/api/films/`);
+        const film = await axios.get(`https://rollflix-back.herokuapp.com/api/films/`);
         setFilms(film.data);
       } catch (err) {
         console.log("messaje", err);
@@ -35,6 +35,8 @@ export default function Slider({ tipo, setGenero }) {
     const element = lista[i].genero;
     listaCategorias.push(element);
   }
+
+  console.log(films.destacados === true);
 
   return (
     <div className="contenedor-slider">

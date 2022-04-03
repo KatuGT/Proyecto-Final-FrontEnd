@@ -84,7 +84,7 @@ export default function Peliculas({ pelis }) {
 
   const getFilms = async () => {
     try {
-      await axios.get(`http://localhost:8800/api/films/`).then((response) => {
+      await axios.get(`https://rollflix-back.herokuapp.com/api/films/`).then((response) => {
         setFilms(response.data);
       });
     } catch (err) {
@@ -119,7 +119,7 @@ export default function Peliculas({ pelis }) {
   // BORRAR PELICULA
   const borrarItem = async (id) => {
    if (window.confirm("¿Estas seguro de borrar este item?")) {
-      const res = await axios.delete(`http://localhost:8800/api/films/` + id);
+      const res = await axios.delete(`https://rollflix-back.herokuapp.com/api/films/` + id);
       
       if (res.status === 200) {
         getFilms();

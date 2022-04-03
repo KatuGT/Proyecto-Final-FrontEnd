@@ -77,7 +77,7 @@ export default function UsuariosLista() {
   const getListasUsuarios = async () => {
     try {
       await axios
-        .get(`http://localhost:8800/api/usuario/`, {
+        .get(`https://rollflix-back.herokuapp.com/api/usuario/`, {
           headers: { token: user.tokenDeAcceso },
         })
         .then((response) => {
@@ -109,7 +109,7 @@ export default function UsuariosLista() {
   const borrarItem = async (id) => {
     if (window.confirm("¿Estas seguro de borrar este usuario? Es Permanente.")) {
       try {
-        await axios.delete(`http://localhost:8800/api/usuario/delete/` + id, {
+        await axios.delete(`https://rollflix-back.herokuapp.com/api/usuario/delete/` + id, {
           headers: { token: user.tokenDeAcceso },
         });
         getListasUsuarios();
@@ -163,7 +163,7 @@ export default function UsuariosLista() {
   async function crearCuenta(formData) {
     setError(false);
     try {
-      await axios.post("http://localhost:8800/api/aut/registro", formData);
+      await axios.post("https://rollflix-back.herokuapp.com/api/aut/registro", formData);
       resetB();
       toast.success('Usuario nuevo creado!', {
         position: 'bottom-center',

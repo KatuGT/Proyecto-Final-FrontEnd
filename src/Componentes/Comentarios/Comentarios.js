@@ -11,7 +11,7 @@ export default function Comentarios({ id }) {
   const getComentarios = useCallback(async () => {
     try {
       await axios
-        .get(`http://localhost:8800/api/films/${id}`)
+        .get(`https://rollflix-back.herokuapp.com/api/films/${id}`)
         .then((response) => {
           setComentarios(response.data.comentarios);
         });
@@ -39,7 +39,7 @@ export default function Comentarios({ id }) {
       `${user.username}: ` + JSON.stringify(formData.comentario);
     try {
       await axios.post(
-        `http://localhost:8800/api/films/${id}/agregarcomentario/`,
+        `https://rollflix-back.herokuapp.com/api/films/${id}/agregarcomentario/`,
         { datosComentarios }
       );
       reset();
@@ -53,7 +53,7 @@ export default function Comentarios({ id }) {
     console.log(index);
     try {
       await axios.delete(
-        `http://localhost:8800/api/films/${id}/borrarcomentario/`,
+        `https://rollflix-back.herokuapp.com/api/films/${id}/borrarcomentario/`,
         { data: { index } },
         {
           headers: { token: user.tokenDeAcceso }

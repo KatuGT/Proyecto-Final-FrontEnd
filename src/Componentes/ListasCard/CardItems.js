@@ -8,7 +8,7 @@ function CardItems({ item }) {
 
   const getFilms = useCallback(async () => {
     try {
-      await axios.get("http://localhost:8800/api/films/" + item).then((response) => {
+      await axios.get("https://rollflix-back.herokuapp.com/api/films/" + item).then((response) => {
         setPelicula(response.data);
       });
     } catch (err) {

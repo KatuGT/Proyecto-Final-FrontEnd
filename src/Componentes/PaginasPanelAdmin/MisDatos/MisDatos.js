@@ -16,7 +16,7 @@ export default function MisDatos() {
     async function getUsuario() {
       try {
         const usuario = await axios.get(
-          `http://localhost:8800/api/usuario/find/${userId}`
+          `https://rollflix-back.herokuapp.com/api/usuario/find/${userId}`
         );
         setUsuario(usuario.data);
       } catch (err) {

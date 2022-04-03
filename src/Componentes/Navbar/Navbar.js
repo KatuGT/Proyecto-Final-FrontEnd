@@ -30,7 +30,7 @@ export default function Navbar() {
 
   const getFilms = async () => {
     try {
-      await axios.get(`http://localhost:8800/api/films/`).then((response) => {
+      await axios.get(`https://rollflix-back.herokuapp.com/api/films/`).then((response) => {
         setFilms(response.data);
       });
     } catch (err) {
@@ -61,7 +61,7 @@ export default function Navbar() {
     async function getUsuario() {
       try {
         const usuario = await axios.get(
-          `http://localhost:8800/api/usuario/find/${user._id}`
+          `https://rollflix-back.herokuapp.com/api/usuario/find/${user._id}`
         );
         setUsuario(usuario.data);
       } catch (err) {

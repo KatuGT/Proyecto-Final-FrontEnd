@@ -18,7 +18,7 @@ export default function Home({ tipo }) {
     try {
       await axios
         .get(
-          `http://localhost:8800/api/listafilms/filterList${
+          `https://rollflix-back.herokuapp.com/api/listafilms/filterList${
             tipo ? "?tipo="+tipo : ""
           }${genero ? "&genero=" + genero : "" }`
         )
@@ -26,7 +26,7 @@ export default function Home({ tipo }) {
           setListas(response.data);
         });
       await axios
-        .get(`http://localhost:8800/api/films/`)
+        .get(`https://rollflix-back.herokuapp.com/api/films/`)
         .then((response) => {
           // setFilms(response.data);
         });

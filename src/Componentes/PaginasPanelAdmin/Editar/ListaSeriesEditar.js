@@ -18,12 +18,12 @@ export default function Pelicula() {
   const getListas = useCallback(async () => {
     try {
       await axios
-        .get(`http://localhost:8800/api/listafilms/find/${listaId}`)
+        .get(`https://rollflix-back.herokuapp.com/api/listafilms/find/${listaId}`)
         .then((response) => {
           setLista(response.data);
           setContenido(response.data.contenido);
         });
-      await axios.get(`http://localhost:8800/api/films/`).then((response) => {
+      await axios.get(`https://rollflix-back.herokuapp.com/api/films/`).then((response) => {
         setFilms(response.data);
       });
     } catch (err) {

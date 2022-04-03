@@ -17,7 +17,7 @@ export default function User() {
     async function getUsuario() {
       try {
         const usuario = await axios.get(
-          `http://localhost:8800/api/usuario/find/${userId}`
+          `https://rollflix-back.herokuapp.com/api/usuario/find/${userId}`
         );
         setUsuario(usuario.data);
       } catch (err) {
@@ -75,7 +75,7 @@ export default function User() {
   }, [usuario, reset]);
 
   async function actualizarUsuario(formData) {
-    await axios.put(`http://localhost:8800/api/usuario/${userId}`, formData, {
+    await axios.put(`https://rollflix-back.herokuapp.com/api/usuario/${userId}`, formData, {
       headers: { token: user.tokenDeAcceso },
     });
     window.location.reload();

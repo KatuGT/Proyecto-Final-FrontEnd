@@ -24,7 +24,7 @@ export default function LoginRegistro() {
     dispatch({ type: "LOGIN_START" });
     try {
       const res = await axios.post(
-        "http://localhost:8800/api/aut/login",
+        "https://rollflix-back.herokuapp.com/api/aut/login",
         formData
       );
 
@@ -78,7 +78,7 @@ export default function LoginRegistro() {
   async function crearCuenta(formData) {
     setError(false);
     try {
-      await axios.post("http://localhost:8800/api/aut/registro", formData);
+      await axios.post("https://rollflix-back.herokuapp.com/api/aut/registro", formData);
       resetB();
       navigate("/registro-exitoso");
     } catch (error) {
