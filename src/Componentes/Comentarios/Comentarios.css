@@ -31,3 +31,9 @@ p.comentario .fa-trash-alt{
   cursor: pointer;
   margin-right: 0.5em;
 }
+
+@media screen and (max-width: 996px){
+  .contenedor-principal-comentarios {
+    grid-template-columns: 1fr;
+  }
+}

@@ -54,7 +54,10 @@ export default function Comentarios({ id }) {
     try {
       await axios.delete(
         `http://localhost:8800/api/films/${id}/borrarcomentario/`,
-        { data: { index } }
+        { data: { index } },
+        {
+          headers: { token: user.tokenDeAcceso }
+        }
       );
     } catch (error) {
       console.log(error);
@@ -70,10 +73,12 @@ export default function Comentarios({ id }) {
         <div className="lista-comentarios">
           {comentarios.map((comentario, index) => (
             <p className="comentario" key={index}>
-              <i
+
+              {user.esAdmin || user.username === comentario.split(": ")[0] ? <i
                 className="fas fa-trash-alt"
                 onClick={() => borrarItem(index)}
-              ></i>
+              ></i> : ""}
+              
               <strong key={index}>{comentario.split(": ")[0]}:</strong>
               {comentario.split(":")[1]}
             </p>
