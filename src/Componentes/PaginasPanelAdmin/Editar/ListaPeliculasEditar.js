@@ -128,7 +128,7 @@ export default function Pelicula() {
       `https://rollflix-back.herokuapp.com/api/listafilms/${listaId}/borrarfilm/${id}`
     );
     setContenido(borrado.data.contenido);
-    toast.error('Serie borrada de la lista!', {
+    toast.error('Pelicula borrada de la lista!', {
       position: 'bottom-center',
       style: { backgroundColor: "#FA392D", color: "#fff" }
     });
