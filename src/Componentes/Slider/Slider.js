@@ -36,7 +36,6 @@ export default function Slider({ tipo, setGenero }) {
     listaCategorias.push(element);
   }
 
-  console.log(films.destacados === true);
 
   return (
     <div className="contenedor-slider">

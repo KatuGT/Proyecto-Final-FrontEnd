@@ -24,7 +24,6 @@ export default function SeccionIndividual() {
     getPelicula();
   },[id]);
 
-  console.log(id);
   return (
     <div>
       <Navbar />
