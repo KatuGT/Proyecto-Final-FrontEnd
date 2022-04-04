@@ -143,7 +143,7 @@ export default function Peliculas({ pelis }) {
 
 
   async function addItem(formData) {
-    await axios.post("/films", formData);
+    await axios.post("https://rollflix-back.herokuapp.com/api/films", formData);
     getFilms();
     reset();
     toast.success('Pelicula agregada!', {

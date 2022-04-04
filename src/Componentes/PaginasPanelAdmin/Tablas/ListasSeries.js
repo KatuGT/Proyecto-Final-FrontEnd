@@ -118,7 +118,7 @@ export default function ListasPeliculas({ Lista }) {
 
   // AGREGAR NUEVA LISTA
   async function agregarItem(formData) {
-    await axios.post("/listafilms", formData);
+    await axios.post("https://rollflix-back.herokuapp.com/api/listafilms", formData);
     getListas();
     toast.success('Nueva categoria creada!', {
       position: 'bottom-center',
@@ -217,11 +217,7 @@ export default function ListasPeliculas({ Lista }) {
                         minLength: {
                           value: 5,
                           message: "Minimo 6 caracteres.",
-                        },
-                        pattern: {
-                          value: /^[A-Za-z]+$/i,
-                          message: "Solo letras de la A a la Z"
-                        } 
+                        }                       
                       })}
                     />
                     {errors.genero && (
@@ -272,7 +268,7 @@ export default function ListasPeliculas({ Lista }) {
                 className="btn btn-secondary"
                 data-bs-dismiss="modal"
                 id="cerrarModalAgregarLista"
-                onClick={() => clearErrors()}
+                onClick={() => reset()}
               >
                 Cerrar <i className="fas fa-times"></i>
               </button>

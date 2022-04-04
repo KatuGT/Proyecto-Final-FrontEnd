@@ -99,7 +99,7 @@ export default function Pelicula() {
   }, [lista, reset]);
 
   async function actualizarItem(formData) {
-    await axios.put(`/listafilms/find/${listaId}`, formData);
+    await axios.put(`https://rollflix-back.herokuapp.com/api/listafilms/find/${listaId}`, formData);
     getListas();
     window.location.reload();
   }
@@ -110,7 +110,7 @@ export default function Pelicula() {
   async function agregarIDenArray(formData) {
     console.log(formData.contenido);
     const respuesta = await axios.post(
-      `/listafilms/${listaId}/agregarfilm/${formData.contenido}`
+      `https://rollflix-back.herokuapp.com/api/listafilms/${listaId}/agregarfilm/${formData.contenido}`
     );
     document.getElementById("cerrarAgregarItemLista").click();
     resetB()
@@ -125,7 +125,7 @@ export default function Pelicula() {
   //Borrar ID de Contenido
   async function borrarIDArray(id) {
     const borrado = await axios.delete(
-      `/listafilms/${listaId}/borrarfilm/${id}`
+      `https://rollflix-back.herokuapp.com/api/listafilms/${listaId}/borrarfilm/${id}`
     );
     setContenido(borrado.data.contenido);
     toast.error('Serie borrada de la lista!', {
