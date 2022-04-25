@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./slider.css";
 import RollflixHeader from "../../Imagenes/ROLLFLIX-HEADER.jpg";
+import LogoHeader from "../../Imagenes/ROLLFLIX-LOGO.jpg";
+
 import { Link } from "react-router-dom";
 
 export default function Slider({ tipo, setGenero }) {
@@ -119,7 +121,9 @@ export default function Slider({ tipo, setGenero }) {
         </div>
         <div className="carousel-inner">
           <div className="carousel-item active">
-            <img src={RollflixHeader} className="d-block w-100" alt="..." />
+            <img src={LogoHeader} className="d-block" id="logo-header"  alt="logos-lider" />
+
+            <img src={RollflixHeader} className="d-block w-100" alt="imagen-slider" />
           </div>
           {films.map((element, index) =>
             element.destacada === true ? (

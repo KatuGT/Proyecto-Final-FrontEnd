@@ -60,6 +60,15 @@
     font-weight: bolder;
 }
 
+#logo-header{
+  position: absolute;
+  width: 80vw;
+  height: min-content;
+  object-fit: contain;
+  inset: 0 0 0 0;
+  margin: auto;
+}
+
 .categorias{
   position: absolute;
   bottom: 650px;
