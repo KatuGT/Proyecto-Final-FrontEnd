@@ -112,7 +112,7 @@ export default function ListasSeries({ Lista }) {
   } = useForm();
 
   async function agregarItem(formData) {
-    await axios.post("/listafilms", formData);
+    await axios.post("https://rollflix-back.herokuapp.com/api/listafilms", formData);
     getListas();
     toast.success('Nueva categoria creada!', {
       position: 'bottom-center',
@@ -213,11 +213,7 @@ export default function ListasSeries({ Lista }) {
                         minLength: {
                           value: 5,
                           message: "Minimo 6 caracteres.",
-                        },
-                        pattern: {
-                          value: /^[A-Za-z]+$/i,
-                          message: "Solo letras de la A a la Z"
-                        } 
+                        }                       
                       })}
                     />
                     {errors.genero && (

@@ -39,7 +39,7 @@ export default function Pelicula() {
   }, [serie, reset]);
 
   async function actualizarItem(formData) {
-    await axios.put(`/films/${serieId}`, formData);
+    await axios.put(`https://rollflix-back.herokuapp.com/api/films/${serieId}`, formData);
     window.location.reload();
   }
 

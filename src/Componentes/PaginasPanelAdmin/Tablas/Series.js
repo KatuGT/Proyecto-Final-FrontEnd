@@ -4,6 +4,7 @@ import { Link, Outlet } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function Series({ pelis }) {
   // COLUMNAS
@@ -135,9 +136,12 @@ export default function Series({ pelis }) {
   } = useForm();
 
   async function addItem(formData) {
-    await axios.post("/films", formData);
+    await axios.post("https://rollflix-back.herokuapp.com/api/films", formData);
     getFilms();
     reset();
+    toast.success('Serie agregada!', {
+      position: 'bottom-center',
+      style: {backgroundColor : "#2DFA6E", color:"#fff"}});
   }
 
   return (
@@ -483,6 +487,7 @@ export default function Series({ pelis }) {
             </div>
           </div>
         </div>
+        <Toaster position="bottom-center"/>
       </div>
       <Outlet />
     </div>

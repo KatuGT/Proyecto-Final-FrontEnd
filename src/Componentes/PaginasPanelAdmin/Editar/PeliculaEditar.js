@@ -40,7 +40,7 @@ export default function Pelicula() {
   const anioActual = new Date().getFullYear();
 
   async function actualizarItem(formData) {
-    await axios.put(`/films/${peliId}`, formData);
+    await axios.put(`https://rollflix-back.herokuapp.com/api/films/${peliId}`, formData);
     window.location.reload();
     toast.success('Edición realizada!');
 
