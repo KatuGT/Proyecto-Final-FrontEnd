@@ -4,23 +4,20 @@ import axios from "axios";
 import Navbar from "./Componentes/Navbar/Navbar";
 import Footer from "./Componentes/Footer/Footer";
 
-import Cargando from "./Imagenes/Cargando-icon.svg";
+import cargando from "./Imagenes/Cargando-icon.svg";
 import Slider from "./Componentes/Slider/Slider";
 
 export default function Home({ tipo }) {
   const [listas, setListas] = useState([]);
   const [genero, setGenero] = useState(null);
 
-
   const getListas = useCallback(async () => {
-
-    
     try {
       await axios
         .get(
           `https://rollflix-back.herokuapp.com/api/listafilms/filterList${
-            tipo ? "?tipo="+tipo : ""
-          }${genero ? "&genero=" + genero : "" }`
+            tipo ? "?tipo=" + tipo : ""
+          }${genero ? "&genero=" + genero : ""}`
         )
         .then((response) => {
           setListas(response.data);
@@ -46,14 +43,14 @@ export default function Home({ tipo }) {
       <Navbar />
       <Slider tipo={tipo} setGenero={setGenero} />
       {listasMostrar.map((lista, index) => (
-        <ListaCards key={index} lista={lista} genero={genero}/>
+        <ListaCards key={index} lista={lista} genero={genero} />
       ))}
       {listas.length <= 0 && (
         <div className="loading">
-          <img src={Cargando} alt="cargando-icono" />
+          <img src={cargando} alt="cargando-icono" />
         </div>
       )}
-      <Footer/>
+      <Footer />
     </div>
   );
 }
